@@ -37,7 +37,7 @@ namespace SERVICE_MARKET.Controllers
                         multipleModel oServicios = new multipleModel();
                         oServicios.ID_SERVICIO = Convert.ToInt32(dr["ID_SERVICIO"]);
                         oServicios.NOMBRE_SER = dr["NOMBRE_SER"].ToString();
-                        oServicios.PRECIO_SER =  decimal.Parse(dr["PRECIO_SER"].ToString());
+                        oServicios.PRECIO_SER = decimal.Parse(dr["PRECIO_SER"].ToString());
                         oServicios.DESCRIPCION_BREVE = dr["DESCRIPCION_BREVE"].ToString();
                         oServicios.TIPO = dr["TIPO"].ToString();
                         oServicios.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
@@ -48,4 +48,5 @@ namespace SERVICE_MARKET.Controllers
                 return View(model);
             }
         }
+    }
 }

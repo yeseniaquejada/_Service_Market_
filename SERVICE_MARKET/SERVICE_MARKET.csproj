@@ -136,9 +136,15 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Css\Acceso.css" />
+    <Content Include="Content\Css\Home.css" />
+    <Content Include="Content\Css\Layout.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\HOME\Categorias\Mantenimiento.jpg" />
+    <Content Include="Imagenes\HOME\Categorias\Remodelacion_Albañileria.jpg" />
+    <Content Include="Imagenes\HOME\Categorias\Salud_Belleza.jpg" />
+    <Content Include="Imagenes\HOME\Categorias\Trabajos_Domesticos.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Mantenimiento.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Salud_Belleza.jpg" />
@@ -167,6 +173,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -181,10 +188,10 @@
     <Content Include="Views\USUARIOS\Registrar.cshtml" />
     <Content Include="Views\USUARIOS\selectCiudades.cshtml" />
     <Content Include="Views\USUARIOS\Login.cshtml" />
+    <Content Include="Views\HOME\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\HOME\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

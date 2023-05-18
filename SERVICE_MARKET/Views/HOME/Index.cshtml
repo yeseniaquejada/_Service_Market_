@@ -1,0 +1,113 @@
+﻿@model IEnumerable<SERVICE_MARKET.Models.multipleModel>
+
+@{
+    ViewBag.Title = "Página principal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Home.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+</head>
+<body>
+    <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active c-item">
+                <img src="~/Imagenes/HOME/Categorias/Trabajos_Domesticos.jpg" class="d-block w-100 c-img" alt="...">
+                <div class="carousel-caption top-0 mt-5">
+                    <p class="mt-5 fs-3">Servicios de</p>
+                    <h1 class="display-1 fw-bolder text-capitalize">Trabajos domésticos</h1>
+                    <button type="button" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 drop">Conocer Más</button>
+                </div>
+            </div>
+            <div class="carousel-item c-item">
+                <img src="~/Imagenes/HOME/Categorias/Remodelacion_Albañileria.jpg" class="d-block w-100 c-img" alt="...">
+                <div class="carousel-caption top-0 mt-5">
+                    <p class="mt-5 fs-3">Servicios de</p>
+                    <h1 class="display-1 fw-bolder text-capitalize">Remodelación y albañilería</h1>
+                    <button type="button" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 drop">Conocer Más</button>
+                </div>
+            </div>
+            <div class="carousel-item c-item">
+                <img src="~/Imagenes/HOME/Categorias/Mantenimiento.jpg" class="d-block w-100 c-img" alt="...">
+                <div class="carousel-caption top-0 mt-5">
+                    <p class="mt-5 fs-3">Servicios de</p>
+                    <h1 class="display-1 fw-bolder text-capitalize">Mantenimiento</h1>
+                    <button type="button" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 drop">Conocer Más</button>
+                </div>
+            </div>
+            <div class="carousel-item c-item">
+                <img src="~/Imagenes/HOME/Categorias/Salud_Belleza.jpg" class="d-block w-100 c-img" alt="...">
+                <div class="carousel-caption top-0 mt-5">
+                    <p class="mt-5 fs-3">Servicios de</p>
+                    <h1 class="display-1 fw-bolder text-capitalize">Salud y belleza</h1>
+                    <button type="button" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 drop">Conocer Más</button>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class="container">
+        <h1 class="text-center titulo bold-text">Servicios y solicitudes disponibles</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var servicios in Model)
+            {
+                <div class="col col-12 col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-center bold-text">@servicios.NOMBRE_SER</h4>
+                            <p class="card-text"><span class="bold-text">Precio:</span> $@servicios.PRECIO_SER</p>
+                            <p class="card-text"><span class="bold-text">Descripción:</span> @servicios.DESCRIPCION_BREVE</p>
+                            <p class="card-text"><span class="bold-text">Tipo:</span> @servicios.TIPO</p>
+                            <p class="card-text"><span class="bold-text">Categoría:</span> @servicios.NOMBRE_CAT</p>
+                            <div class="card-button">
+                                <button onclick="masInformacion()" type="button" class="btnCard">Más información</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <script>
+        function masInformacion() {
+            swal({
+                icon: "info",
+                title: "Más información del servicio",
+                text: "Para visualizar todos los detalles inicia sesión con tu cuenta.",
+                button: "Ok",
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            });
+        }
+
+        const trunc = document.querySelector('p-trunc');
+        trunc.innerText = trunc.innerText.substring(0, 100) + '...';
+    </script>
+
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
