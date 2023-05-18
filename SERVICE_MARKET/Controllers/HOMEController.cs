@@ -103,5 +103,9 @@ namespace SERVICE_MARKET.Controllers
 
             return View(serviciosPagina);
         }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA CATEGORIZAR LOS SERVICIOS DISPONIBLES*/
     }
 }
