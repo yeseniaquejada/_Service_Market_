@@ -1,43 +1,99 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>@ViewBag.Title - Service Market</title>
+    <link rel="shortcut icon" href="~/Logos/logo.png" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Layout.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
 </head>
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+    <header>
+        <nav class="navbar navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <img id="logo" src="~/Logos/logo.png" />
+                <a id="service" class="navbar-brand" href="@Url.Action("Index", "HOME")">
+                    Service Market
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                @Html.ActionLink("Nombre de la aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menú de navegación</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <form class="d-flex" role="search" action="@Url.Action("Buscar","HOME")" method="post" autocomplete="off">
+                            <input class="busquedad form-control me-2" type="search" placeholder="Buscar Servicios" aria-label="Search" name="NOMBRE_SER">
+                            <button class="btn btn-primary" type="submit">Buscar</button>
+                        </form>
+                        <br />
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="item nav-link" href="@Url.Action("Registrar", "USUARIOS")">Crea tu cuenta</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="item nav-link" href="@Url.Action("Login", "USUARIOS")">Ingresa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="item nav-link" href="@Url.Action("Index", "HOME")">Servicios Disponibles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="item nav-link" href="@Url.Action("", "")">Categorías</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="item nav-link" href="@Url.Action("", "")">Administradores</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <div>
+                @RenderBody()
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-col">
+            <h4>Service Market</h4>
+            <ul class="ul">
+                <li><a href="#">Sobre nosotros</a></li>
+                <li><a href="#">Nuestros servicios</a></li>
+                <li><a href="#">Términos y condiciones</a></li>
+                <li><a href="#">Preguntas frecuentes</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Desarrollador</h4>
+            <ul class="ul">
+                <li><a href="#">Yesenia Quejada Rojas</a></li>
+                <li><a href="#">Valentina Zapata Florez</a></li>
+                <li><a href="#">&copy; @DateTime.Now.Year</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Síguenos</h4>
+            <div class="links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
-        </footer>
-    </div>
+    </footer>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>
