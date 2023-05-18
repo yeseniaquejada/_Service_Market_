@@ -35,7 +35,7 @@ namespace SERVICE_MARKET.Models
         /*SERVICIOS*/
         public int ID_SERVICIO { get; set; }
         public string NOMBRE_SER { get; set; }
-        public int PRECIO_SER { get; set; }
+        public decimal PRECIO_SER { get; set; }
         public string DESCRIPCION_BREVE { get; set; }
         public string TERMINOS_SER { get; set; }
         public string ESTADO_DS { get; set; }
