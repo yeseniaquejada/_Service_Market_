@@ -1,0 +1,120 @@
+﻿@model SERVICE_MARKET.Models.multipleModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+    <link rel="shortcut icon" href="~/Logos/logo.png" />
+    <link href="~/Content/Css/Acceso.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-dark">
+    <section class="row g-0">
+        <div class="col-lg-6 d-none d-lg-block">
+            <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item c-itemL active">
+                        <img src="~/Imagenes/USUARIOS/Registro/Trabajos_Domesticos.jpg" class="d-block w-100 c-imgL" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Trabajos domésticos</h2>
+                        </div>
+                    </div>
+                    <div class="carousel-item c-itemL">
+                        <img src="~/Imagenes/USUARIOS/Registro/Salud_Belleza.jpg" class="d-block w-100 c-imgL" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Salud y Belleza</h2>
+                        </div>
+                    </div>
+                    <div class="carousel-item c-itemL">
+                        <img src="~/Imagenes/USUARIOS/Registro/Mantenimiento.jpg" class="d-block w-100 c-imgL" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Mantenimiento</h2>
+                        </div>
+                    </div>
+                    <div class="carousel-item c-itemL">
+                        <img src="~/Imagenes/USUARIOS/Registro/Remodelacion_Albañileria.jpg" class="d-block w-100 c-imgL" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Remodelación y Albañilería</h2>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-5 d-flex flex-column aling-items-end min-vh-100 containerInfo">
+            <div class="px-lg-5 pt-lg-4 pb-lg-3 p-2">
+                <img id="logo" src="~/Logos/logo derecha.png" class="img-fluid">
+            </div>
+            <div class="px-lg-5 py-lg-4 p-4 w-100 aling-self-center">
+                <h1 class="font-weight-bold mb-3" align="center">Registrarse</h1>
+                <form class="mb-4" action="@Url.Action("Registrar","USUARIOS")" method="post" autocomplete="off">
+                    <div class="mb-4">
+                        <label class="form-label font-weight-bold">Nombre completo</label>
+                        <input name="NOMBRE_COMPLETO_USU" type="text" class="form-control bg-dark-x border-0" placeholder="Ingresa tu nombre completo" required>
+                    </div>
+                    <div class="mb-4 d-flex">
+                        <div class="col-6">
+                            <label class="form-label font-weight-bold">Celular</label>
+                            <input name="CELULAR_USU" type="text" class="form-control bg-dark-x border-0" placeholder="Ingresa tu # de celular" required>
+                        </div>
+                        <div class="col-6 m-2">
+                            <span class="form-label font-weight-bold">Ciudad:</span>
+                            <div>
+                                @Html.Action("selectCiudades", "USUARIOS")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label font-weight-bold">Correo electrónico</label>
+                        <input name="CORREO_ELECTRONICO_USU" type="email" class="form-control bg-dark-x border-0" placeholder="Ingresa tu correo electrónico" aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label font-weight-bold">Contraseña</label>
+                        <input name="CONTRASENA_USU" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa tu contraseña" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label font-weight-bold">Confirmación de contraseña</label>
+                        <input name="CONFIRMAR_CONTRASENA_U" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa nuevamente tu contraseña" required>
+                    </div>
+                    <button type="submit" class="btnA btn-primary w-100">Registrarse</button>
+                </form>
+                <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p-3 w-100 mt-auto">
+                    <p class="d-inline-block mb-0" style="color:white;">¿Ya tienes una cuenta?</p>
+                    <a href="@Url.Action("Login","USUARIOS")" class="font-weight-bold text-decoration-none">Iniciar sesión</a>
+                    <br /><br />
+                    <a href="@Url.Action("Index","HOME")" class="font-weight-bold text-decoration-none">Volver al inicio</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
