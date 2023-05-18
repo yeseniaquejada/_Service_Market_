@@ -138,6 +138,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\USUARIOS\Login\Mantenimiento.jpg" />
+    <Content Include="Imagenes\USUARIOS\Login\Remodelacion_Albañileria.jpg" />
+    <Content Include="Imagenes\USUARIOS\Login\Salud_Belleza.jpg" />
+    <Content Include="Imagenes\USUARIOS\Login\Trabajos_Domesticos.jpg" />
     <Content Include="Imagenes\USUARIOS\Registro\Mantenimiento.jpg" />
     <Content Include="Imagenes\USUARIOS\Registro\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\Registro\Salud_Belleza.jpg" />
@@ -175,6 +179,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\USUARIOS\Registrar.cshtml" />
     <Content Include="Views\USUARIOS\selectCiudades.cshtml" />
+    <Content Include="Views\USUARIOS\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
