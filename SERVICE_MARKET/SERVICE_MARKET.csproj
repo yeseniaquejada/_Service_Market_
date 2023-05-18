@@ -189,6 +189,7 @@
     <Content Include="Views\USUARIOS\selectCiudades.cshtml" />
     <Content Include="Views\USUARIOS\Login.cshtml" />
     <Content Include="Views\HOME\Index.cshtml" />
+    <Content Include="Views\HOME\Buscar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
