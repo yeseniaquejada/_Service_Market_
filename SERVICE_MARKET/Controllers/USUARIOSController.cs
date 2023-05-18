@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace SERVICE_MARKET.Controllers
 {
@@ -129,5 +130,49 @@ namespace SERVICE_MARKET.Controllers
             }
             return View(model);
         }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA INICIAR SESION USUARIO*/
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(multipleModel oUsuarios)
+        {
+            /*ENCRIPTANDO CONTRASEÑA*/
+            oUsuarios.CONTRASENA_USU = Encriptar(oUsuarios.CONTRASENA_USU);
+
+            /*CONECTANDO BASE DE DATOS*/
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                /*PROCEDIMIENTO ALMACENADO VALIDAR USUARIO*/
+                SqlCommand cmd = new SqlCommand("VALIDAR_USUARIO", cn);
+                cmd.Parameters.AddWithValue("CORREO_ELECTRONICO_USU", oUsuarios.CORREO_ELECTRONICO_USU);
+                cmd.Parameters.AddWithValue("CONTRASENA_USU", oUsuarios.CONTRASENA_USU);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cn.Open();
+
+                /*LEER IDENTIFICACION DEL USUARIO (PRIMERA FILA)*/
+                oUsuarios.ID_USUARIO = (int)cmd.ExecuteScalar();
+            }
+
+            /*ACCESO A VISTAS*/
+            if (oUsuarios.ID_USUARIO != 0)
+            {
+                FormsAuthentication.SetAuthCookie(oUsuarios.ID_USUARIO.ToString(), false);
+                Session["Usuario"] = oUsuarios;
+                return RedirectToAction("IndexUsuarios", "HOME");
+            }
+            else
+            {
+                ViewData["MENSAJE"] = "Usuario no encontrado";
+            }
+            return View();
+        }
+
     }
 }
