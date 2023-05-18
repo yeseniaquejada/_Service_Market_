@@ -20,7 +20,7 @@ namespace SERVICE_MARKET.Controllers
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
         /*METODO PARA CONSULTAR PUBLICACIONES Y SOLICITUDES DE SERVICIOS*/
-        public ActionResult Index()
+        public ActionResult Index(int pagina = 1, int elementosPorPagina = 12)
         {
             List<multipleModel> model = new List<multipleModel>();
 
@@ -44,9 +44,19 @@ namespace SERVICE_MARKET.Controllers
                         model.Add(oServicios);
 
                     }
-                }
-                return View(model);
+                }   
             }
+            /*Calcular los índices de inicio y fin para la página actual*/
+            int indiceInicio = (pagina - 1) * elementosPorPagina;
+            int indiceFin = indiceInicio + elementosPorPagina;
+
+            /*Obtener la lista de servicios para la página actual*/
+            List<multipleModel> serviciosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+            ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+            ViewBag.PaginaActual = pagina;
+
+            return View(serviciosPagina);
         }
     }
 }

@@ -70,6 +70,13 @@
     <div class="container">
         <h1 class="text-center titulo bold-text">Servicios y solicitudes disponibles</h1>
         <div class="row row-cols-1 row-cols-md-3 g-4">
+            <script>
+                /*Desplazamiento de la página hacia arriba cuando se carga una nueva página*/
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            </script>
             @foreach (var servicios in Model)
             {
                 <div class="col col-12 col-md-4 mb-4">
@@ -87,6 +94,17 @@
                     </div>
                 </div>
             }
+        </div>
+
+        <div class="pagination justify-content-center">
+            <ul class="pagination">
+                @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+                {
+                    <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index","HOME", new { pagina = i })">@i</a>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 
