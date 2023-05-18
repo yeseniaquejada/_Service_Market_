@@ -157,7 +157,7 @@ namespace SERVICE_MARKET.Controllers
                 cn.Open();
 
                 /*LEER IDENTIFICACION DEL USUARIO (PRIMERA FILA)*/
-                oUsuarios.ID_USUARIO = (int)cmd.ExecuteScalar();
+                oUsuarios.ID_USUARIO = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
             /*ACCESO A VISTAS*/
