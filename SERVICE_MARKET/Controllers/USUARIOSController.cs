@@ -104,6 +104,30 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*CONSULTAR CIUDADES DISPONIBLES EN EL SELECT DEL FORMULARIO DE REGISTRO*/
+        public ActionResult selectCiudades()
+        {
+            model = new List<multipleModel>();
 
+            using (SqlConnection oconexion = new SqlConnection(conexion))
+            {
+                SqlCommand Comand = new SqlCommand("LEER_CIUDADES", oconexion);
+                Comand.CommandType = CommandType.StoredProcedure;
+                oconexion.Open();
+
+                using (SqlDataReader dr = Comand.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        multipleModel oCiudades = new multipleModel();
+                        oCiudades.ID_CIUDAD = Convert.ToInt32(dr["ID_CIUDAD"]);
+                        oCiudades.NOMBRE_CIUDAD = dr["NOMBRE_CIUDAD"].ToString();
+                        model.Add(oCiudades);
+
+                    }
+                }
+            }
+            return View(model);
+        }
     }
 }
