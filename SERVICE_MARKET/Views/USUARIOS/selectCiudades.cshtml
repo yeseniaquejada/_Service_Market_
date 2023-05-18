@@ -1,0 +1,18 @@
+﻿@model IEnumerable<SERVICE_MARKET.Models.multipleModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    <select class="bg-dark-x border-0 form-control" name="ID_CIUDAD_FK">
+        @foreach (var ciudad in Model)
+        {
+            <option value="@ciudad.ID_CIUDAD">@ciudad.NOMBRE_CIUDAD</option>
+        }
+    </select>
+</body>
+</html>
+
