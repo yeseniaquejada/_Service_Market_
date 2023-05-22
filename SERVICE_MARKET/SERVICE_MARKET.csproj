@@ -190,6 +190,7 @@
     <Content Include="Views\USUARIOS\Login.cshtml" />
     <Content Include="Views\HOME\Index.cshtml" />
     <Content Include="Views\HOME\Buscar.cshtml" />
+    <Content Include="Views\HOME\Categorias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
