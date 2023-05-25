@@ -148,5 +148,13 @@ namespace SERVICE_MARKET.Controllers
 
             return View(serviciosPagina);
         }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*VISTA PARA VISUALIZAR INFORMACION DE LAS CATEGORIAS*/
+        public ActionResult InfoCategorias()
+        {
+            return View();
+        }
     }
 }

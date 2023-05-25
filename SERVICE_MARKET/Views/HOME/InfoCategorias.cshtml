@@ -1,0 +1,75 @@
+﻿@model SERVICE_MARKET.Models.multipleModel
+
+@{
+    ViewBag.Title = "Información categorías";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Información.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+</head>
+<body>
+    <div class="container">
+        <h1 class="titulo">Categorías</h1>
+        <div class="card-container">
+            <div class="card">
+                <div class="imgBx" data-text="Mantenimiento">
+                    <img src="~/Imagenes/HOME/Información/Mantenimiento.png" alt="">
+                </div>
+                <div class="content">
+                    <div>
+                        <h3>Mantenimiento</h3>
+                        <p>Orientada a solucionar y prevenir las posibles averías que pueda haber en equipos, máquinas e instalaciones para conservar y garantizar su óptimo funcionamiento.</p>
+                        <a href="@Url.Action("Categorias", "HOME", new { ID_CATEGORIA = 1 })">Conoce más</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="imgBx" data-text="Trabajos domésticos">
+                    <img src="~/Imagenes/HOME/Información/Trabajos_Domesticos.png" alt="">
+                </div>
+                <div class="content">
+                    <div>
+                        <h3>Trabajos domésticos</h3>
+                        <p>Toda la ayuda doméstica que necesitas en casa con expertas en orden, limpieza y desinfección.</p>
+                        <a href="@Url.Action("Categorias", "HOME", new { ID_CATEGORIA = 2 })">Conoce más</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="imgBx" data-text="Remodelación y albañilería">
+                    <img src="~/Imagenes/HOME/Información/Remodelacion_Albañileria.png" alt="">
+                </div>
+                <div class="content">
+                    <div>
+                        <h3>Remodelación y albañilería</h3>
+                        <p>Orientada en la construcción, renovación y reparación de estructuras, paredes, muros, partes de edificios, casas y más.</p>
+                        <a href="@Url.Action("Categorias", "HOME", new { ID_CATEGORIA = 3 })">Conoce más</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="imgBx" data-text="Salud y belleza">
+                    <img src="~/Imagenes/HOME/Información/Salud_Belleza.png" alt="">
+                </div>
+                <div class="content">
+                    <div>
+                        <h3>Salud y belleza</h3>
+                        <p>Orientada a la prestación de servicios desde los diferentes campos de la salud y la belleza como lo son cortes, peinados, maquillajes, manicure, pedicura, masajes, etc.</p>
+                        <a href="@Url.Action("Categorias", "HOME", new { ID_CATEGORIA = 4 })">Conoce más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
