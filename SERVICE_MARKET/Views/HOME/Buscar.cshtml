@@ -29,7 +29,7 @@
                 <div class="carousel-caption top-0 mt-5">
                     <p class="mt-5 fs-3">Servicios de</p>
                     <h1 class="display-1 fw-bolder text-capitalize">Trabajos domésticos</h1>
-                    <button type="button" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 drop">Conocer Más</button>
+                    <a href="@Url.Action("Categorias", "HOME", new { ID_CATEGORIA = 2 })" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
                 </div>
             </div>
             <div class="carousel-item c-item">
@@ -37,7 +37,7 @@
                 <div class="carousel-caption top-0 mt-5">
                     <p class="mt-5 fs-3">Servicios de</p>
                     <h1 class="display-1 fw-bolder text-capitalize">Remodelación y albañilería</h1>
-                    <button type="button" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 drop">Conocer Más</button>
+                    <a href="@Url.Action("Categorias", "HOME", new { ID_CATEGORIA = 3 })" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
                 </div>
             </div>
             <div class="carousel-item c-item">
@@ -45,7 +45,7 @@
                 <div class="carousel-caption top-0 mt-5">
                     <p class="mt-5 fs-3">Servicios de</p>
                     <h1 class="display-1 fw-bolder text-capitalize">Mantenimiento</h1>
-                    <button type="button" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 drop">Conocer Más</button>
+                    <a href="@Url.Action("Categorias", "HOME", new { ID_CATEGORIA = 1 })" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
                 </div>
             </div>
             <div class="carousel-item c-item">
@@ -53,7 +53,7 @@
                 <div class="carousel-caption top-0 mt-5">
                     <p class="mt-5 fs-3">Servicios de</p>
                     <h1 class="display-1 fw-bolder text-capitalize">Salud y belleza</h1>
-                    <button type="button" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 drop">Conocer Más</button>
+                    <a href="@Url.Action("Categorias", "HOME", new { ID_CATEGORIA = 4 })" class="btnCarousel btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
             @foreach (var servicios in Model)
             {
                 <div class="col col-12 col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card card-services">
                         <div class="card-body">
                             <h4 class="card-title text-center bold-text">@servicios.NOMBRE_SER</h4>
                             <p class="card-text"><span class="bold-text">Precio:</span> $@servicios.PRECIO_SER</p>
