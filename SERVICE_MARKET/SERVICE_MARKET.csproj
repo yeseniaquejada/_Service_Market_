@@ -137,6 +137,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Css\Acceso.css" />
     <Content Include="Content\Css\Home.css" />
+    <Content Include="Content\Css\Información.css" />
     <Content Include="Content\Css\Layout.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -145,6 +146,10 @@
     <Content Include="Imagenes\HOME\Categorias\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\HOME\Categorias\Salud_Belleza.jpg" />
     <Content Include="Imagenes\HOME\Categorias\Trabajos_Domesticos.jpg" />
+    <Content Include="Imagenes\HOME\Información\Mantenimiento.png" />
+    <Content Include="Imagenes\HOME\Información\Remodelacion_Albañileria.png" />
+    <Content Include="Imagenes\HOME\Información\Salud_Belleza.png" />
+    <Content Include="Imagenes\HOME\Información\Trabajos_Domesticos.png" />
     <Content Include="Imagenes\USUARIOS\Login\Mantenimiento.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Salud_Belleza.jpg" />
@@ -191,6 +196,7 @@
     <Content Include="Views\HOME\Index.cshtml" />
     <Content Include="Views\HOME\Buscar.cshtml" />
     <Content Include="Views\HOME\Categorias.cshtml" />
+    <Content Include="Views\HOME\InfoCategorias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

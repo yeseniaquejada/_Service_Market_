@@ -22,7 +22,7 @@ body {
     filter: brightness(0.6);
 }
 
-.btnCarousel {
+.btn-style {
     background: #1b6bc2;
     border: 1px solid transparent;
     box-shadow: 0px 5px 10px rgba(0,0,0,.2);
@@ -35,7 +35,7 @@ body {
     border-radius: 10px;
 }
 
-    .btnCarousel:hover {
+    .btn-style:hover {
         background: #fff;
         color: #1b6bc2;
         border: 1px solid #1b6bc2;
@@ -55,7 +55,7 @@ body {
     color: #1b6bc2;
 }
 
-.card {
+.card-services {
     width: 98%;
     height: 100%;
     padding: 1em;
@@ -69,18 +69,18 @@ body {
     transition: 0.5s;
 }
 
-    .card:hover {
+    .card-services:hover {
         background-position: 0 100%;
         background-color: #ffffff;
         color: #1b6bc2;
     }
 
-        .card:hover h4,
-        .card:hover p {
+        .card-services:hover h4,
+        .card-services:hover p {
             color: #ffffff;
         }
 
-        .card:hover .btnCard {
+        .card-services:hover .btnCard {
             background: #fff;
             color: #1b6bc2;
             border: 1px solid #1b6bc2;

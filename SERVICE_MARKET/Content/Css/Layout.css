@@ -47,9 +47,9 @@ footer {
         margin-bottom: 30px;
         font-weight: 400;
         position: relative;
-        border-bottom: 2px solid #1b6bc2; /* Agrega esta línea */
-        display: inline-block; /* Agrega esta línea */
-        padding-bottom: 6px; /* Agrega esta línea */
+        border-bottom: 2px solid #1b6bc2;
+        display: inline-block;
+        padding-bottom: 6px;
     }
 
     .footer-col ul li:not(:last-child) {
@@ -88,7 +88,6 @@ footer {
             background-color: #ffffff;
         }
 
-/* Responsive */
 @media (max-width: 767px) {
     .footer-col {
         width: 50%;

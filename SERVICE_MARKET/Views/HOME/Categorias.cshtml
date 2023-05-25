@@ -18,7 +18,7 @@
 <body>
     <div class="container">
         <br /><br /><br /><br />
-        <h1 class="text-center titulo bold-text">Servicios y solicitudes disponibles</h1>
+        <h1 class="text-center titulo bold-text">Servicios y Solicitudes</h1>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <script>
                 /*Desplazamiento de la página hacia arriba cuando se carga una nueva página*/
@@ -30,7 +30,7 @@
             @foreach (var servicios in Model)
             {
                 <div class="col col-12 col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card card-services">
                         <div class="card-body">
                             <h4 class="card-title text-center bold-text">@servicios.NOMBRE_SER</h4>
                             <p class="card-text"><span class="bold-text">Precio:</span> $@servicios.PRECIO_SER</p>
@@ -57,8 +57,8 @@
             </ul>
         </div>
 
-        <div class="d-grid gap-2 col-6 mx-auto d-block volverInicio">
-            <a href="@Url.Action("Index", "HOME")" class="btnBuscador btn btn-outline-primary">Volver al inicio</a>
+        <div class="d-grid gap-2 col-3 mx-auto d-block">
+            <a href="@Url.Action("Index", "HOME")" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Volver al inicio</a>
         </div>
     </div>
 
