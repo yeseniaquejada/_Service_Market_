@@ -1,0 +1,275 @@
+﻿@model SERVICE_MARKET.Models.multipleModel
+
+@{
+    ViewBag.Title = "Seleccionar rol";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0">
+    <title>@ViewBag.Title - Service Market</title>
+    <link rel="shortcut icon" href="~/Logos/logo.png" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Usuarios.css" rel="stylesheet" />
+    <link href="~/Content/Css/Layout.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <img id="logo" src="~/Logos/logo.png" />
+                <a id="service" class="navbar-brand text-center" href="@Url.Action("Rol", "USUARIOS")">Service Market</a>
+                <a class="navbar-brand text-center" href="@Url.Action("", "")">Cuenta  <i class="fa-solid fa-user" style="color: #ffffff;"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active c-item">
+                    <img src="~/Imagenes/USUARIOS/Rol/Trabajos_Domesticos.jpg" class="d-block w-100 c-img" alt="...">
+                    <div class="carousel-caption top-0 mt-5">
+                        <p class="mt-5 fs-3">Servicios de</p>
+                        <h1 class="display-1 fw-bolder text-capitalize">Trabajos domésticos</h1>
+                    </div>
+                </div>
+                <div class="carousel-item c-item">
+                    <img src="~/Imagenes/USUARIOS/Rol/Remodelacion_Albañileria.jpg" class="d-block w-100 c-img" alt="...">
+                    <div class="carousel-caption top-0 mt-5">
+                        <p class="mt-5 fs-3">Servicios de</p>
+                        <h1 class="display-1 fw-bolder text-capitalize">Remodelación y albañilería</h1>
+                    </div>
+                </div>
+                <div class="carousel-item c-item">
+                    <img src="~/Imagenes/USUARIOS/Rol/Mantenimiento.jpg" class="d-block w-100 c-img" alt="...">
+                    <div class="carousel-caption top-0 mt-5">
+                        <p class="mt-5 fs-3">Servicios de</p>
+                        <h1 class="display-1 fw-bolder text-capitalize">Mantenimiento</h1>
+                    </div>
+                </div>
+                <div class="carousel-item c-item">
+                    <img src="~/Imagenes/USUARIOS/Rol/Salud_Belleza.jpg" class="d-block w-100 c-img" alt="...">
+                    <div class="carousel-caption top-0 mt-5">
+                        <p class="mt-5 fs-3">Servicios de</p>
+                        <h1 class="display-1 fw-bolder text-capitalize">Salud y belleza</h1>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+
+        <section>
+            <h1 class="text-center titulo">Bienvenido, @Model.NOMBRE_COMPLETO_USU</h1>
+
+            <h1 class="text-center rol">Selecciona tu rol:</h1>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <a class="btn btn-dark" href="@Url.Action("", "")">
+                    <img src="~/Imagenes/USUARIOS/Rol/clientebtn.png" height="50" width="50">
+                    <h1>Cliente</h1>
+                    <p>Busca prestadores de servicios para tus necesidades</p>
+                </a>
+
+                <a class="btn btn-dark" href="@Url.Action("", "")">
+                    <img src="~/Imagenes/USUARIOS/Rol/prestadorbtn.png" height="50" width="50">
+                    <h1>Prestador de servicios</h1>
+                    <p>Publica servicios y busca las solicitudes más adecuadas para ti</p>
+                </a>
+            </div>
+        </section>
+
+        <section id="testimonial_area" class="section_padding">
+            <h1>Testimonios</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="testmonial_slider_area text-center owl-carousel">
+                            <div class="box-area">
+                                <div class="img-area">
+                                    <img src="~/Imagenes/USUARIOS/Testimonios/1.jpg" alt="">
+                                </div>
+                                <h5>Carlos Avecedo Henao</h5>
+                                <span>Cliente</span>
+                                <p class="content">Los prestadores de servicio muestran respeto y compromiso con sus trabajos. Excelente experiencia.</p>
+                                <h6 class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </h6>
+                            </div>
+
+                            <div class="box-area">
+                                <div class="img-area">
+                                    <img src="~/Imagenes/USUARIOS/Testimonios/2.jpg" alt="">
+                                </div>
+                                <h5>Roxana Puerta Rios</h5>
+                                <span>Cliente</span>
+                                <p class="content">Excelente página, se me hace muy útil a la hora de encontrar servicios que requiero para mi hogar u oficina.</p>
+                                <h6 class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </h6>
+                            </div>
+
+                            <div class="box-area">
+                                <div class="img-area">
+                                    <img src="~/Imagenes/USUARIOS/Testimonios/3.jpg" alt="">
+                                </div>
+                                <h5>Juan Pablo Rodriguez</h5>
+                                <span>Prestador de servicios</span>
+                                <p class="content">Página amigable y fácil de usar para todos los usuarios. Me ha ayudado a llegar a clientes potenciales y ampliar mi zona de cobertura.</p>
+                                <h6 class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </h6>
+                            </div>
+
+                            <div class="box-area">
+                                <div class="img-area">
+                                    <img src="~/Imagenes/USUARIOS/Testimonios/4.jpg" alt="">
+                                </div>
+                                <h5>Diego Bolaños Arevalo</h5>
+                                <span>Cliente</span>
+                                <p class="content">Solicite un servicio de albañíleria y el prestador de servicios cumplió con mis expectativas. Me siento muy satisfecho.</p>
+                                <h6 class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </h6>
+                            </div>
+
+                            <div class="box-area">
+                                <div class="img-area">
+                                    <img src="~/Imagenes/USUARIOS/Testimonios/5.jpg" alt="">
+                                </div>
+                                <h5>Julian Perez Acevedo</h5>
+                                <span>Prestador de servicios</span>
+                                <p class="content">Excelente aplicación, da oportunidades a los trabajadores independientes de crecer y llegar a usuarios.</p>
+                                <h6 class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </h6>
+                            </div>
+
+                            <div class="box-area">
+                                <div class="img-area">
+                                    <img src="~/Imagenes/USUARIOS/Testimonios/6.jpg" alt="">
+                                </div>
+                                <h5>Sandra Gómez Bedoya</h5>
+                                <span>Cliente</span>
+                                <p class="content">Adquirí un servicio de limpieza y dejaron todo impecable, me encanto, totalmente recomendados los servicios.</p>
+                                <h6 class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-col">
+            <h4>Service Market</h4>
+            <ul class="ul">
+                <li><a href="#">Sobre nosotros</a></li>
+                <li><a href="#">Nuestros servicios</a></li>
+                <li><a href="#">Términos y condiciones</a></li>
+                <li><a href="#">Preguntas frecuentes</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Desarrollador</h4>
+            <ul class="ul">
+                <li><a href="#">Yesenia Quejada Rojas</a></li>
+                <li><a href="#">Valentina Zapata Florez</a></li>
+                <li><a href="#">&copy; @DateTime.Now.Year</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Síguenos</h4>
+            <div class="links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+    <script>
+        $(".testmonial_slider_area").owlCarousel({
+            autoplay: true,
+            slideSpeed: 1000,
+            items: 3,
+            loop: true,
+            nav: true,
+            navText: ['<i class="fa fa-arrow-left"></i>', '<i class="fa fa-arrow-right"></i>'],
+            margin: 30,
+            dots: true,
+            responsive: {
+                320: {
+                    items: 1
+                },
+                767: {
+                    items: 2
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 3
+                }
+            }
+
+        });
+
+        const trunc = document.querySelector('p-trunc');
+        trunc.innerText = trunc.innerText.substring(0, 100) + '...';
+    </script>
+</body>
+</html>
