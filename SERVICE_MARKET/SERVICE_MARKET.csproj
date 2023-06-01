@@ -219,6 +219,7 @@
     <Content Include="Views\USUARIOS\Rol.cshtml" />
     <Content Include="Views\Shared\_Layout_Usuarios.cshtml" />
     <Content Include="Views\USUARIOS\Publicaciones_Solicitudes.cshtml" />
+    <Content Include="Views\USUARIOS\Buscar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

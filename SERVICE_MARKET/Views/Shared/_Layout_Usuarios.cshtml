@@ -34,6 +34,7 @@
                 <div class="offcanvas-body">
                     <form class="d-flex" role="search" action="@Url.Action("Buscar","USUARIOS")" method="post" autocomplete="off">
                         <input class="busquedad form-control me-2" type="search" placeholder="Buscar Servicios" aria-label="Search" name="NOMBRE_SER">
+                        <input type="hidden" name="TIPO" value="@ViewBag.TipoSeleccionado" />
                         <button class="btn btn-primary" type="submit">Buscar</button>
                     </form>
                     <br />
