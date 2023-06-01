@@ -151,6 +151,10 @@
     <Content Include="Imagenes\HOME\Información\Remodelacion_Albañileria.png" />
     <Content Include="Imagenes\HOME\Información\Salud_Belleza.png" />
     <Content Include="Imagenes\HOME\Información\Trabajos_Domesticos.png" />
+    <Content Include="Imagenes\USUARIOS\CategoriasU\Mantenimiento.jpg" />
+    <Content Include="Imagenes\USUARIOS\CategoriasU\Remodelacion_Albañileria.jpg" />
+    <Content Include="Imagenes\USUARIOS\CategoriasU\Salud_Belleza.jpg" />
+    <Content Include="Imagenes\USUARIOS\CategoriasU\Trabajos_Domesticos.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Mantenimiento.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Salud_Belleza.jpg" />
@@ -161,11 +165,10 @@
     <Content Include="Imagenes\USUARIOS\Registro\Trabajos_Domesticos.jpg" />
     <Content Include="Imagenes\USUARIOS\Rol\Mantenimiento.jpg" />
     <Content Include="Imagenes\USUARIOS\Rol\prestadorbtn.png" />
-    <Content Include="Imagenes\USUARIOS\Rol\Perfil.png" />
+    <Content Include="Imagenes\USUARIOS\Rol\clientebtn.png" />
     <Content Include="Imagenes\USUARIOS\Rol\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\Rol\Salud_Belleza.jpg" />
     <Content Include="Imagenes\USUARIOS\Rol\Trabajos_Domesticos.jpg" />
-    <Content Include="Imagenes\USUARIOS\Rol\clientebtn.png" />
     <Content Include="Imagenes\USUARIOS\Testimonios\1.jpg" />
     <Content Include="Imagenes\USUARIOS\Testimonios\2.jpg" />
     <Content Include="Imagenes\USUARIOS\Testimonios\3.jpg" />
@@ -214,6 +217,8 @@
     <Content Include="Views\HOME\Categorias.cshtml" />
     <Content Include="Views\HOME\InfoCategorias.cshtml" />
     <Content Include="Views\USUARIOS\Rol.cshtml" />
+    <Content Include="Views\Shared\_Layout_Usuarios.cshtml" />
+    <Content Include="Views\USUARIOS\Publicaciones_Solicitudes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
