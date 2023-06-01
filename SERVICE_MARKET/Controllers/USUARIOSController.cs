@@ -191,8 +191,54 @@ namespace SERVICE_MARKET.Controllers
         public ActionResult Rol()
         {
             multipleModel usuario = (multipleModel)Session["Usuario"];
+            ViewBag.TipoSeleccionado = usuario.TIPO;
             return View(usuario);
         }
 
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+        
+        /*METODO PARA CONSULTAR LAS PUBLICACIONES Y SOLICITUDES DE SERVICIOS DISPONIBLES*/
+        [Authorize]
+        public ActionResult Publicaciones_Solicitudes(string TIPO = null, int pagina = 1, int elementosPorPagina = 12)
+        {
+            List<multipleModel> model = new List<multipleModel>();
+
+            using (SqlConnection oconexion = new SqlConnection(conexion))
+            {
+                SqlCommand Comand = new SqlCommand("CONSULTAR_PUBLICACIONES_SOLICITUDES", oconexion);
+                Comand.Parameters.Add("@TIPO", SqlDbType.VarChar);
+                Comand.Parameters["@TIPO"].Value = TIPO;
+                Comand.CommandType = CommandType.StoredProcedure;
+                oconexion.Open();
+
+                using (SqlDataReader dr = Comand.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        multipleModel oServicios = new multipleModel();
+                        oServicios.ID_SERVICIO = Convert.ToInt32(dr["ID_SERVICIO"]);
+                        oServicios.NOMBRE_SER = dr["NOMBRE_SER"].ToString();
+                        oServicios.PRECIO_SER = decimal.Parse(dr["PRECIO_SER"].ToString());
+                        oServicios.DESCRIPCION_BREVE = dr["DESCRIPCION_BREVE"].ToString();
+                        oServicios.TIPO = dr["TIPO"].ToString();
+                        oServicios.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
+                        model.Add(oServicios);
+
+                    }
+                }
+            }
+            /*Calcular los índices de inicio y fin para la página actual*/
+            int indiceInicio = (pagina - 1) * elementosPorPagina;
+            int indiceFin = indiceInicio + elementosPorPagina;
+
+            /*Obtener la lista de servicios para la página actual*/
+            List<multipleModel> serviciosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+            ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+            ViewBag.PaginaActual = pagina;
+            ViewBag.TipoSeleccionado = TIPO;
+
+            return View(serviciosPagina);
+        }
     }
 }
