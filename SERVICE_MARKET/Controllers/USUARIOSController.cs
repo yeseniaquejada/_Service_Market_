@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -156,22 +157,41 @@ namespace SERVICE_MARKET.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 cn.Open();
 
-                /*LEER IDENTIFICACION DEL USUARIO (PRIMERA FILA)*/
-                oUsuarios.ID_USUARIO = Convert.ToInt32(cmd.ExecuteScalar());
-            }
+                /*LEER DATOS DEL USUARIO*/
+                SqlDataReader dr = cmd.ExecuteReader();
 
-            /*ACCESO A VISTAS*/
-            if (oUsuarios.ID_USUARIO != 0)
-            {
-                FormsAuthentication.SetAuthCookie(oUsuarios.ID_USUARIO.ToString(), false);
-                Session["Usuario"] = oUsuarios;
-                return RedirectToAction("IndexUsuarios", "HOME");
-            }
-            else
-            {
-                ViewData["MENSAJE"] = "Usuario no encontrado";
+                if (dr.Read())
+                {
+                    if (Convert.ToInt32(dr["ID_USUARIO"]) > 0)
+                    {
+                        oUsuarios.ID_USUARIO = Convert.ToInt32(dr["ID_USUARIO"]);
+                        oUsuarios.NOMBRE_COMPLETO_USU = dr["NOMBRE_COMPLETO_USU"].ToString();
+                        oUsuarios.CELULAR_USU = dr["CELULAR_USU"].ToString();
+                        oUsuarios.ID_CIUDAD_FK = Convert.ToInt32(dr["ID_CIUDAD_FK"]);
+
+                        /*ACCESO A VISTAS*/
+                        FormsAuthentication.SetAuthCookie(oUsuarios.ID_USUARIO.ToString(), false);
+                        Session["Usuario"] = oUsuarios;
+                        return RedirectToAction("Rol", "USUARIOS");
+                    }
+                    else
+                    {
+                        ViewData["MENSAJE"] = "Usuario no encontrado";
+                    }
+                }
             }
             return View();
+        }
+
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA SELECCIONAR ROL*/
+        [Authorize]
+        public ActionResult Rol()
+        {
+            multipleModel usuario = (multipleModel)Session["Usuario"];
+            return View(usuario);
         }
 
     }
