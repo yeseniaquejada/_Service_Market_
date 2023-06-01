@@ -346,5 +346,15 @@ namespace SERVICE_MARKET.Controllers
             return View();
         }
 
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA CERRAR SESION USUARIOS*/
+        public ActionResult CerrarSesion()
+        {
+            FormsAuthentication.SignOut();
+            Session["Usuario"] = null;
+            return RedirectToAction("Index", "HOME");
+        }
+
     }
 }
