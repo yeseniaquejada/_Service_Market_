@@ -86,13 +86,13 @@
 
             <h1 class="text-center rol">Selecciona tu rol:</h1>
             <div class="d-grid gap-2 col-6 mx-auto">
-                <a class="btn btn-dark" href="@Url.Action("", "")">
+                <a class="btn btn-dark" href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = "Publicacion" })">
                     <img src="~/Imagenes/USUARIOS/Rol/clientebtn.png" height="50" width="50">
                     <h1>Cliente</h1>
                     <p>Busca prestadores de servicios para tus necesidades</p>
                 </a>
 
-                <a class="btn btn-dark" href="@Url.Action("", "")">
+                <a class="btn btn-dark" href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = "Solicitud" })">
                     <img src="~/Imagenes/USUARIOS/Rol/prestadorbtn.png" height="50" width="50">
                     <h1>Prestador de servicios</h1>
                     <p>Publica servicios y busca las solicitudes más adecuadas para ti</p>
@@ -267,9 +267,6 @@
             }
 
         });
-
-        const trunc = document.querySelector('p-trunc');
-        trunc.innerText = trunc.innerText.substring(0, 100) + '...';
     </script>
 </body>
 </html>
