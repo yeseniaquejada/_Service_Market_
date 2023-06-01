@@ -221,6 +221,7 @@
     <Content Include="Views\USUARIOS\Publicaciones_Solicitudes.cshtml" />
     <Content Include="Views\USUARIOS\Buscar.cshtml" />
     <Content Include="Views\USUARIOS\Categorias.cshtml" />
+    <Content Include="Views\USUARIOS\InfoCategorias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

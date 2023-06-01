@@ -336,5 +336,15 @@ namespace SERVICE_MARKET.Controllers
             return View(serviciosPagina);
         }
 
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*VISTA PARA VISUALIZAR INFORMACION DE LAS CATEGORIAS*/
+        [Authorize]
+        public ActionResult InfoCategorias(string TIPO)
+        {
+            ViewBag.TipoSeleccionado = TIPO;
+            return View();
+        }
+
     }
 }
