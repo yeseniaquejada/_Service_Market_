@@ -1,0 +1,108 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Service Market</title>
+    <link rel="shortcut icon" href="~/Logos/logo.png" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Layout.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <img id="logo" src="~/Logos/logo.png" />
+            <a id="service" class="navbar-brand" href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new {TIPO = ViewBag.TipoSeleccionado})">
+                Service Market
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menú de navegación</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <form class="d-flex" role="search" action="@Url.Action("Buscar","USUARIOS")" method="post" autocomplete="off">
+                        <input class="busquedad form-control me-2" type="search" placeholder="Buscar Servicios" aria-label="Search" name="NOMBRE_SER">
+                        <button class="btn btn-primary" type="submit">Buscar</button>
+                    </form>
+                    <br />
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="item nav-link" href="@Url.Action("Rol", "USUARIOS")">Página principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="item nav-link" href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new {TIPO = ViewBag.TipoSeleccionado})">Servicios disponibles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="item nav-link" href="@Url.Action("", "USUARIOS")">Crear nuevo servicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="item nav-link" href="@Url.Action("", "USUARIOS")">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="item nav-link" href="@Url.Action("", "USUARIOS")">Mis servicios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="item nav-link" href="@Url.Action("", "USUARIOS")">Mi historial</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="item nav-link" href="@Url.Action("","USUARIOS")">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <main>
+        <section>
+            <div>
+                @RenderBody()
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-col">
+            <h4>Service Market</h4>
+            <ul class="ul">
+                <li><a href="#">Sobre nosotros</a></li>
+                <li><a href="#">Nuestros servicios</a></li>
+                <li><a href="#">Términos y condiciones</a></li>
+                <li><a href="#">Preguntas frecuentes</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Desarrollador</h4>
+            <ul class="ul">
+                <li><a href="#">Yesenia Quejada Rojas</a></li>
+                <li><a href="#">Valentina Zapata Florez</a></li>
+                <li><a href="#">&copy; @DateTime.Now.Year</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Síguenos</h4>
+            <div class="links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
