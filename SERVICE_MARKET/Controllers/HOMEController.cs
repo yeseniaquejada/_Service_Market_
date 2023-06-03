@@ -71,44 +71,65 @@ namespace SERVICE_MARKET.Controllers
         /*METODO PARA BUSCAR PUBLICACIONES Y SOLICITUDES DE SERVICIOS DISPONIBLES*/
         public ActionResult Buscar(string NOMBRE_SER, string TIPO = null, int pagina = 1, int elementosPorPagina = 12)
         {
-            List<multipleModel> model = new List<multipleModel>();
-
-            using (SqlConnection oconexion = new SqlConnection(conexion))
+            try
             {
-                SqlCommand Comand = new SqlCommand("BUSQUEDA_COMPLETA", oconexion);
-                Comand.Parameters.Add("@NOMBRE_SER", SqlDbType.VarChar);
-                Comand.Parameters["@NOMBRE_SER"].Value = '%' + NOMBRE_SER + '%';
-                Comand.Parameters.Add("@TIPO", SqlDbType.VarChar);
-                Comand.Parameters["@TIPO"].Value = TIPO;
-                Comand.CommandType = CommandType.StoredProcedure;
-                oconexion.Open();
-
-                using (SqlDataReader dr = Comand.ExecuteReader())
+                if (string.IsNullOrWhiteSpace(NOMBRE_SER) && string.IsNullOrWhiteSpace(TIPO))
                 {
-                    while (dr.Read())
+                    ViewBag.Mensaje = "Por favor, ingresa algún criterio de búsqueda.";
+                    return View();
+                }
+
+                List<multipleModel> model = new List<multipleModel>();
+
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand Comand = new SqlCommand("BUSQUEDA_COMPLETA", oconexion);
+                    Comand.Parameters.Add("@NOMBRE_SER", SqlDbType.VarChar);
+                    Comand.Parameters["@NOMBRE_SER"].Value = '%' + NOMBRE_SER + '%';
+                    Comand.Parameters.Add("@TIPO", SqlDbType.VarChar);
+                    Comand.Parameters["@TIPO"].Value = TIPO;
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+
+                    using (SqlDataReader dr = Comand.ExecuteReader())
                     {
-                        multipleModel oServicios = new multipleModel();
-                        oServicios.ID_SERVICIO = Convert.ToInt32(dr["ID_SERVICIO"]);
-                        oServicios.NOMBRE_SER = dr["NOMBRE_SER"].ToString();
-                        oServicios.PRECIO_SER = decimal.Parse(dr["PRECIO_SER"].ToString());
-                        oServicios.DESCRIPCION_BREVE = dr["DESCRIPCION_BREVE"].ToString();
-                        oServicios.TIPO = dr["TIPO"].ToString();
-                        oServicios.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
-                        model.Add(oServicios);
+                        while (dr.Read())
+                        {
+                            multipleModel oServicios = new multipleModel();
+                            oServicios.ID_SERVICIO = Convert.ToInt32(dr["ID_SERVICIO"]);
+                            oServicios.NOMBRE_SER = dr["NOMBRE_SER"].ToString();
+                            oServicios.PRECIO_SER = decimal.Parse(dr["PRECIO_SER"].ToString());
+                            oServicios.DESCRIPCION_BREVE = dr["DESCRIPCION_BREVE"].ToString();
+                            oServicios.TIPO = dr["TIPO"].ToString();
+                            oServicios.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
+                            model.Add(oServicios);
+                        }
                     }
                 }
+
+                if (model.Count == 0)
+                {
+                    ViewBag.Mensaje = "No se encontró el servicio que estabas buscando.";
+                    return View();
+                }
+
+                /*Calcular los índices de inicio y fin para la página actual*/
+                int indiceInicio = (pagina - 1) * elementosPorPagina;
+                int indiceFin = indiceInicio + elementosPorPagina;
+
+                /*Obtener la lista de servicios para la página actual*/
+                List<multipleModel> serviciosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+                ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+                ViewBag.PaginaActual = pagina;
+
+                return View(serviciosPagina);
             }
-            /*Calcular los índices de inicio y fin para la página actual*/
-            int indiceInicio = (pagina - 1) * elementosPorPagina;
-            int indiceFin = indiceInicio + elementosPorPagina;
-
-            /*Obtener la lista de servicios para la página actual*/
-            List<multipleModel> serviciosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
-
-            ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
-            ViewBag.PaginaActual = pagina;
-
-            return View(serviciosPagina);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al buscar los servicios. Por favor, intenta nuevamente más tarde.";
+                return View("Buscar");
+            }
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
