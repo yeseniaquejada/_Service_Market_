@@ -69,43 +69,52 @@
 
     <div class="container">
         <h1 class="text-center titulo bold-text">Servicios y Solicitudes</h1>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <script>
-                /*Desplazamiento de la página hacia arriba cuando se carga una nueva página*/
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            </script>
-            @foreach (var servicios in Model)
-            {
-                <div class="col col-12 col-md-4 mb-4">
-                    <div class="card card-services">
-                        <div class="card-body">
-                            <h4 class="card-title text-center bold-text">@servicios.NOMBRE_SER</h4>
-                            <p class="card-text"><span class="bold-text">Precio:</span> $@servicios.PRECIO_SER</p>
-                            <p class="card-text"><span class="bold-text">Descripción:</span> @servicios.DESCRIPCION_BREVE</p>
-                            <p class="card-text"><span class="bold-text">Tipo:</span> @servicios.TIPO</p>
-                            <p class="card-text"><span class="bold-text">Categoría:</span> @servicios.NOMBRE_CAT</p>
-                            <div class="card-button">
-                                <button onclick="masInformacion()" type="button" class="btnCard">Más información</button>
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <script>
+                    /*Desplazamiento de la página hacia arriba cuando se carga una nueva página*/
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                </script>
+                @foreach (var servicios in Model)
+                {
+                    <div class="col col-12 col-md-4 mb-4">
+                        <div class="card card-services">
+                            <div class="card-body">
+                                <h4 class="card-title text-center bold-text">@servicios.NOMBRE_SER</h4>
+                                <p class="card-text"><span class="bold-text">Precio:</span> $@servicios.PRECIO_SER</p>
+                                <p class="card-text"><span class="bold-text">Descripción:</span> @servicios.DESCRIPCION_BREVE</p>
+                                <p class="card-text"><span class="bold-text">Tipo:</span> @servicios.TIPO</p>
+                                <p class="card-text"><span class="bold-text">Categoría:</span> @servicios.NOMBRE_CAT</p>
+                                <div class="card-button">
+                                    <button onclick="masInformacion()" type="button" class="btnCard">Más información</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-
-        <div class="pagination justify-content-center">
-            <ul class="pagination">
-                @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
-                {
-                    <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
-                        <a class="page-link" href="@Url.Action("Index","HOME", new { pagina = i })">@i</a>
-                    </li>
                 }
-            </ul>
-        </div>
+            </div>
+
+            <div class="pagination justify-content-center">
+                <ul class="pagination">
+                    @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", "HOME", new { pagina = i })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+    }
     </div>
 
     <script>
@@ -121,8 +130,8 @@
         }
     </script>
 
-    <script src="~/Scripts/sweetalert.min.js"></script>
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-</body>
+        <script src="~/Scripts/sweetalert.min.js"></script>
+        <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+    </body>
 </html>
