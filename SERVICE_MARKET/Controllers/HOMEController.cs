@@ -137,44 +137,58 @@ namespace SERVICE_MARKET.Controllers
         /*METODO PARA CATEGORIZAR LOS SERVICIOS DISPONIBLES*/
         public ActionResult Categorias(string TIPO = "Ambos", int? ID_CATEGORIA = null, int pagina = 1, int elementosPorPagina = 12)
         {
-            List<multipleModel> model = new List<multipleModel>();
+            try {
+                List<multipleModel> model = new List<multipleModel>();
 
-            using (SqlConnection oconexion = new SqlConnection(conexion))
-            {
-                SqlCommand Comand = new SqlCommand("CATEGORIAS_SERVICIOS", oconexion);
-                Comand.Parameters.AddWithValue("@ID_CATEGORIA", SqlDbType.Int);
-                Comand.Parameters["@ID_CATEGORIA"].Value = ID_CATEGORIA;
-                Comand.Parameters.AddWithValue("@TIPO", TIPO);
-                Comand.CommandType = CommandType.StoredProcedure;
-                oconexion.Open();
-
-                using (SqlDataReader dr = Comand.ExecuteReader())
+                using (SqlConnection oconexion = new SqlConnection(conexion))
                 {
-                    while (dr.Read())
-                    {
-                        multipleModel oServicios = new multipleModel();
-                        oServicios.ID_SERVICIO = Convert.ToInt32(dr["ID_SERVICIO"]);
-                        oServicios.NOMBRE_SER = dr["NOMBRE_SER"].ToString();
-                        oServicios.PRECIO_SER = decimal.Parse(dr["PRECIO_SER"].ToString());
-                        oServicios.DESCRIPCION_BREVE = dr["DESCRIPCION_BREVE"].ToString();
-                        oServicios.TIPO = dr["TIPO"].ToString();
-                        oServicios.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
-                        model.Add(oServicios);
+                    SqlCommand Comand = new SqlCommand("CATEGORIAS_SERVICIOS", oconexion);
+                    Comand.Parameters.AddWithValue("@ID_CATEGORIA", SqlDbType.Int);
+                    Comand.Parameters["@ID_CATEGORIA"].Value = ID_CATEGORIA;
+                    Comand.Parameters.AddWithValue("@TIPO", TIPO);
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
 
+                    using (SqlDataReader dr = Comand.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            multipleModel oServicios = new multipleModel();
+                            oServicios.ID_SERVICIO = Convert.ToInt32(dr["ID_SERVICIO"]);
+                            oServicios.NOMBRE_SER = dr["NOMBRE_SER"].ToString();
+                            oServicios.PRECIO_SER = decimal.Parse(dr["PRECIO_SER"].ToString());
+                            oServicios.DESCRIPCION_BREVE = dr["DESCRIPCION_BREVE"].ToString();
+                            oServicios.TIPO = dr["TIPO"].ToString();
+                            oServicios.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
+                            model.Add(oServicios);
+
+                        }
                     }
                 }
+
+                if (model.Count == 0)
+                {
+                    ViewBag.Mensaje = "No se encontró servicios disponibles en esta categoría.";
+                    return View();
+                }
+
+                /*Calcular los índices de inicio y fin para la página actual*/
+                int indiceInicio = (pagina - 1) * elementosPorPagina;
+                int indiceFin = indiceInicio + elementosPorPagina;
+
+                /*Obtener la lista de servicios para la página actual*/
+                List<multipleModel> serviciosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+                ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+                ViewBag.PaginaActual = pagina;
+
+                return View(serviciosPagina);
             }
-            /*Calcular los índices de inicio y fin para la página actual*/
-            int indiceInicio = (pagina - 1) * elementosPorPagina;
-            int indiceFin = indiceInicio + elementosPorPagina;
-
-            /*Obtener la lista de servicios para la página actual*/
-            List<multipleModel> serviciosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
-
-            ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
-            ViewBag.PaginaActual = pagina;
-
-            return View(serviciosPagina);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Se produjo un error al buscar servicios en esta categoría. Por favor, inténtalo nuevamente más tarde.";
+                return View("Buscar");
+            }
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
