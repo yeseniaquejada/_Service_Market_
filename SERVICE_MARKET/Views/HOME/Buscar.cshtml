@@ -100,9 +100,9 @@
             <ul class="pagination">
                 @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
                 {
-                    <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
-                        <a class="page-link" href="@Url.Action("Buscar","HOME", new { buscar = Request.QueryString["buscar"], pagina = i })">@i</a>
-                    </li>
+                <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Buscar","HOME", new { NOMBRE_SER = Request.Params["NOMBRE_SER"], pagina = i })">@i</a>
+                </li>
                 }
             </ul>
         </div>
