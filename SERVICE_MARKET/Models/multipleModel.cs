@@ -7,6 +7,8 @@ namespace SERVICE_MARKET.Models
 {
     public class multipleModel
     {
+        public string MENSAJE { get; set; }
+
         /*CIUDADES*/
         public int ID_CIUDAD { get; set; }
         public string NOMBRE_CIUDAD { get; set; }

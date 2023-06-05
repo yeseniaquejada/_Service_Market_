@@ -68,49 +68,52 @@
         </div>
 
         <div class="col-lg-5 d-flex flex-column aling-items-end min-vh-100 containerInfo">
-            <div class="px-lg-5 pt-lg-4 pb-lg-3 p-2">
+            <div class="px-lg-4 pt-lg-3 pb-lg-3">
                 <img id="logo" src="~/Logos/logo derecha.png" class="img-fluid">
             </div>
-            <div class="px-lg-5 py-lg-4 p-4 w-100 aling-self-center">
-                <h1 class="font-weight-bold mb-3" align="center">Registrarse</h1>
-                @if (ViewData["MENSAJE"] != null)
+            <div class="px-lg-5 py-lg-1 p-4 w-100 aling-self-center">
+                <h1 class="font-weight-bold" align="center">Registrarse</h1>
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
                 {
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        @ViewData["MENSAJE"]
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="error-message alert alert-danger" role="alert">
+                        @ViewBag.ErrorMessage
                     </div>
                 }
-                <form class="mb-4" action="@Url.Action("Registrar","USUARIOS")" method="post" autocomplete="off">
-                    <div class="mb-4">
-                        <label class="form-label font-weight-bold">Nombre completo</label>
-                        <input name="NOMBRE_COMPLETO_USU" type="text" class="form-control bg-dark-x border-0" placeholder="Ingresa tu nombre completo" required>
+
+            <form class="mb-4" action="@Url.Action("Registrar","USUARIOS")" method="post" autocomplete="off">
+                <div class="mb-4">
+                    <label class="form-label font-weight-bold">Nombre completo</label>
+                    <input name="NOMBRE_COMPLETO_USU" type="text" class="form-control bg-dark-x border-0" placeholder="Ingresa tu nombre completo" value="@Model.NOMBRE_COMPLETO_USU" required>
+                    @Html.ValidationMessageFor(model => model.NOMBRE_COMPLETO_USU, "", new { @class = "error-message" })
+                </div>
+                <div class="mb-4">
+                    <span class="form-label font-weight-bold">Ciudad:</span>
+                    <div>
+                        @Html.Action("selectCiudades", "USUARIOS")
                     </div>
-                    <div class="mb-4 d-flex">
-                        <div class="col-6">
-                            <label class="form-label font-weight-bold">Celular</label>
-                            <input name="CELULAR_USU" type="text" class="form-control bg-dark-x border-0" placeholder="Ingresa tu # de celular" required>
-                        </div>
-                        <div class="col-6 m-2">
-                            <span class="form-label font-weight-bold">Ciudad:</span>
-                            <div>
-                                @Html.Action("selectCiudades", "USUARIOS")
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label font-weight-bold">Correo electrónico</label>
-                        <input name="CORREO_ELECTRONICO_USU" type="email" class="form-control bg-dark-x border-0" placeholder="Ingresa tu correo electrónico" aria-describedby="emailHelp" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label font-weight-bold">Contraseña</label>
-                        <input name="CONTRASENA_USU" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa tu contraseña" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label font-weight-bold">Confirmación de contraseña</label>
-                        <input name="CONFIRMAR_CONTRASENA_U" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa nuevamente tu contraseña" required>
-                    </div>
-                    <button type="submit" class="btnA btn-primary w-100">Registrarse</button>
-                </form>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label font-weight-bold">Celular</label>
+                    <input name="CELULAR_USU" type="text" class="form-control bg-dark-x border-0 text-light" placeholder="Ingresa tu # de celular" value="@Model.CELULAR_USU" required>
+                    @Html.ValidationMessageFor(model => model.CELULAR_USU, "", new { @class = "error-message" })
+                </div>
+                <div class="mb-4">
+                    <label class="form-label font-weight-bold">Correo electrónico</label>
+                    <input name="CORREO_ELECTRONICO_USU" type="email" class="form-control bg-dark-x border-0" placeholder="Ingresa tu correo electrónico" aria-describedby="emailHelp" value="@Model.CORREO_ELECTRONICO_USU" required>
+                    @Html.ValidationMessageFor(model => model.MENSAJE, "", new { @class = "error-message" })
+                </div>
+                <div class="mb-4">
+                    <label class="form-label font-weight-bold">Contraseña</label>
+                    <input name="CONTRASENA_USU" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa tu contraseña" required>
+                    @Html.ValidationMessageFor(model => model.CONTRASENA_USU, "", new { @class = "error-message" })
+                </div>
+                <div class="mb-4">
+                    <label class="form-label font-weight-bold">Confirmación de contraseña</label>
+                    <input name="CONFIRMAR_CONTRASENA_U" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa nuevamente tu contraseña" required>
+                    @Html.ValidationMessageFor(model => model.CONFIRMAR_CONTRASENA_U, "", new { @class = "error-message" })
+                </div>
+                <button type="submit" class="btnA btn-primary w-100">Registrarse</button>
+            </form>
                 <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p-3 w-100 mt-auto">
                     <p class="d-inline-block mb-0" style="color:white;">¿Ya tienes una cuenta?</p>
                     <a href="@Url.Action("Login","USUARIOS")" class="font-weight-bold text-decoration-none">Iniciar sesión</a>

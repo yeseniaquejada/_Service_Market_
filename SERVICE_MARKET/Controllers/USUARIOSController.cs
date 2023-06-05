@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -49,58 +50,84 @@ namespace SERVICE_MARKET.Controllers
         [HttpGet]
         public ActionResult Registrar()
         {
-            return View();
+            multipleModel oUsuarios = new multipleModel();
+            return View(oUsuarios);
         }
 
         [HttpPost]
         public ActionResult Registrar(multipleModel oUsuarios)
         {
-            bool registrado;
-            string mensaje;
-
-            /*COMPARANDO CONTRASEÑAS*/
-            if (oUsuarios.CONTRASENA_USU == oUsuarios.CONFIRMAR_CONTRASENA_U)
+            try
             {
-                /*ENCRIPTANDO CONTRASEÑA*/
-                oUsuarios.CONTRASENA_USU = Encriptar(oUsuarios.CONTRASENA_USU);
+                bool registrado;
+                string mensaje;
+
+                /*COMPARANDO CONTRASEÑAS*/
+                if (oUsuarios.CONTRASENA_USU == oUsuarios.CONFIRMAR_CONTRASENA_U)
+                {
+                    /*ENCRIPTANDO CONTRASEÑA*/
+                    oUsuarios.CONTRASENA_USU = Encriptar(oUsuarios.CONTRASENA_USU);
+                }
+                else
+                {
+                    ModelState.AddModelError("CONFIRMAR_CONTRASENA_U", "* Las contraseñas no coinciden");
+                }
+
+                /*VALIDAR LONGITUD DE DATOS*/
+                if (oUsuarios.NOMBRE_COMPLETO_USU.Length > 100)
+                {
+                    ModelState.AddModelError("NOMBRE_COMPLETO_USU", "* El nombre excede la longitud permitida.");
+                }
+
+                if (oUsuarios.CONTRASENA_USU.Length > 10)
+                {
+                    ModelState.AddModelError("CONTRASENA_USU", "* La contraseña excede la longitud permitida. Ingresa una contraseña de máximo 10 caracteres");
+                }
+
+                /*VALIDAR NÚMERO DE CELULAR*/
+                Regex regexCelular = new Regex(@"^[3-7][0-9]{9}$");
+                if (!regexCelular.IsMatch(oUsuarios.CELULAR_USU))
+                {
+                    ModelState.AddModelError("CELULAR_USU", "* El número de celular ingresado no es válido.");
+                }
+
+                /*CONECTANDO BASE DE DATOS*/
+                using (SqlConnection cn = new SqlConnection(conexion))
+                {
+                    /*PROCEDIMIENTO ALMACENADO REGISTRAR USUARIO*/
+                    SqlCommand cmd = new SqlCommand("REGISTRAR_USUARIOS", cn);
+                    cmd.Parameters.AddWithValue("NOMBRE_COMPLETO_USU", oUsuarios.NOMBRE_COMPLETO_USU);
+                    cmd.Parameters.AddWithValue("CELULAR_USU", "57" + oUsuarios.CELULAR_USU);
+                    cmd.Parameters.AddWithValue("ID_CIUDAD_FK", oUsuarios.ID_CIUDAD_FK);
+                    cmd.Parameters.AddWithValue("CORREO_ELECTRONICO_USU", oUsuarios.CORREO_ELECTRONICO_USU);
+                    cmd.Parameters.AddWithValue("CONTRASENA_USU", oUsuarios.CONTRASENA_USU);
+                    cmd.Parameters.Add("REGISTRADO", SqlDbType.Bit).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("MENSAJE", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    /*LEER PARAMETROS DE SALIDA*/
+                    registrado = Convert.ToBoolean(cmd.Parameters["REGISTRADO"].Value);
+                    mensaje = cmd.Parameters["MENSAJE"].Value.ToString();
+
+                }
+
+                ModelState.AddModelError("MENSAJE", mensaje);
+
+                if (registrado)
+                {
+                    return RedirectToAction("Login", "USUARIOS");
+                }
+                else
+                {
+                    return View(oUsuarios);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ViewData["MENSAJE"] = "Las contraseñas no coinciden";
-                return View();
-            }
-
-            /*CONECTANDO BASE DE DATOS*/
-            using (SqlConnection cn = new SqlConnection(conexion))
-            {
-                /*PROCEDIMIENTO ALMACENADO REGISTRAR USUARIO*/
-                SqlCommand cmd = new SqlCommand("REGISTRAR_USUARIOS", cn);
-                cmd.Parameters.AddWithValue("NOMBRE_COMPLETO_USU", oUsuarios.NOMBRE_COMPLETO_USU);
-                cmd.Parameters.AddWithValue("CELULAR_USU", "57" + oUsuarios.CELULAR_USU);
-                cmd.Parameters.AddWithValue("ID_CIUDAD_FK", oUsuarios.ID_CIUDAD_FK);
-                cmd.Parameters.AddWithValue("CORREO_ELECTRONICO_USU", oUsuarios.CORREO_ELECTRONICO_USU);
-                cmd.Parameters.AddWithValue("CONTRASENA_USU", oUsuarios.CONTRASENA_USU);
-                cmd.Parameters.Add("REGISTRADO", SqlDbType.Bit).Direction = ParameterDirection.Output;
-                cmd.Parameters.Add("MENSAJE", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cn.Open();
-                cmd.ExecuteNonQuery();
-
-                /*LEER PARAMETROS DE SALIDA*/
-                registrado = Convert.ToBoolean(cmd.Parameters["REGISTRADO"].Value);
-                mensaje = cmd.Parameters["MENSAJE"].Value.ToString();
-
-            }
-
-            ViewData["MENSAJE"] = mensaje;
-
-            if (registrado)
-            {
-                return RedirectToAction("Login", "USUARIOS");
-            }
-            else
-            {
-                return View();
+                ViewBag.ErrorMessage = "No es posible registrar usuarios en este momento. Por favor, inténtelo de nuevo más tarde.";
+                return View("Registrar");
             }
         }
 
@@ -111,25 +138,34 @@ namespace SERVICE_MARKET.Controllers
         {
             model = new List<multipleModel>();
 
-            using (SqlConnection oconexion = new SqlConnection(conexion))
+            try
             {
-                SqlCommand Comand = new SqlCommand("LEER_CIUDADES", oconexion);
-                Comand.CommandType = CommandType.StoredProcedure;
-                oconexion.Open();
 
-                using (SqlDataReader dr = Comand.ExecuteReader())
+                using (SqlConnection oconexion = new SqlConnection(conexion))
                 {
-                    while (dr.Read())
-                    {
-                        multipleModel oCiudades = new multipleModel();
-                        oCiudades.ID_CIUDAD = Convert.ToInt32(dr["ID_CIUDAD"]);
-                        oCiudades.NOMBRE_CIUDAD = dr["NOMBRE_CIUDAD"].ToString();
-                        model.Add(oCiudades);
+                    SqlCommand Comand = new SqlCommand("LEER_CIUDADES", oconexion);
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
 
+                    using (SqlDataReader dr = Comand.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            multipleModel oCiudades = new multipleModel();
+                            oCiudades.ID_CIUDAD = Convert.ToInt32(dr["ID_CIUDAD"]);
+                            oCiudades.NOMBRE_CIUDAD = dr["NOMBRE_CIUDAD"].ToString();
+                            model.Add(oCiudades);
+
+                        }
                     }
                 }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al cargar las ciudades.";
+                return View(new List<multipleModel>());
+            }
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/

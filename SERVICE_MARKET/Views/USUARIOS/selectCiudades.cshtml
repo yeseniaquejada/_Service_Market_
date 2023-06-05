@@ -7,12 +7,22 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <select class="bg-dark-x border-0 form-control" name="ID_CIUDAD_FK">
-        @foreach (var ciudad in Model)
-        {
-            <option value="@ciudad.ID_CIUDAD">@ciudad.NOMBRE_CIUDAD</option>
-        }
-    </select>
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    else
+    {
+        <select class="bg-dark-x border-0 form-control" name="ID_CIUDAD_FK" required>
+            <option value="">Selecciona una ciudad</option>
+            @foreach (var ciudad in Model)
+            {
+                <option value="@ciudad.ID_CIUDAD">@ciudad.NOMBRE_CIUDAD</option>
+            }
+        </select>
+    }
 </body>
 </html>
 
