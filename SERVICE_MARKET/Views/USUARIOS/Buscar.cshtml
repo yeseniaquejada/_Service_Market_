@@ -29,7 +29,7 @@
                 <div class="carousel-caption top-0 mt-5">
                     <p class="mt-5 fs-3">Servicios de</p>
                     <h1 class="display-1 fw-bolder text-capitalize">Trabajos domésticos</h1>
-                    <a href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = 2 , TIPO = ViewBag.TipoSeleccionado})" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
+                    <a href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = 2 , TIPO = Request.Params["TIPO"]})" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
                 </div>
             </div>
             <div class="carousel-item c-item">
@@ -37,7 +37,7 @@
                 <div class="carousel-caption top-0 mt-5">
                     <p class="mt-5 fs-3">Servicios de</p>
                     <h1 class="display-1 fw-bolder text-capitalize">Remodelación y albañilería</h1>
-                    <a href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = 3 , TIPO = ViewBag.TipoSeleccionado})" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
+                    <a href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = 3, TIPO = Request.Params["TIPO"] })" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
                 </div>
             </div>
             <div class="carousel-item c-item">
@@ -45,7 +45,7 @@
                 <div class="carousel-caption top-0 mt-5">
                     <p class="mt-5 fs-3">Servicios de</p>
                     <h1 class="display-1 fw-bolder text-capitalize">Mantenimiento</h1>
-                    <a href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = 1 , TIPO = ViewBag.TipoSeleccionado})" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
+                    <a href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = 1 , TIPO = Request.Params["TIPO"]})" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
                 </div>
             </div>
             <div class="carousel-item c-item">
@@ -53,7 +53,7 @@
                 <div class="carousel-caption top-0 mt-5">
                     <p class="mt-5 fs-3">Servicios de</p>
                     <h1 class="display-1 fw-bolder text-capitalize">Salud y belleza</h1>
-                    <a href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = 4 , TIPO = ViewBag.TipoSeleccionado})" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
+                    <a href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = 4 , TIPO = Request.Params["TIPO"]})" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Conocer Más</a>
                 </div>
             </div>
         </div>
@@ -69,46 +69,60 @@
 
     <div class="container">
         <h1 class="text-center titulo bold-text">Servicios y Solicitudes</h1>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <script>
-                /*Desplazamiento de la página hacia arriba cuando se carga una nueva página*/
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            </script>
-            @foreach (var servicios in Model)
-            {
-                <div class="col col-12 col-md-4 mb-4">
-                    <div class="card card-services">
-                        <div class="card-body">
-                            <h4 class="card-title text-center bold-text">@servicios.NOMBRE_SER</h4>
-                            <p class="card-text"><span class="bold-text">Precio:</span> $@servicios.PRECIO_SER</p>
-                            <p class="card-text"><span class="bold-text">Descripción:</span> @servicios.DESCRIPCION_BREVE</p>
-                            <p class="card-text"><span class="bold-text">Tipo:</span> @servicios.TIPO</p>
-                            <p class="card-text"><span class="bold-text">Categoría:</span> @servicios.NOMBRE_CAT</p>
-                            <div class="card-button">
-                                <button type="button" class="btnCard">Más información</button>
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+        else if (ViewBag.Mensaje != null)
+        {
+            <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
+                @ViewBag.Mensaje
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <script>
+                    /*Desplazamiento de la página hacia arriba cuando se carga una nueva página*/
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                </script>
+                @foreach (var servicios in Model)
+                {
+                    <div class="col col-12 col-md-4 mb-4">
+                        <div class="card card-services">
+                            <div class="card-body">
+                                <h4 class="card-title text-center bold-text">@servicios.NOMBRE_SER</h4>
+                                <p class="card-text"><span class="bold-text">Precio:</span> $@servicios.PRECIO_SER</p>
+                                <p class="card-text"><span class="bold-text">Descripción:</span> @servicios.DESCRIPCION_BREVE</p>
+                                <p class="card-text"><span class="bold-text">Tipo:</span> @servicios.TIPO</p>
+                                <p class="card-text"><span class="bold-text">Categoría:</span> @servicios.NOMBRE_CAT</p>
+                                <div class="card-button">
+                                    <button type="button" class="btnCard">Más información</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
-
-        <div class="pagination justify-content-center">
-            <ul class="pagination">
-                @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
-                {
-                    <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
-                        <a class="page-link" href="@Url.Action("Buscar","USUARIOS", new { pagina = i, TIPO = ViewBag.TipoSeleccionado})">@i</a>
-                    </li>
                 }
-            </ul>
-        </div>
+            </div>
 
+            <div class="pagination justify-content-center">
+                <ul class="pagination">
+                    @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Buscar", "USUARIOS", new { pagina = i, NOMBRE_SER = Request.Params["NOMBRE_SER"], TIPO = Request.Params["TIPO"] })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
         <div class="d-grid gap-2 col-3 mx-auto d-block">
-            <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new {TIPO = ViewBag.TipoSeleccionado})" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Volver al inicio</a>
+            <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new {  TIPO = Request.Params["TIPO"] })" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Volver al inicio</a>
         </div>
     </div>
 
