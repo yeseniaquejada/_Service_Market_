@@ -117,6 +117,7 @@ namespace SERVICE_MARKET.Controllers
 
                 if (registrado)
                 {
+                    TempData["Mensaje"] = mensaje;
                     return RedirectToAction("Login", "USUARIOS");
                 }
                 else
@@ -174,6 +175,8 @@ namespace SERVICE_MARKET.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            string mensaje = TempData["Mensaje"] as string;
+            ViewBag.Mensaje = mensaje;
             return View();
         }
 
@@ -212,7 +215,7 @@ namespace SERVICE_MARKET.Controllers
                     }
                     else
                     {
-                        ViewData["MENSAJE"] = "Usuario no encontrado";
+                        ViewData["MENSAJE_VALIDACION"] = "Usuario no encontrado";
                     }
                 }
             }
