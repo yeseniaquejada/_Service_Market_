@@ -1,0 +1,134 @@
+﻿@model SERVICE_MARKET.Models.multipleModel
+
+@{
+    ViewBag.Title = "Crear nuevo servicio";
+    Layout = "~/Views/Shared/_Layout_Usuarios.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Usuarios.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.css">
+</head>
+<body>
+    <main>
+        <div class="container containerP">
+            <div class="contact-box drop">
+                <div class="left"></div>
+                <div class="right">
+                    <h2 id="tituloP">Nuevo Servicio</h2>
+                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                    {
+                        <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
+                            @ViewBag.ErrorMessage
+                        </div>
+                    }
+                    else
+                    {
+                        <form action="@Url.Action("CrearServicio", "USUARIOS")" method="post" autocomplete="off">
+                            <input type="text" class="field" placeholder="Escriba el nombre del servicio" name="NOMBRE_SER" value="@Model.NOMBRE_SER" required />
+                            @Html.ValidationMessageFor(model => model.NOMBRE_SER, "", new { @class = "error-message" })
+                            <input type="number" class="field" placeholder="Digite el precio" name="PRECIO_SER" required />
+                            <textarea class="field area" placeholder="Escriba una descripción breve sobre el servicio" name="DESCRIPCION_BREVE" required>@Model.DESCRIPCION_BREVE</textarea>
+                            @Html.ValidationMessageFor(model => model.DESCRIPCION_BREVE, "", new { @class = "error-message" })
+                            <textarea class="field area" placeholder="Escriba los términos y condiciones para prestar o solicitar un servicio" name="TERMINOS_SER" required>@Model.TERMINOS_SER</textarea>
+                            <input type="hidden" name="TIPO" value="@ViewBag.TipoSeleccionado" />
+                            <div>
+                                @Html.Action("selectCategorias", "USUARIOS")
+                            </div>
+                            <button class="btnP" type="submit">Crear</button>
+                            <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = ViewBag.TipoSeleccionado })" class="btn btnP">Cancelar</a>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="carouselImagenes">
+            <div class="contenedor">
+                <div class="carousel">
+                    <div class="carousel__contenedor">
+                        <button aria-label="Anterior" class="carousel__anterior">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+
+                        <div class="carousel__lista">
+                            <div class="carousel__elemento">
+                                <img src="~/Imagenes/USUARIOS/CategoriasCarousel/Albañileria.jpg" alt="albañileria">
+                            </div>
+                            <div class="carousel__elemento">
+                                <img src="~/Imagenes/USUARIOS/CategoriasCarousel/Belleza.jpg" alt="belleza">
+                            </div>
+                            <div class="carousel__elemento">
+                                <img src="~/Imagenes/USUARIOS/CategoriasCarousel/Limpieza.jpg" alt="limpieza">
+                            </div>
+                            <div class="carousel__elemento">
+                                <img src="~/Imagenes/USUARIOS/CategoriasCarousel/Mantenimiento.jpg" alt="mantenimiento">
+                            </div>
+                            <div class="carousel__elemento">
+                                <img src="~/Imagenes/USUARIOS/CategoriasCarousel/Remodelacion.jpg" alt="remodelacion">
+                            </div>
+                            <div class="carousel__elemento">
+                                <img src="~/Imagenes/USUARIOS/CategoriasCarousel/Salud.jpg" alt="salud">
+                            </div>
+                        </div>
+
+                        <button aria-label="Siguiente" class="carousel__siguiente">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div role="tablist" class="carousel__indicadores"></div>
+                </div>
+            </div>
+
+            <center><a href="@Url.Action("InfoCategorias", "USUARIOS", new { TIPO = ViewBag.TipoSeleccionado })" class="btn btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Ver categorías</a></center>
+        </div>
+
+        <script>
+            window.addEventListener('load', function () {
+                new Glider(document.querySelector('.carousel__lista'), {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: '.carousel__indicadores',
+                    arrows: {
+                        prev: '.carousel__anterior',
+                        next: '.carousel__siguiente'
+                    },
+                    scrollLock: false,
+                    rewind: true,
+                    responsive: [
+                        {
+                            breakpoint: 450,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2
+                            }
+                        }, {
+                            breakpoint: 800,
+                            settings: {
+                                slidesToShow: 4,
+                                slidesToScroll: 4
+                            }
+                        }
+                    ]
+                });
+            });
+        </script>
+
+    </main>
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.3/glider.min.js"></script>
+    <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+</body>
+</html>
+

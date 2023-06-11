@@ -294,6 +294,8 @@ namespace SERVICE_MARKET.Controllers
         [Authorize]
         public ActionResult Buscar(string NOMBRE_SER, string TIPO = null, int pagina = 1, int elementosPorPagina = 12)
         {
+            ViewBag.TipoSeleccionado = TIPO;
+
             try
             {
                 if (string.IsNullOrEmpty(NOMBRE_SER) || string.IsNullOrEmpty(TIPO))
@@ -426,6 +428,136 @@ namespace SERVICE_MARKET.Controllers
         {
             ViewBag.TipoSeleccionado = TIPO;
             return View();
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA CREAR NUEVOS SERVICIOS*/
+        [Authorize]
+
+        [HttpGet]
+        public ActionResult CrearServicio(string TIPO)
+        {
+            multipleModel oServicio = new multipleModel();
+            ViewBag.TipoSeleccionado = TIPO;
+            return View(oServicio);
+        }
+
+
+        [HttpPost]
+        public ActionResult CrearServicio(multipleModel oServicio, string TIPO)
+        {
+            ViewBag.TipoSeleccionado = TIPO;
+
+            int idUsuario = ObtenerIdUsuarioSesion();
+
+                if (idUsuario != 0)
+                {
+
+                try
+                {
+                    if (oServicio.NOMBRE_SER.Length > 70)
+                    {
+                        ModelState.AddModelError("NOMBRE_SER", "* El nombre del servicio excede la longitud permitida.");
+                    }
+
+                    if (oServicio.DESCRIPCION_BREVE.Length > 500)
+                    {
+                        ModelState.AddModelError("DESCRIPCION_BREVE", "* La descripción excede la longitud permitida.");
+                    }
+
+                    if (ModelState.IsValid)
+                    {
+                        /*CONECTANDO BASE DE DATOS*/
+                        using (SqlConnection cn = new SqlConnection(conexion))
+                        {
+
+                            /*PROCEDIMIENTO ALMACENADO CREAR SERVICIOS*/
+                            cn.Open();
+                            SqlCommand cmd = new SqlCommand("CREAR_SERVICIOS", cn);
+                            cmd.Parameters.AddWithValue("@NOMBRE_SER", oServicio.NOMBRE_SER);
+                            cmd.Parameters.AddWithValue("@PRECIO_SER", oServicio.PRECIO_SER);
+                            cmd.Parameters.AddWithValue("@DESCRIPCION_BREVE", oServicio.DESCRIPCION_BREVE);
+                            cmd.Parameters.AddWithValue("@TERMINOS_SER", oServicio.TERMINOS_SER);
+                            if (TIPO == "Publicacion")
+                            {
+                                cmd.Parameters.AddWithValue("@TIPO", "Solicitud");
+                            }
+                            else if (TIPO == "Solicitud")
+                            {
+                                cmd.Parameters.AddWithValue("@TIPO", "Publicacion");
+                            }
+                            cmd.Parameters.AddWithValue("@ID_USUARIO_FK", idUsuario);
+                            cmd.Parameters.AddWithValue("@ID_CATEGORIA_FK", oServicio.ID_CATEGORIA_FK);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.ExecuteNonQuery();
+
+                            return RedirectToAction("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = TIPO });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = "No es posible registrar nuevos servicios en este momento. Por favor, inténtelo de nuevo más tarde.";
+                }
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Debe iniciar sesión para crear un servicio.";
+            }
+            return View("CrearServicio", oServicio);
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA OBTENER EL ID DEL USUARIO DE LA SESION*/
+        private int ObtenerIdUsuarioSesion()
+        {
+            if (Session["Usuario"] != null)
+            {
+                multipleModel oUsuarios = (multipleModel)Session["Usuario"];
+                return oUsuarios.ID_USUARIO;
+            }
+
+            return 0;
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*CONSULTAR CATEGORIAS DISPONIBLES EN EL SELECT DEL FORMULARIO DE CREAR SERVICIOS*/
+        public ActionResult selectCategorias()
+        {
+            model = new List<multipleModel>();
+
+            try
+            {
+
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand Comand = new SqlCommand("LEER_CATEGORIAS", oconexion);
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+
+                    using (SqlDataReader dr = Comand.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            multipleModel oCategorias = new multipleModel();
+                            oCategorias.ID_CATEGORIA = Convert.ToInt32(dr["ID_CATEGORIA"]);
+                            oCategorias.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
+                            oCategorias.DESCRIPCION_CAT = dr["DESCRIPCION_CAT"].ToString();
+                            model.Add(oCategorias);
+
+                        }
+                    }
+                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al cargar las categorías.";
+                return View(new List<multipleModel>());
+            }
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/

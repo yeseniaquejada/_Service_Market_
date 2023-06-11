@@ -1,0 +1,28 @@
+﻿@model IEnumerable<SERVICE_MARKET.Models.multipleModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    else
+    {
+        <select class="field"  name="ID_CATEGORIA_FK" required>
+            <option value="">Selecciona una categoría</option>
+            @foreach (var categoria in Model)
+            {
+                <option value="@categoria.ID_CATEGORIA">@categoria.NOMBRE_CAT</option>
+            }
+        </select>
+    }
+</body>
+</html>
+
