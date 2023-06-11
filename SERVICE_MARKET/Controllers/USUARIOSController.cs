@@ -183,45 +183,52 @@ namespace SERVICE_MARKET.Controllers
         [HttpPost]
         public ActionResult Login(multipleModel oUsuarios)
         {
-            /*ENCRIPTANDO CONTRASEÑA*/
-            oUsuarios.CONTRASENA_USU = Encriptar(oUsuarios.CONTRASENA_USU);
-
-            /*CONECTANDO BASE DE DATOS*/
-            using (SqlConnection cn = new SqlConnection(conexion))
+            try
             {
-                /*PROCEDIMIENTO ALMACENADO VALIDAR USUARIO*/
-                SqlCommand cmd = new SqlCommand("VALIDAR_USUARIO", cn);
-                cmd.Parameters.AddWithValue("CORREO_ELECTRONICO_USU", oUsuarios.CORREO_ELECTRONICO_USU);
-                cmd.Parameters.AddWithValue("CONTRASENA_USU", oUsuarios.CONTRASENA_USU);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cn.Open();
 
-                /*LEER DATOS DEL USUARIO*/
-                SqlDataReader dr = cmd.ExecuteReader();
+                /*ENCRIPTANDO CONTRASEÑA*/
+                oUsuarios.CONTRASENA_USU = Encriptar(oUsuarios.CONTRASENA_USU);
 
-                if (dr.Read())
+                /*CONECTANDO BASE DE DATOS*/
+                using (SqlConnection cn = new SqlConnection(conexion))
                 {
-                    if (Convert.ToInt32(dr["ID_USUARIO"]) > 0)
-                    {
-                        oUsuarios.ID_USUARIO = Convert.ToInt32(dr["ID_USUARIO"]);
-                        oUsuarios.NOMBRE_COMPLETO_USU = dr["NOMBRE_COMPLETO_USU"].ToString();
-                        oUsuarios.CELULAR_USU = dr["CELULAR_USU"].ToString();
-                        oUsuarios.ID_CIUDAD_FK = Convert.ToInt32(dr["ID_CIUDAD_FK"]);
+                    /*PROCEDIMIENTO ALMACENADO VALIDAR USUARIO*/
+                    SqlCommand cmd = new SqlCommand("VALIDAR_USUARIO", cn);
+                    cmd.Parameters.AddWithValue("CORREO_ELECTRONICO_USU", oUsuarios.CORREO_ELECTRONICO_USU);
+                    cmd.Parameters.AddWithValue("CONTRASENA_USU", oUsuarios.CONTRASENA_USU);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cn.Open();
 
-                        /*ACCESO A VISTAS*/
-                        FormsAuthentication.SetAuthCookie(oUsuarios.ID_USUARIO.ToString(), false);
-                        Session["Usuario"] = oUsuarios;
-                        return RedirectToAction("Rol", "USUARIOS");
-                    }
-                    else
+                    /*LEER DATOS DEL USUARIO*/
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    if (dr.Read())
                     {
-                        ViewData["MENSAJE_VALIDACION"] = "Usuario no encontrado";
+                        if (Convert.ToInt32(dr["ID_USUARIO"]) > 0)
+                        {
+                            oUsuarios.ID_USUARIO = Convert.ToInt32(dr["ID_USUARIO"]);
+                            oUsuarios.NOMBRE_COMPLETO_USU = dr["NOMBRE_COMPLETO_USU"].ToString();
+                            oUsuarios.CELULAR_USU = dr["CELULAR_USU"].ToString();
+                            oUsuarios.ID_CIUDAD_FK = Convert.ToInt32(dr["ID_CIUDAD_FK"]);
+
+                            /*ACCESO A VISTAS*/
+                            FormsAuthentication.SetAuthCookie(oUsuarios.ID_USUARIO.ToString(), false);
+                            Session["Usuario"] = oUsuarios;
+                            return RedirectToAction("Rol", "USUARIOS");
+                        }
+                        else
+                        {
+                            ViewData["MENSAJE_VALIDACION"] = "Usuario no encontrado";
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                ViewData["MENSAJE_VALIDACION"] = "Se produjo un error al procesar la solicitud.";
+            }
             return View();
         }
-
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
