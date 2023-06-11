@@ -151,6 +151,12 @@
     <Content Include="Imagenes\HOME\Información\Remodelacion_Albañileria.png" />
     <Content Include="Imagenes\HOME\Información\Salud_Belleza.png" />
     <Content Include="Imagenes\HOME\Información\Trabajos_Domesticos.png" />
+    <Content Include="Imagenes\USUARIOS\CategoriasCarousel\Albañileria.jpg" />
+    <Content Include="Imagenes\USUARIOS\CategoriasCarousel\Belleza.jpg" />
+    <Content Include="Imagenes\USUARIOS\CategoriasCarousel\Limpieza.jpg" />
+    <Content Include="Imagenes\USUARIOS\CategoriasCarousel\Mantenimiento.jpg" />
+    <Content Include="Imagenes\USUARIOS\CategoriasCarousel\Remodelacion.jpg" />
+    <Content Include="Imagenes\USUARIOS\CategoriasCarousel\Salud.jpg" />
     <Content Include="Imagenes\USUARIOS\CategoriasU\Mantenimiento.jpg" />
     <Content Include="Imagenes\USUARIOS\CategoriasU\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\CategoriasU\Salud_Belleza.jpg" />
@@ -159,6 +165,7 @@
     <Content Include="Imagenes\USUARIOS\Login\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Salud_Belleza.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Trabajos_Domesticos.jpg" />
+    <Content Include="Imagenes\USUARIOS\NuevoServicio.jpg" />
     <Content Include="Imagenes\USUARIOS\Registro\Mantenimiento.jpg" />
     <Content Include="Imagenes\USUARIOS\Registro\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\Registro\Salud_Belleza.jpg" />
@@ -222,6 +229,8 @@
     <Content Include="Views\USUARIOS\Buscar.cshtml" />
     <Content Include="Views\USUARIOS\Categorias.cshtml" />
     <Content Include="Views\USUARIOS\InfoCategorias.cshtml" />
+    <Content Include="Views\USUARIOS\CrearServicio.cshtml" />
+    <Content Include="Views\USUARIOS\selectCategorias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
