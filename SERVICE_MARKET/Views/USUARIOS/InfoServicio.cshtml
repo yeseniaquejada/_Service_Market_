@@ -1,7 +1,7 @@
-﻿@model SERVICE_MARKET.Models.multipleModel
+﻿@model IEnumerable<SERVICE_MARKET.Models.multipleModel>
 
 @{
-    ViewBag.Title = "Crear nuevo servicio";
+    ViewBag.Title = "Información del Servicio";
     Layout = "~/Views/Shared/_Layout_Usuarios.cshtml";
 }
 
@@ -20,10 +20,9 @@
 <body>
     <main>
         <div class="container containerP">
-            <div class="contact-box drop">
-                <div class="left"></div>
+            <div class="contact-box1 drop">
+                <div class="left1"></div>
                 <div class="right">
-                    <h2 class="tituloP">Nuevo Servicio</h2>
                     @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
                     {
                         <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
@@ -32,20 +31,23 @@
                     }
                     else
                     {
-                        <form action="@Url.Action("CrearServicio", "USUARIOS")" method="post" autocomplete="off">
-                            <input type="text" class="field" placeholder="Escriba el nombre del servicio" name="NOMBRE_SER" value="@Model.NOMBRE_SER" required />
-                            @Html.ValidationMessageFor(model => model.NOMBRE_SER, "", new { @class = "error-message" })
-                            <input type="number" class="field" placeholder="Digite el precio" name="PRECIO_SER" required />
-                            <textarea class="field area" placeholder="Escriba una descripción breve sobre el servicio" name="DESCRIPCION_BREVE" required>@Model.DESCRIPCION_BREVE</textarea>
-                            @Html.ValidationMessageFor(model => model.DESCRIPCION_BREVE, "", new { @class = "error-message" })
-                            <textarea class="field area" placeholder="Escriba los términos y condiciones para prestar o solicitar un servicio" name="TERMINOS_SER" required>@Model.TERMINOS_SER</textarea>
-                            <input type="hidden" name="TIPO" value="@ViewBag.TipoSeleccionado" />
-                            <div>
-                                @Html.Action("selectCategorias", "USUARIOS")
-                            </div>
-                            <button class="btnP" type="submit">Crear</button>
-                            <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = ViewBag.TipoSeleccionado })" class="btn btnP">Cancelar</a>
-                        </form>
+                        foreach (var informacion in Model)
+                        {
+                            <h1 class="tituloP">@informacion.NOMBRE_SER</h1>
+                            <p><span class="fw-bold">Precio: </span>$ @informacion.PRECIO_SER</p>
+                            <p><span class="fw-bold">Tipo: </span>@informacion.TIPO</p>
+                            <p><span class="fw-bold">Descripción: </span>@informacion.DESCRIPCION_BREVE</p>
+                            <p><span class="fw-bold">Términos: </span>@informacion.TERMINOS_SER</p>
+                            <p><span class="fw-bold">Categoría: </span>@informacion.NOMBRE_CAT</p>
+                            <p><span class="fw-bold">Usuario: </span>@informacion.NOMBRE_COMPLETO_USU</p>
+                            <p><span class="fw-bold">Celular: </span>+@informacion.CELULAR_USU</p>
+                            <p><span class="fw-bold">Ciudad: </span>@informacion.NOMBRE_CIUDAD</p>
+                            <a href="https://api.whatsapp.com/send?phone=@informacion.CELULAR_USU" class="btn btn-style m-2">
+                                <img src="~/Imagenes/USUARIOS/whatsapp.png" alt="WhatsApp" width="20"> Enviar mensaje por WhatsApp
+                            </a><br />
+                            <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = ViewBag.TipoSeleccionado })" class="btn btn-style  m-2">Volver al inicio</a>
+
+                        }
                     }
                 </div>
             </div>
@@ -122,7 +124,6 @@
                 });
             });
         </script>
-
     </main>
 
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
@@ -131,4 +132,3 @@
     <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
 </body>
 </html>
-

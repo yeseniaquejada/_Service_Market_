@@ -161,6 +161,7 @@
     <Content Include="Imagenes\USUARIOS\CategoriasU\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\CategoriasU\Salud_Belleza.jpg" />
     <Content Include="Imagenes\USUARIOS\CategoriasU\Trabajos_Domesticos.jpg" />
+    <Content Include="Imagenes\USUARIOS\Informacion.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Mantenimiento.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\USUARIOS\Login\Salud_Belleza.jpg" />
@@ -182,6 +183,7 @@
     <Content Include="Imagenes\USUARIOS\Testimonios\4.jpg" />
     <Content Include="Imagenes\USUARIOS\Testimonios\5.jpg" />
     <Content Include="Imagenes\USUARIOS\Testimonios\6.jpg" />
+    <Content Include="Imagenes\USUARIOS\whatsapp.png" />
     <Content Include="Logos\logo abajo.png" />
     <Content Include="Logos\logo derecha.png" />
     <Content Include="Logos\logo.png" />
@@ -231,6 +233,7 @@
     <Content Include="Views\USUARIOS\InfoCategorias.cshtml" />
     <Content Include="Views\USUARIOS\CrearServicio.cshtml" />
     <Content Include="Views\USUARIOS\selectCategorias.cshtml" />
+    <Content Include="Views\USUARIOS\InfoServicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

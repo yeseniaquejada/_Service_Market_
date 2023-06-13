@@ -248,9 +248,26 @@ body {
     background-color: #fff;
 }
 
+.contact-box1 {
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: left;
+    background-color: #fff;
+    font-size: 17px;
+}
+
 .left {
     height: 100%;
     background: url(../../Imagenes/USUARIOS/NuevoServicio.jpg) no-repeat center;
+    background-size: cover;
+    height: 100%;
+    filter: brightness(0.6);
+}
+
+.left1 {
+    height: 100%;
+    background: url(../../Imagenes/USUARIOS/Informacion.jpg) no-repeat center;
     background-size: cover;
     height: 100%;
     filter: brightness(0.6);
@@ -260,14 +277,15 @@ body {
     padding: 40px;
 }
 
-#tituloP {
+.tituloP {
     position: relative;
     padding-bottom: 10px;
     margin-bottom: 10px;
     font-weight: bold;
+    text-align: center;
 }
 
-    #tituloP::after {
+    .tituloP::after {
         content: '';
         position: absolute;
         left: 50%;
@@ -423,7 +441,6 @@ textarea::-webkit-scrollbar-thumb {
         background-color: #555;
     }
 
-
 @media only screen and (max-width: 991px) {
     .owl-nav {
         display: none;
@@ -455,12 +472,12 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 @media screen and (max-width: 880px) {
-    .contact-box {
+    .contact-box, .contact-box1 {
         grid-template-columns: 2fr;
     }
 
-    .left3,
-    .left4 {
+    .left,
+    .left1 {
         height: 200px;
     }
 

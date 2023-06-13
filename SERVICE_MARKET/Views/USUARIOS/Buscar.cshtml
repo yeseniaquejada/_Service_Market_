@@ -102,7 +102,7 @@
                                 <p class="card-text"><span class="bold-text">Tipo:</span> @servicios.TIPO</p>
                                 <p class="card-text"><span class="bold-text">Categoría:</span> @servicios.NOMBRE_CAT</p>
                                 <div class="card-button">
-                                    <button type="button" class="btnCard">Más información</button>
+                                    <a href="@Url.Action("InfoServicio", "USUARIOS", new { ID_SERVICIO = servicios.ID_SERVICIO, TIPO = servicios.TIPO })" class="btnCard text-decoration-none">Más información</a>
                                 </div>
                             </div>
                         </div>

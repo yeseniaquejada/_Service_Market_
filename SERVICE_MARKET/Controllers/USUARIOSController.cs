@@ -569,6 +569,58 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*METODO PARA CONSULTAR MAS INFORMACION SOBRE UN SERVICIO*/
+        [Authorize]
+        public ActionResult InfoServicio(int ID_SERVICIO, string TIPO)
+        {
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand Comand = new SqlCommand("INFORMACION_SERVICIO", oconexion);
+                    Comand.Parameters.AddWithValue("@ID_SERVICIO", ID_SERVICIO);
+                    Comand.Parameters.AddWithValue("@TIPO", TIPO);
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+
+                    List<multipleModel> informacion = new List<multipleModel>();
+
+                    using (SqlDataReader dr = Comand.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            multipleModel informacionS = new multipleModel();
+                            informacionS.ID_USUARIO = Convert.ToInt32(dr["ID_USUARIO"]);
+                            informacionS.NOMBRE_COMPLETO_USU = dr["NOMBRE_COMPLETO_USU"].ToString();
+                            informacionS.CELULAR_USU = dr["CELULAR_USU"].ToString();
+                            informacionS.NOMBRE_CIUDAD = dr["NOMBRE_CIUDAD"].ToString();
+                            informacionS.ID_SERVICIO = Convert.ToInt32(dr["ID_SERVICIO"]);
+                            informacionS.NOMBRE_SER = dr["NOMBRE_SER"].ToString();
+                            informacionS.PRECIO_SER = decimal.Parse(dr["PRECIO_SER"].ToString());
+                            informacionS.DESCRIPCION_BREVE = dr["DESCRIPCION_BREVE"].ToString();
+                            informacionS.TERMINOS_SER = dr["TERMINOS_SER"].ToString();
+                            informacionS.ESTADO_DS = dr["ESTADO_DS"].ToString();
+                            informacionS.TIPO = dr["TIPO"].ToString();
+                            informacionS.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
+
+                            informacion.Add(informacionS);
+                        }
+                    }
+
+                    ViewBag.TipoSeleccionado = TIPO;
+
+                    return View(informacion);
+                }  
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Se produjo un error al consultar información del servicio. Por favor, inténtalo de nuevo más tarde.";
+                return View("InfoServicio");
+            }
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
         /*METODO PARA CERRAR SESION USUARIOS*/
         public ActionResult CerrarSesion()
         {
