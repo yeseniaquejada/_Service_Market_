@@ -74,7 +74,7 @@
             <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
                 @ViewBag.ErrorMessage
             </div>
-        } 
+        }
         else if (ViewBag.Mensaje != null)
         {
             <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
@@ -122,9 +122,7 @@
             </div>
         }
 
-        <div class="d-grid gap-2 col-3 mx-auto d-block">
-            <a href="@Url.Action("Index", "HOME")" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Volver al inicio</a>
-        </div>
+        <a href="@Url.Action("Index", "HOME")" class="btn-style text-decoration-none drop">Volver al inicio</a>
     </div>
 
     <script>

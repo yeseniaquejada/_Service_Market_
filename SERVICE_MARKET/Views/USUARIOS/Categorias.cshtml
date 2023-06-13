@@ -70,11 +70,10 @@
                     }
                 </ul>
             </div>
-
-            <div class="d-grid gap-2 col-3 mx-auto d-block">
-                <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = ViewBag.TipoSeleccionado })" class="btn-style btn-primary px-3 py-1 fs-5 mt-4 text-decoration-none drop">Volver al inicio</a>
-            </div>
         }
+
+        <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = Request.Params["TIPO"] })" class="btn-style text-decoration-none drop">Volver al inicio</a>
+
     </div>
 
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
