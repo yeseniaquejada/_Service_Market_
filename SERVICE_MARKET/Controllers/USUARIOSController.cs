@@ -621,6 +621,69 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*METODO PARA CONSULTAR SERVICIOS PUBLICADOS POR UN USUARIO*/
+        [Authorize]
+        public ActionResult ServiciosUsuario(string TIPO, int pagina = 1, int elementosPorPagina = 12)
+        {
+            ViewBag.TipoSeleccionado = TIPO;
+
+            int idUsuario = ObtenerIdUsuarioSesion();
+
+            if (idUsuario != 0)
+            {
+                try
+                {
+                    List<multipleModel> model = new List<multipleModel>();
+
+                    using (SqlConnection oconexion = new SqlConnection(conexion))
+                    {
+                        SqlCommand Comand = new SqlCommand("SERVICIOS_USUARIO", oconexion);
+                        Comand.Parameters.AddWithValue("@ID_USUARIO", idUsuario);
+                        Comand.CommandType = CommandType.StoredProcedure;
+                        oconexion.Open();
+
+                        using (SqlDataReader dr = Comand.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                multipleModel oServicios = new multipleModel();
+                                oServicios.ID_SERVICIO = Convert.ToInt32(dr["ID_SERVICIO"]);
+                                oServicios.NOMBRE_SER = dr["NOMBRE_SER"].ToString();
+                                oServicios.PRECIO_SER = decimal.Parse(dr["PRECIO_SER"].ToString());
+                                oServicios.DESCRIPCION_BREVE = dr["DESCRIPCION_BREVE"].ToString();
+                                oServicios.TIPO = dr["TIPO"].ToString();
+                                oServicios.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
+                                model.Add(oServicios);
+                            }
+                        }
+                    }
+                    /*Calcular los índices de inicio y fin para la página actual*/
+                    int indiceInicio = (pagina - 1) * elementosPorPagina;
+                    int indiceFin = indiceInicio + elementosPorPagina;
+
+                    /*Obtener la lista de servicios para la página actual*/
+                    List<multipleModel> serviciosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+                    ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+                    ViewBag.PaginaActual = pagina;
+
+                    return View(serviciosPagina);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = "Ocurrió un error al consultar los servicios.Por favor, inténtalo de nuevo más tarde.";
+                    return View("ServiciosUsuario");
+                }
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Debe iniciar sesión para consultas tus servicios.";
+            }
+            return View("ServiciosUsuario");
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
         /*METODO PARA CERRAR SESION USUARIOS*/
         public ActionResult CerrarSesion()
         {
