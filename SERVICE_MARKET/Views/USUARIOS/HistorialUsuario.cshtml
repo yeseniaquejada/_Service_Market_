@@ -1,0 +1,80 @@
+﻿@model IEnumerable<SERVICE_MARKET.Models.multipleModel>
+
+@{
+    ViewBag.Title = "Mi historial";
+    Layout = "~/Views/Shared/_Layout_Usuarios.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Usuarios.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center titulo bold-text m-5 pt-5">Mi historial</h1>
+
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+        else if (!ViewBag.TieneServiciosH)
+        {
+            <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
+               No tienes ningún servicio en tu historial.
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <script>
+                    /*Desplazamiento de la página hacia arriba cuando se carga una nueva página*/
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                </script>
+                @foreach (var servicios in Model)
+                {
+                    <div class="col col-12 col-md-4 mb-4">
+                        <div class="card card-services">
+                            <div class="card-body">
+                                <h4 class="card-title text-center bold-text">@servicios.NOMBRE_SER</h4>
+                                <p class="card-text"><span class="bold-text">Precio:</span> $@servicios.PRECIO_SER</p>
+                                <p class="card-text"><span class="bold-text">Descripción:</span> @servicios.DESCRIPCION_BREVE</p>
+                                <p class="card-text"><span class="bold-text">Tipo:</span> @servicios.TIPO</p>
+                                <p class="card-text text-danger bold-text"><span>Estado:</span> @servicios.ESTADO_DS</p>
+                                <p class="card-text"><span class="bold-text">Categoría:</span> @servicios.NOMBRE_CAT</p>
+                                <div class="card-button">
+                                    <a href="@Url.Action("", "USUARIOS", new { ID_SERVICIO = servicios.ID_SERVICIO, TIPO = servicios.TIPO })" class="btnCard text-decoration-none">Más información</a>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="pagination justify-content-center">
+                <ul class="pagination">
+                    @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("HistorialUsuario", "USUARIOS", new { pagina = i, TIPO = Request.Params["TIPO"] })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new {TIPO = Request.Params["TIPO"] })" class="btn-style m-2 text-decoration-none drop">Volver al inicio</a>
+
+    </div>
+</body>
+</html>

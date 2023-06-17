@@ -892,6 +892,85 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*METODO PARA CONSULTAR EL HISTORIAL DE SERVICIOS PUBLICADOS POR UN USUARIO*/
+        [Authorize]
+        public ActionResult HistorialUsuario(string TIPO, int pagina = 1, int elementosPorPagina = 12)
+        {
+            string Tipo = Request.Params["TIPO"];
+
+            int ID_USUARIO = ObtenerIdUsuarioSesion();
+
+            if (ID_USUARIO != 0)
+            {
+                try
+                {
+                    List<multipleModel> model = new List<multipleModel>();
+
+                    using (SqlConnection oconexion = new SqlConnection(conexion))
+                    {
+                        SqlCommand Comand = new SqlCommand("HISTORIAL_USUARIO", oconexion);
+                        Comand.Parameters.AddWithValue("@ID_USUARIO", ID_USUARIO);
+                        if (TIPO == "Publicacion")
+                        {
+                            Comand.Parameters.AddWithValue("@TIPO", "Solicitud");
+                        }
+                        else if (TIPO == "Solicitud")
+                        {
+                            Comand.Parameters.AddWithValue("@TIPO", "Publicacion");
+                        }
+                        Comand.CommandType = CommandType.StoredProcedure;
+                        oconexion.Open();
+
+                        using (SqlDataReader dr = Comand.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                multipleModel oServicios = new multipleModel();
+                                oServicios.ID_SERVICIO = Convert.ToInt32(dr["ID_SERVICIO"]);
+                                oServicios.NOMBRE_SER = dr["NOMBRE_SER"].ToString();
+                                oServicios.PRECIO_SER = decimal.Parse(dr["PRECIO_SER"].ToString());
+                                oServicios.DESCRIPCION_BREVE = dr["DESCRIPCION_BREVE"].ToString();
+                                oServicios.TIPO = dr["TIPO"].ToString();
+                                oServicios.ESTADO_DS = dr["ESTADO_DS"].ToString();
+                                oServicios.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
+                                model.Add(oServicios);
+                            }
+                        }
+                    }
+
+                    /*Calcular los índices de inicio y fin para la página actual*/
+                    int indiceInicio = (pagina - 1) * elementosPorPagina;
+                    int indiceFin = indiceInicio + elementosPorPagina;
+
+                    /*Obtener la lista de servicios para la página actual*/
+                    List<multipleModel> serviciosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+                    bool tieneServicios = serviciosPagina.Count > 0;
+                    ViewBag.TieneServiciosH = tieneServicios;
+
+                    ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+                    ViewBag.PaginaActual = pagina;
+
+                    return View(serviciosPagina);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = "Ocurrió un error al consultar tu historial de servicios. Por favor, inténtalo de nuevo más tarde.";
+                    ViewBag.TieneServiciosH = false;
+                    return View("HistorialUsuario");
+                }
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Debe iniciar sesión para consultar tu historial de servicios.";
+            }
+
+            ViewBag.TieneServiciosH = false;
+            return View("HistorialUsuario");
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
         /*METODO PARA CERRAR SESION USUARIOS*/
         public ActionResult CerrarSesion()
         {
