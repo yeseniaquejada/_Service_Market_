@@ -20,7 +20,7 @@
     <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <img id="logo" src="~/Logos/logo.png" />
-            <a id="service" class="navbar-brand" href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new {TIPO = ViewBag.TipoSeleccionado})">
+            <a id="service" class="navbar-brand" href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = Request.Params["TIPO"] })">
                 Service Market
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
@@ -34,7 +34,7 @@
                 <div class="offcanvas-body">
                     <form class="d-flex" role="search" action="@Url.Action("Buscar","USUARIOS")" method="post" autocomplete="off">
                         <input class="busquedad form-control me-2" type="search" placeholder="Buscar Servicios" aria-label="Search" name="NOMBRE_SER">
-                        <input type="hidden" name="TIPO" value="@ViewBag.TipoSeleccionado" />
+                        <input type="hidden" name="TIPO" value="@Request.Params["TIPO"]" />
                         <button class="btn btn-primary" type="submit">Buscar</button>
                     </form>
                     <br />
@@ -43,16 +43,23 @@
                             <a class="item nav-link" href="@Url.Action("Rol", "USUARIOS")">Página principal</a>
                         </li>
                         <li class="nav-item">
-                            <a class="item nav-link" href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new {TIPO = ViewBag.TipoSeleccionado})">Servicios disponibles</a>
+                            @if (Request.Params["TIPO"] == "Publicacion")
+                            {
+                                <a class="item nav-link" href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = Request.Params["TIPO"] })">Publicaciones disponibles</a>
+                            }
+                            else if (Request.Params["TIPO"] == "Solicitud")
+                            {
+                                <a class="item nav-link" href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = Request.Params["TIPO"] })">Solicitudes disponibles</a>
+                            }
                         </li>
                         <li class="nav-item">
-                            <a class="item nav-link" href="@Url.Action("CrearServicio", "USUARIOS", new {TIPO = ViewBag.TipoSeleccionado})">Crear nuevo servicio</a>
+                            <a class="item nav-link" href="@Url.Action("CrearServicio", "USUARIOS", new { TIPO = Request.Params["TIPO"] })">Crear nuevo servicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="item nav-link" href="@Url.Action("InfoCategorias", "USUARIOS", new { TIPO = ViewBag.TipoSeleccionado })">Categorías</a>
+                            <a class="item nav-link" href="@Url.Action("InfoCategorias", "USUARIOS", new { TIPO = Request.Params["TIPO"] })">Categorías</a>
                         </li>
                         <li class="nav-item">
-                            <a class="item nav-link" href="@Url.Action("ServiciosUsuario", "USUARIOS", new { TIPO = ViewBag.TipoSeleccionado })">Mis servicios</a>
+                            <a class="item nav-link" href="@Url.Action("ServiciosUsuario", "USUARIOS", new { TIPO = Request.Params["TIPO"] })">Mis servicios</a>
                         </li>
                         <li class="nav-item">
                             <a class="item nav-link" href="@Url.Action("", "USUARIOS")">Mi historial</a>

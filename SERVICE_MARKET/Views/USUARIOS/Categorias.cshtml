@@ -18,7 +18,15 @@
 <body>
     <div class="container">
         <br /><br /><br /><br />
-        <h1 class="text-center titulo bold-text">Servicios y Solicitudes</h1>
+        @if (Request.Params["TIPO"] == "Publicacion")
+        {
+            <h1 class="text-center titulo bold-text">Publicaciones</h1>
+        }
+        else if (Request.Params["TIPO"] == "Solicitud")
+        {
+            <h1 class="text-center titulo bold-text">Solicitudes</h1>
+        }
+
         @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
         {
             <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
@@ -65,7 +73,7 @@
                     @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
                     {
                         <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = Request.Params["ID_CATEGORIA"], pagina = i, TIPO = ViewBag.TipoSeleccionado })">@i</a>
+                            <a class="page-link" href="@Url.Action("Categorias", "USUARIOS", new { ID_CATEGORIA = Request.Params["ID_CATEGORIA"], pagina = i, TIPO = Request.Params["TIPO"] })">@i</a>
                         </li>
                     }
                 </ul>

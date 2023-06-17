@@ -235,6 +235,7 @@
     <Content Include="Views\USUARIOS\selectCategorias.cshtml" />
     <Content Include="Views\USUARIOS\InfoServicio.cshtml" />
     <Content Include="Views\USUARIOS\ServiciosUsuario.cshtml" />
+    <Content Include="Views\USUARIOS\EditarServicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

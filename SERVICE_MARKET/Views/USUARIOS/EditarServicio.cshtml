@@ -1,7 +1,7 @@
 ﻿@model SERVICE_MARKET.Models.multipleModel
 
 @{
-    ViewBag.Title = "Crear nuevo servicio";
+    ViewBag.Title = "Editar servicio";
     Layout = "~/Views/Shared/_Layout_Usuarios.cshtml";
 }
 
@@ -19,11 +19,11 @@
 </head>
 <body>
     <main>
-        <div class="container containerP">
+        <div class="containerP">
             <div class="contact-box drop">
                 <div class="left"></div>
                 <div class="right">
-                    <h2 class="tituloP">Nuevo Servicio</h2>
+                    <h2 class="tituloP">Editar Servicio</h2>
                     @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
                     {
                         <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
@@ -33,21 +33,29 @@
                     }
                     else
                     {
-                        <form action="@Url.Action("CrearServicio", "USUARIOS")" method="post" autocomplete="off">
-                            <input type="text" class="field" placeholder="Escriba el nombre del servicio" name="NOMBRE_SER" value="@Model.NOMBRE_SER" required />
+                        <form action="@Url.Action("EditarServicio", "USUARIOS")" method="post" autocomplete="off">
+                            <input type="hidden" name="ID_SERVICIO" value="@Model.ID_SERVICIO" />
+                            <label class="bold-text">Nombre del servicio:</label>
+                            <input type="text" class="field" name="NOMBRE_SER" value="@Model.NOMBRE_SER" required />
                             @Html.ValidationMessageFor(model => model.NOMBRE_SER, "", new { @class = "error-message" })
-                            <input type="number" class="field" placeholder="Digite el precio" name="PRECIO_SER" required />
-                            <textarea class="field area" placeholder="Escriba una descripción breve sobre el servicio" name="DESCRIPCION_BREVE" required>@Model.DESCRIPCION_BREVE</textarea>
+                            <label class="bold-text">Precio:</label>
+                            <input type="number" class="field" name="PRECIO_SER" value="@Model.PRECIO_SER" required />
+                            <label class="bold-text">Descripción:</label>
+                            <textarea class="field area" name="DESCRIPCION_BREVE" required>@Model.DESCRIPCION_BREVE</textarea>
                             @Html.ValidationMessageFor(model => model.DESCRIPCION_BREVE, "", new { @class = "error-message" })
-                            <textarea class="field area" placeholder="Escriba los términos y condiciones para prestar o solicitar un servicio" name="TERMINOS_SER" required>@Model.TERMINOS_SER</textarea>
-                            <input type="hidden" name="TIPO" value="@Request.Params["TIPO"]" />
+                            <label class="bold-text">Términos:</label>
+                            <textarea class="field area" name="TERMINOS_SER" required>@Model.TERMINOS_SER</textarea>
                             <div>
-                                @Html.Action("selectCategorias", "USUARIOS")
+                                <label class="bold-text">Categoría:</label>
+                                @Html.DropDownListFor(model => model.ID_CATEGORIA_FK, new SelectList(ViewBag.Categorias, "ID_CATEGORIA", "NOMBRE_CAT"), "Seleccione una categoría", new { @class = "field" })
+                                @Html.ValidationMessageFor(model => model.ID_CATEGORIA_FK, "", new { @class = "error-message" })
                             </div>
-                            <button class="btnP " type="submit">Crear</button>
-                            <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = Request.Params["TIPO"] })" class="btn btnP">Cancelar</a>
+                            <input type="hidden" name="TIPO" value="@Model.TIPO" />
+                            <input type="hidden" name="ID_USUARIO_FK" value="@Model.ID_USUARIO_FK" />
+                            <button class="btnP" type="submit">Guardar cambios</button>
                         </form>
                     }
+                    <a href="@Url.Action("ServiciosUsuario", "USUARIOS", new { TIPO = Request.Params["TIPO"] == "Publicacion" ? "Solicitud" : "Publicacion" })" class="btn btnP">Cancelar</a>
                 </div>
             </div>
         </div>
@@ -90,7 +98,7 @@
                 </div>
             </div>
 
-            <center><a href="@Url.Action("InfoCategorias", "USUARIOS", new { TIPO = Request.Params["TIPO"]})" class="btn-style text-decoration-none drop">Ver categorías</a></center>
+            <center><a href="@Url.Action("InfoCategorias", "USUARIOS", new { TIPO = Request.Params["TIPO"] == "Publicacion" ? "Solicitud" : "Publicacion" })" class="btn-style text-decoration-none drop">Ver categorías</a></center>
         </div>
 
         <script>
@@ -132,4 +140,3 @@
     <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
 </body>
 </html>
-

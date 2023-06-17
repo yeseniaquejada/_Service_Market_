@@ -19,8 +19,8 @@
 </head>
 <body>
     <main>
-        <div class="container containerP">
-            <div class="contact-box1 drop">
+        <div class="containerP">
+            <div class="contact-box drop">
                 <div class="left1"></div>
                 <div class="right">
                     @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
@@ -45,10 +45,9 @@
                             <a href="https://api.whatsapp.com/send?phone=@informacion.CELULAR_USU" class="btn btn-style m-2">
                                 <img src="~/Imagenes/USUARIOS/whatsapp.png" alt="WhatsApp" width="20"> Enviar mensaje por WhatsApp
                             </a><br />
-                            <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = ViewBag.TipoSeleccionado })" class="btn btn-style m-2">Volver al inicio</a>
-
                         }
                     }
+                    <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = ViewBag.Tipo })" class="btn btn-style m-2">Volver al inicio</a>
                 </div>
             </div>
         </div>
@@ -91,7 +90,7 @@
                 </div>
             </div>
 
-            <center><a href="@Url.Action("InfoCategorias", "USUARIOS", new { TIPO = ViewBag.TipoSeleccionado })" class="btn-style text-decoration-none drop">Ver categorías</a></center>
+            <center><a href="@Url.Action("InfoCategorias", "USUARIOS", new {  TIPO = ViewBag.Tipo })" class="btn-style text-decoration-none drop">Ver categorías</a></center>
         </div>
 
         <script>

@@ -236,9 +236,10 @@ namespace SERVICE_MARKET.Controllers
         [Authorize]
         public ActionResult Rol()
         {
-            multipleModel usuario = (multipleModel)Session["Usuario"];
-            ViewBag.TipoSeleccionado = usuario.TIPO;
-            return View(usuario);
+            multipleModel oUsuarios = (multipleModel)Session["Usuario"];
+            string Tipo = Request.Params["TIPO"];
+            oUsuarios.TIPO = Tipo;
+            return View(oUsuarios);
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
@@ -284,7 +285,7 @@ namespace SERVICE_MARKET.Controllers
 
                 ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
                 ViewBag.PaginaActual = pagina;
-                ViewBag.TipoSeleccionado = TIPO;
+                string Tipo = Request.Params["TIPO"];
 
                 return View(serviciosPagina);
             }
@@ -301,11 +302,11 @@ namespace SERVICE_MARKET.Controllers
         [Authorize]
         public ActionResult Buscar(string NOMBRE_SER, string TIPO = null, int pagina = 1, int elementosPorPagina = 12)
         {
-            ViewBag.TipoSeleccionado = TIPO;
+            string Tipo = Request.Params["TIPO"];
 
             try
             {
-                if (string.IsNullOrEmpty(NOMBRE_SER) || string.IsNullOrEmpty(TIPO))
+                if (string.IsNullOrEmpty(NOMBRE_SER) || string.IsNullOrEmpty(Tipo))
                 {
                     ViewBag.Mensaje = "Por favor, ingresa al menos un criterio de búsqueda.";
                     return View();
@@ -344,7 +345,7 @@ namespace SERVICE_MARKET.Controllers
                     ViewBag.Mensaje = "No se encontró el servicio que estabas buscando.";
                     return View();
                 }
-              
+
                 /*Calcular los índices de inicio y fin para la página actual*/
                 int indiceInicio = (pagina - 1) * elementosPorPagina;
                 int indiceFin = indiceInicio + elementosPorPagina;
@@ -366,7 +367,6 @@ namespace SERVICE_MARKET.Controllers
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
         /*METODO PARA CATEGORIZAR LAS PUBLICACIONES Y SOLICITUDES DE SERVICIOS DISPONIBLES*/
-
         [Authorize]
         public ActionResult Categorias(string TIPO = null, int? ID_CATEGORIA = null, int pagina = 1, int elementosPorPagina = 12)
         {
@@ -416,7 +416,7 @@ namespace SERVICE_MARKET.Controllers
 
                 ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
                 ViewBag.PaginaActual = pagina;
-                ViewBag.TipoSeleccionado = TIPO;
+                string Tipo = Request.Params["TIPO"];
 
                 return View(serviciosPagina);
             }
@@ -431,9 +431,9 @@ namespace SERVICE_MARKET.Controllers
 
         /*VISTA PARA VISUALIZAR INFORMACION DE LAS CATEGORIAS*/
         [Authorize]
-        public ActionResult InfoCategorias(string TIPO)
+        public ActionResult InfoCategorias(string TIPO, multipleModel oServicios)
         {
-            ViewBag.TipoSeleccionado = TIPO;
+            string Tipo = Request.Params["TIPO"];
             return View();
         }
 
@@ -441,34 +441,32 @@ namespace SERVICE_MARKET.Controllers
 
         /*METODO PARA CREAR NUEVOS SERVICIOS*/
         [Authorize]
-
         [HttpGet]
         public ActionResult CrearServicio(string TIPO)
         {
-            multipleModel oServicio = new multipleModel();
-            ViewBag.TipoSeleccionado = TIPO;
-            return View(oServicio);
+            multipleModel oServicios = new multipleModel();
+            string Tipo = Request.Params["TIPO"];
+            return View(oServicios);
         }
 
-
         [HttpPost]
-        public ActionResult CrearServicio(multipleModel oServicio, string TIPO)
+        public ActionResult CrearServicio(multipleModel oServicios, string TIPO)
         {
-            ViewBag.TipoSeleccionado = TIPO;
+            string Tipo = Request.Params["TIPO"];
 
             int idUsuario = ObtenerIdUsuarioSesion();
 
-                if (idUsuario != 0)
-                {
+            if (idUsuario != 0)
+            {
 
                 try
                 {
-                    if (oServicio.NOMBRE_SER.Length > 70)
+                    if (oServicios.NOMBRE_SER.Length > 70)
                     {
                         ModelState.AddModelError("NOMBRE_SER", "* El nombre del servicio excede la longitud permitida.");
                     }
 
-                    if (oServicio.DESCRIPCION_BREVE.Length > 500)
+                    if (oServicios.DESCRIPCION_BREVE.Length > 500)
                     {
                         ModelState.AddModelError("DESCRIPCION_BREVE", "* La descripción excede la longitud permitida.");
                     }
@@ -482,10 +480,10 @@ namespace SERVICE_MARKET.Controllers
                             /*PROCEDIMIENTO ALMACENADO CREAR SERVICIOS*/
                             cn.Open();
                             SqlCommand cmd = new SqlCommand("CREAR_SERVICIOS", cn);
-                            cmd.Parameters.AddWithValue("@NOMBRE_SER", oServicio.NOMBRE_SER);
-                            cmd.Parameters.AddWithValue("@PRECIO_SER", oServicio.PRECIO_SER);
-                            cmd.Parameters.AddWithValue("@DESCRIPCION_BREVE", oServicio.DESCRIPCION_BREVE);
-                            cmd.Parameters.AddWithValue("@TERMINOS_SER", oServicio.TERMINOS_SER);
+                            cmd.Parameters.AddWithValue("@NOMBRE_SER", oServicios.NOMBRE_SER);
+                            cmd.Parameters.AddWithValue("@PRECIO_SER", oServicios.PRECIO_SER);
+                            cmd.Parameters.AddWithValue("@DESCRIPCION_BREVE", oServicios.DESCRIPCION_BREVE);
+                            cmd.Parameters.AddWithValue("@TERMINOS_SER", oServicios.TERMINOS_SER);
                             if (TIPO == "Publicacion")
                             {
                                 cmd.Parameters.AddWithValue("@TIPO", "Solicitud");
@@ -495,11 +493,11 @@ namespace SERVICE_MARKET.Controllers
                                 cmd.Parameters.AddWithValue("@TIPO", "Publicacion");
                             }
                             cmd.Parameters.AddWithValue("@ID_USUARIO_FK", idUsuario);
-                            cmd.Parameters.AddWithValue("@ID_CATEGORIA_FK", oServicio.ID_CATEGORIA_FK);
+                            cmd.Parameters.AddWithValue("@ID_CATEGORIA_FK", oServicios.ID_CATEGORIA_FK);
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.ExecuteNonQuery();
 
-                            return RedirectToAction("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = TIPO });
+                            return RedirectToAction("ServiciosUsuario", "USUARIOS", new { TIPO = TIPO });
                         }
                     }
                 }
@@ -512,7 +510,7 @@ namespace SERVICE_MARKET.Controllers
             {
                 ViewBag.ErrorMessage = "Debe iniciar sesión para crear un servicio.";
             }
-            return View("CrearServicio", oServicio);
+            return View("CrearServicio", oServicios);
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
@@ -607,10 +605,28 @@ namespace SERVICE_MARKET.Controllers
                         }
                     }
 
-                    ViewBag.TipoSeleccionado = TIPO;
+                    string referringActionName = Request.Headers["Referer"].ToString();
+                    string Tipo = Request.Params["TIPO"];
 
+                    if (referringActionName.Contains("Publicaciones_Solicitudes"))
+                    {
+                        Tipo = Request.Params["TIPO"];
+                    }
+                    else if (referringActionName.Contains("EditarServicio") || referringActionName.Contains("ServiciosUsuario"))
+                    {
+                        if (Tipo == "Publicacion")
+                        {
+                            Tipo = "Solicitud";
+                        }
+                        else if (Tipo == "Solicitud")
+                        {
+                            Tipo = "Publicacion";
+                        }
+                    }
+
+                    ViewBag.Tipo = Tipo;
                     return View(informacion);
-                }  
+                }
             }
             catch (Exception ex)
             {
@@ -625,11 +641,11 @@ namespace SERVICE_MARKET.Controllers
         [Authorize]
         public ActionResult ServiciosUsuario(string TIPO, int pagina = 1, int elementosPorPagina = 12)
         {
-            ViewBag.TipoSeleccionado = TIPO;
+            string Tipo = Request.Params["TIPO"];
 
-            int idUsuario = ObtenerIdUsuarioSesion();
+            int ID_USUARIO = ObtenerIdUsuarioSesion();
 
-            if (idUsuario != 0)
+            if (ID_USUARIO != 0)
             {
                 try
                 {
@@ -638,7 +654,15 @@ namespace SERVICE_MARKET.Controllers
                     using (SqlConnection oconexion = new SqlConnection(conexion))
                     {
                         SqlCommand Comand = new SqlCommand("SERVICIOS_USUARIO", oconexion);
-                        Comand.Parameters.AddWithValue("@ID_USUARIO", idUsuario);
+                        Comand.Parameters.AddWithValue("@ID_USUARIO", ID_USUARIO);
+                        if (TIPO == "Publicacion")
+                        {
+                            Comand.Parameters.AddWithValue("@TIPO", "Solicitud");
+                        }
+                        else if (TIPO == "Solicitud")
+                        {
+                            Comand.Parameters.AddWithValue("@TIPO", "Publicacion");
+                        }
                         Comand.CommandType = CommandType.StoredProcedure;
                         oconexion.Open();
 
@@ -664,6 +688,9 @@ namespace SERVICE_MARKET.Controllers
                     /*Obtener la lista de servicios para la página actual*/
                     List<multipleModel> serviciosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
 
+                    bool tieneServicios = serviciosPagina.Count > 0;
+                    ViewBag.TieneServicios = tieneServicios;
+
                     ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
                     ViewBag.PaginaActual = pagina;
 
@@ -672,6 +699,7 @@ namespace SERVICE_MARKET.Controllers
                 catch (Exception ex)
                 {
                     ViewBag.ErrorMessage = "Ocurrió un error al consultar los servicios.Por favor, inténtalo de nuevo más tarde.";
+                    ViewBag.TieneServicios = false;
                     return View("ServiciosUsuario");
                 }
             }
@@ -679,7 +707,187 @@ namespace SERVICE_MARKET.Controllers
             {
                 ViewBag.ErrorMessage = "Debe iniciar sesión para consultas tus servicios.";
             }
+            ViewBag.TieneServicios = false;
             return View("ServiciosUsuario");
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA ACTUALIZAR SERVICIOS PUBLICADOS POR UN USUARIO*/
+        [Authorize]
+        [HttpGet]
+        public ActionResult EditarServicio(int? ID_SERVICIO, multipleModel oServicios)
+        {
+            string Tipo = Request.Params["TIPO"];
+
+            if (ID_SERVICIO == null)
+            {
+                if (oServicios.TIPO == "Publicacion")
+                {
+                    Tipo = "Solicitud";
+                }
+                else if (oServicios.TIPO == "Solicitud")
+                {
+                    Tipo = "Publicacion";
+                }
+
+                return RedirectToAction("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = Tipo });
+            }
+
+            oServicios = ObtenerServicioPorId(ID_SERVICIO.Value);
+
+            if (oServicios != null)
+            {
+                int ID_USUARIO = ObtenerIdUsuarioSesion();
+
+                List<multipleModel> oCategorias = ObtenerCategorias();
+
+                if (ID_USUARIO != 0 && ID_USUARIO == oServicios.ID_USUARIO_FK)
+                {
+                    ViewBag.Categorias = oCategorias;
+                    return View(oServicios);
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "No tiene permisos para editar este servicio.";
+                }
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "El servicio no existe.";
+            }
+
+            string TIPO = (oServicios != null && oServicios.TIPO == "Publicacion") ? "Publicacion" : "Solicitud";
+            return RedirectToAction("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = TIPO });
+        }
+
+        [HttpPost]
+        public ActionResult EditarServicio(multipleModel oServicios, String TIPO)
+        {
+            int ID_USUARIO = ObtenerIdUsuarioSesion();
+
+            if (ID_USUARIO != 0 && ID_USUARIO == oServicios.ID_USUARIO_FK)
+            {
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        using (SqlConnection cn = new SqlConnection(conexion))
+                        {
+                            cn.Open();
+                            SqlCommand cmd = new SqlCommand("ACTUALIZAR_SERVICIO", cn);
+                            cmd.Parameters.AddWithValue("@ID_SERVICIO", oServicios.ID_SERVICIO);
+                            cmd.Parameters.AddWithValue("@NOMBRE_SER", oServicios.NOMBRE_SER);
+                            cmd.Parameters.AddWithValue("@PRECIO_SER", oServicios.PRECIO_SER);
+                            cmd.Parameters.AddWithValue("@DESCRIPCION_BREVE", oServicios.DESCRIPCION_BREVE);
+                            cmd.Parameters.AddWithValue("@TERMINOS_SER", oServicios.TERMINOS_SER);
+                            cmd.Parameters.AddWithValue("@ID_CATEGORIA_FK", oServicios.ID_CATEGORIA_FK);
+                            cmd.Parameters.AddWithValue("@TIPO", TIPO);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.ExecuteNonQuery();
+
+                            return RedirectToAction("InfoServicio", "USUARIOS", new { ID_SERVICIO = oServicios.ID_SERVICIO, TIPO = oServicios.TIPO });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = "No es posible editar el servicio en este momento. Por favor, inténtelo de nuevo más tarde.";
+                }
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "No tiene permisos para editar este servicio.";
+            }
+
+            return View(oServicios);
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA OBTENER UN SERVICIO POR SU ID*/
+        private multipleModel ObtenerServicioPorId(int ID_SERVICIO)
+        {
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT s.*, c.NOMBRE_CAT FROM SERVICIOS s INNER JOIN CATEGORIAS c ON s.ID_CATEGORIA_FK = c.ID_CATEGORIA WHERE s.ID_SERVICIO = @ID_SERVICIO", cn);
+                cmd.Parameters.AddWithValue("@ID_SERVICIO", ID_SERVICIO);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    multipleModel oServicios = new multipleModel();
+                    oServicios.ID_SERVICIO = (int)reader["ID_SERVICIO"];
+                    oServicios.NOMBRE_SER = reader["NOMBRE_SER"].ToString();
+                    oServicios.PRECIO_SER = (decimal)reader["PRECIO_SER"];
+                    oServicios.DESCRIPCION_BREVE = reader["DESCRIPCION_BREVE"].ToString();
+                    oServicios.TERMINOS_SER = reader["TERMINOS_SER"].ToString();
+                    oServicios.ID_CATEGORIA_FK = (int)reader["ID_CATEGORIA_FK"];
+                    oServicios.ID_USUARIO_FK = (int)reader["ID_USUARIO_FK"];
+                    oServicios.TIPO = reader["TIPO"].ToString();
+                    oServicios.NOMBRE_CAT = reader["NOMBRE_CAT"].ToString();
+
+                    return oServicios;
+                }
+            }
+
+            return null;
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA OBTENER LISTA DE CATEGORIAS*/
+        private List<multipleModel> ObtenerCategorias()
+        {
+            List<multipleModel> oCategorias = new List<multipleModel>();
+
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM CATEGORIAS", cn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    multipleModel categoria = new multipleModel();
+                    categoria.ID_CATEGORIA = (int)reader["ID_CATEGORIA"];
+                    categoria.NOMBRE_CAT = reader["NOMBRE_CAT"].ToString();
+                    categoria.DESCRIPCION_CAT = reader["DESCRIPCION_CAT"].ToString();
+
+                    oCategorias.Add(categoria);
+                }
+            }
+
+            return oCategorias;
+        }
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA ELIMINAR SERVICIOS PUBLICADOS POR UN USUARIO*/
+        [Authorize]
+        public ActionResult EliminarServicio(int ID_SERVICIO)
+        {
+            string Tipo = Request.Params["TIPO"];
+
+            try
+            {
+                int ID_USUARIO = ObtenerIdUsuarioSesion();
+
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand Comand = new SqlCommand("BORRAR_SERVICIOS", oconexion);
+                    Comand.Parameters.AddWithValue("@ID_SERVICIO", ID_SERVICIO);
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+                    Comand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.MensajeEliminar = "Ocurrió un error al eliminar el servicio. Por favor, inténtalo de nuevo más tarde.";
+            }
+
+            return RedirectToAction("ServiciosUsuario", "USUARIOS", new { TIPO = Tipo });
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/

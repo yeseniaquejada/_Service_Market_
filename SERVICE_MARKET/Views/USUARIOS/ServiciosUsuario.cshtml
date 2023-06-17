@@ -17,11 +17,24 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center titulo bold-text m-5 pt-5">Mi Servicios y Solicitudes</h1>
+        @if (Request.Params["TIPO"] == "Publicacion")
+        {
+            <h1 class="text-center titulo bold-text m-5 pt-5">Mis Solicitudes</h1>
+        }
+        else if (Request.Params["TIPO"] == "Solicitud")
+        {
+            <h1 class="text-center titulo bold-text m-5 pt-5">Mis Publicaciones</h1>
+        }
         @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
         {
             <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
                 @ViewBag.ErrorMessage
+            </div>
+        }
+        else if (!ViewBag.TieneServicios)
+        {
+            <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
+                No has publicado ningún servicio.
             </div>
         }
         else
@@ -45,11 +58,49 @@
                                 <p class="card-text"><span class="bold-text">Tipo:</span> @servicios.TIPO</p>
                                 <p class="card-text"><span class="bold-text">Categoría:</span> @servicios.NOMBRE_CAT</p>
                                 <div class="card-button">
-                                    <a href="@Url.Action("", "USUARIOS", new { ID_SERVICIO = servicios.ID_SERVICIO, TIPO = servicios.TIPO })" class="btnCard text-decoration-none">Más información</a>
+                                    <a href="@Url.Action("InfoServicio", "USUARIOS", new { ID_SERVICIO = servicios.ID_SERVICIO, TIPO = servicios.TIPO })" class="btnCard text-decoration-none">Más información</a>
                                 </div>
                                 <div class="m-2">
-                                    <a href="@Url.Action("", "USUARIOS", new { ID_SERVICIO = servicios.ID_SERVICIO, TIPO = servicios.TIPO })" class="btn btn-secondary btn-sm text-decoration-none">Editar</a>
-                                    <a href="@Url.Action("", "USUARIOS", new { ID_SERVICIO = servicios.ID_SERVICIO, TIPO = servicios.TIPO })" class="btn btn-danger btn-sm text-decoration-none">Eliminar</a>
+                                    <a href="@Url.Action("EditarServicio", "USUARIOS", new { ID_SERVICIO = servicios.ID_SERVICIO, TIPO = servicios.TIPO })" class="btn btn-secondary btn-sm text-decoration-none">Editar</a>
+                                    <a href="@Url.Action("EliminarServicio", "USUARIOS", new { ID_SERVICIO = servicios.ID_SERVICIO, TIPO = Request.Params["TIPO"] })" class="btn btn-danger btn-sm text-decoration-none" onclick="confirmarEliminacion(event)">Eliminar</a>
+
+                                    <script src="~/Scripts/sweetalert.min.js"></script>
+                                    <script>
+                                        var url;
+
+                                          function confirmarEliminacion(event) {
+                                            event.preventDefault();
+                                            url = event.target.href;
+
+                                            swal({
+                                              title: "¿Estás seguro?",
+                                              text: "Esta acción no se puede deshacer",
+                                              icon: "info",
+                                              buttons: true,
+                                              dangerMode: true,
+                                            }).then((result) => {
+                                              if (result) {
+                                                setTimeout(function () {
+                                                  mostrarAlerta();
+                                                }, 1000);
+                                              }
+                                            });
+                                          }
+
+                                          function mostrarAlerta() {
+                                              swal({
+                                                title: "Eliminación exitosa",
+                                                text: "El servicio se eliminó correctamente. Puedes visualizar tu historial para más detalles.",
+                                                confirmButtonText: "OK",
+                                                closeOnConfirm: false,
+                                              }).then((result) => {
+                                                if (result) {
+                                                    window.location.href = url;
+                                                }
+                                              });
+                                            }
+                                    </script>
+
                                 </div>
                             </div>
                         </div>
@@ -62,12 +113,15 @@
                     @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
                     {
                         <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("ServiciosUsuario", "USUARIOS", new { pagina = i, TIPO = ViewBag.TipoSeleccionado })">@i</a>
+                            <a class="page-link" href="@Url.Action("ServiciosUsuario", "USUARIOS", new { pagina = i, TIPO = Request.Params["TIPO"] })">@i</a>
                         </li>
                     }
                 </ul>
             </div>
         }
+
+        <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new {TIPO = Request.Params["TIPO"] })" class="btn-style m-2 text-decoration-none drop">Volver al inicio</a>
+
     </div>
 </body>
 </html>
