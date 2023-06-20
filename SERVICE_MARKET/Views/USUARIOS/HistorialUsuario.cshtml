@@ -50,11 +50,8 @@
                                 <p class="card-text"><span class="bold-text">Precio:</span> $@servicios.PRECIO_SER</p>
                                 <p class="card-text"><span class="bold-text">Descripción:</span> @servicios.DESCRIPCION_BREVE</p>
                                 <p class="card-text"><span class="bold-text">Tipo:</span> @servicios.TIPO</p>
-                                <p class="card-text text-danger bold-text"><span>Estado:</span> @servicios.ESTADO_DS</p>
                                 <p class="card-text"><span class="bold-text">Categoría:</span> @servicios.NOMBRE_CAT</p>
-                                <div class="card-button">
-                                    <a href="@Url.Action("", "USUARIOS", new { ID_SERVICIO = servicios.ID_SERVICIO, TIPO = servicios.TIPO })" class="btnCard text-decoration-none">Más información</a>
-                                </div> 
+                                <p class="card-text text-danger bold-text" style="font-size: 18px;"><span>Estado:</span> @servicios.ESTADO_DS</p>
                             </div>
                         </div>
                     </div>

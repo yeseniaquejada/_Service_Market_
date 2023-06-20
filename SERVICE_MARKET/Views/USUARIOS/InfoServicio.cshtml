@@ -42,12 +42,61 @@
                             <p><span class="fw-bold">Usuario: </span>@informacion.NOMBRE_COMPLETO_USU</p>
                             <p><span class="fw-bold">Celular: </span>+@informacion.CELULAR_USU</p>
                             <p><span class="fw-bold">Ciudad: </span>@informacion.NOMBRE_CIUDAD</p>
-                            <a href="https://api.whatsapp.com/send?phone=@informacion.CELULAR_USU" class="btn btn-style m-2">
-                                <img src="~/Imagenes/USUARIOS/whatsapp.png" alt="WhatsApp" width="20"> Enviar mensaje por WhatsApp
-                            </a><br />
+                            if (ViewBag.AccionActual == "PaginaPrincipal")
+                            {
+                                <a href="https://api.whatsapp.com/send?phone=@informacion.CELULAR_USU" class="btn btn-style m-2">
+                                    <img src="~/Imagenes/USUARIOS/whatsapp.png" alt="WhatsApp" width="20"> Enviar mensaje por WhatsApp
+                                </a><br />
+                                <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = ViewBag.Tipo })" class="btn btn-style m-2">Volver al inicio</a>
+                            }
+                            else if (ViewBag.AccionActual == "PaginaUsuario")
+                            {
+                                <p><span class="fw-bold">Estado: </span>@informacion.ESTADO_DS</p>
+                                <p><span class="fw-bold">Fecha de publicación: </span>@DateTime.Parse(informacion.FECHA_PUBLICACION).ToString("dd/MM/yyyy")</p>
+                                <a href="@Url.Action("EditarServicio", "USUARIOS", new { ID_SERVICIO = informacion.ID_SERVICIO, TIPO = informacion.TIPO })" class="btn btn-secondary btn-sm text-decoration-none">Editar</a>
+                                <a href="@Url.Action("EliminarServicio", "USUARIOS", new { ID_SERVICIO = informacion.ID_SERVICIO, TIPO = ViewBag.Tipo })" class="btn btn-danger btn-sm text-decoration-none" onclick="confirmarEliminacion(event)">Eliminar</a>
+
+                                <script src="~/Scripts/sweetalert.min.js"></script>
+                                <script>
+                                    var url;
+
+                                    function confirmarEliminacion(event) {
+                                        event.preventDefault();
+                                        url = event.target.href;
+
+                                        swal({
+                                            title: "¿Estás seguro?",
+                                            text: "Esta acción no se puede deshacer",
+                                            icon: "info",
+                                            buttons: true,
+                                            dangerMode: true,
+                                        }).then((result) => {
+                                            if (result) {
+                                                setTimeout(function () {
+                                                    mostrarAlerta();
+                                                }, 1000);
+                                            }
+                                        });
+                                    }
+
+                                    function mostrarAlerta() {
+                                        swal({
+                                            title: "Eliminación exitosa",
+                                            text: "El servicio se eliminó correctamente. Puedes visualizar tu historial para más detalles.",
+                                            confirmButtonText: "OK",
+                                            closeOnConfirm: false,
+                                        }).then((result) => {
+                                            if (result) {
+                                                window.location.href = url;
+                                            }
+                                        });
+                                    }
+                                </script>
+                                <br />
+                                <a href="@Url.Action("ServiciosUsuario", "USUARIOS", new { TIPO = ViewBag.Tipo })" class="btn btn-style m-2">Volver</a>
+                            }                            
                         }
                     }
-                    <a href="@Url.Action("Publicaciones_Solicitudes", "USUARIOS", new { TIPO = ViewBag.Tipo })" class="btn btn-style m-2">Volver al inicio</a>
                 </div>
             </div>
         </div>

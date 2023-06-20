@@ -364,6 +364,7 @@ namespace SERVICE_MARKET.Controllers
                 return View("Buscar");
             }
         }
+
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
         /*METODO PARA CATEGORIZAR LAS PUBLICACIONES Y SOLICITUDES DE SERVICIOS DISPONIBLES*/
@@ -599,6 +600,7 @@ namespace SERVICE_MARKET.Controllers
                             informacionS.TERMINOS_SER = dr["TERMINOS_SER"].ToString();
                             informacionS.ESTADO_DS = dr["ESTADO_DS"].ToString();
                             informacionS.TIPO = dr["TIPO"].ToString();
+                            informacionS.FECHA_PUBLICACION = dr["FECHA_PUBLICACION"].ToString();
                             informacionS.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
 
                             informacion.Add(informacionS);
@@ -608,11 +610,15 @@ namespace SERVICE_MARKET.Controllers
                     string referringActionName = Request.Headers["Referer"].ToString();
                     string Tipo = Request.Params["TIPO"];
 
-                    if (referringActionName.Contains("Publicaciones_Solicitudes"))
+                    if (referringActionName.Contains("Publicaciones_Solicitudes") 
+                        || referringActionName.Contains("Categorias")
+                        || referringActionName.Contains("Buscar"))
                     {
                         Tipo = Request.Params["TIPO"];
+                        ViewBag.AccionActual = "PaginaPrincipal";
                     }
-                    else if (referringActionName.Contains("EditarServicio") || referringActionName.Contains("ServiciosUsuario"))
+                    else if (referringActionName.Contains("EditarServicio") 
+                        || referringActionName.Contains("ServiciosUsuario"))
                     {
                         if (Tipo == "Publicacion")
                         {
@@ -622,10 +628,13 @@ namespace SERVICE_MARKET.Controllers
                         {
                             Tipo = "Publicacion";
                         }
-                    }
+
+                        ViewBag.AccionActual = "PaginaUsuario";
+                    }             
 
                     ViewBag.Tipo = Tipo;
                     return View(informacion);
+
                 }
             }
             catch (Exception ex)
@@ -896,7 +905,6 @@ namespace SERVICE_MARKET.Controllers
         [Authorize]
         public ActionResult HistorialUsuario(string TIPO, int pagina = 1, int elementosPorPagina = 12)
         {
-            string Tipo = Request.Params["TIPO"];
 
             int ID_USUARIO = ObtenerIdUsuarioSesion();
 
