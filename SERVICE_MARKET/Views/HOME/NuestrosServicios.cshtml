@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Nuestros servicios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/InfoFooter.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <main>
+        <div class="container">
+            <h1 class="titulo">Nuestros servicios</h1> 
+            <p class="textInfo">Service Market es una página web dedicada a conectar a trabajadores independientes con clientes que necesitan servicios de calidad.</p>
+            <h2 class="subtitulo">¿En que consisten nuestras categorías?</h2>
+            <p class="textInfo">Te daremos una breve descripción sobre qué tratan nuestras categorías.</p>
+
+            <div class="cards">
+                <div class="card card--left drop">
+                    <h2 class="card_title text-center fw-bold">Mantenimiento</h2>
+                    <p class="card_text">Encontrarás proveedores de servicios que se especializan en diferentes áreas de mantenimiento. Estos profesionales están capacitados para realizar una amplia gama de tareas, que incluyen el mantenimiento preventivo y correctivo de equipos y maquinaria, el mantenimiento de sistemas informáticos, la gestión y reparación de infraestructuras, y otros tipos de mantenimiento. Su objetivo principal es garantizar el funcionamiento óptimo y prolongado de los activos y sistemas a los que brindan servicio, mediante inspecciones regulares, limpieza, ajustes, reparaciones y reemplazos de componentes según sea necesario. Su experiencia y conocimiento les permiten identificar y solucionar problemas de manera eficiente, minimizando los tiempos de inactividad y optimizando el rendimiento de los sistemas y equipos mantenidos.</p>
+                    <img src="~/Imagenes/HOME/Footer/Mantenimiento.png" alt="" class="card__icon">
+                </div>
+
+                <div class="card card--top drop">
+                    <h2 class="card_title text-center fw-bold">Trabajos domésticos</h2>
+                    <p class="card_text">Encontrarás prestadores de servicios que ofrecen sus habilidades y servicios para realizar tareas relacionadas con el mantenimiento y cuidado del hogar. Estos profesionales brindan servicios como limpieza, lavandería, planchado, cocinar, cuidado de niños, cuidado de personas mayores, jardinería y otras tareas domésticas. Son personas capacitadas y responsables que se encargan de mantener un ambiente limpio, ordenado y funcional en el hogar. Su objetivo es facilitar la vida diaria de las personas, brindando apoyo en las labores domésticas y cuidando del bienestar y comodidad de los miembros del hogar.</p>
+                    <img src="~/Imagenes/HOME/Footer/domestico.png" alt="" class="card__icon">
+                </div>
+
+                <div class="card card--right drop">
+                    <h2 class="card_title text-center fw-bold">Remodelación y albañilería</h2>
+                    <p class="card_text">
+                        En el área de remodelación, los prestadores de servicios se encargan de transformar y actualizar diversos espacios, ya sea en viviendas, oficinas u otros tipos de edificios. Su labor consiste en realizar modificaciones y mejoras para adaptarlos a las necesidades y gustos del cliente.
+                        <br />
+                        En cuanto al área de albañilería, se encuentran personas especializadas en la construcción, reparación y remodelación de estructuras y elementos de construcción. Su experiencia abarca desde la construcción de nuevos proyectos hasta la renovación y reparación de estructuras existentes, utilizando técnicas y materiales adecuados para asegurar la calidad y durabilidad de los trabajos realizados.
+                    </p>
+                    <img src="~/Imagenes/HOME/Footer/Albañileria.png" alt="" class="card__icon">
+                </div>
+
+                <div class="card card--bottom drop">
+                    <h2 class="card_title text-center fw-bold">Salud y belleza</h2>
+                    <p class="card_text">
+                        En el área de la salud profesionales y proveedores de servicios médicos y de atención sanitaria que brindan cuidado, tratamiento y asistencia a las personas para promover y mantener su bienestar físico, mental y emocional. Esto incluye médicos, enfermeras, terapeutas, psicólogos y otros expertos en salud.
+                        <br />
+                        En el área de la belleza profesionales especializados en ofrecer una amplia gama de servicios relacionados con el cuidado y embellecimiento personal. Estos incluyen estilistas, maquilladores, manicuristas, esteticistas y otros especialistas en belleza que proporcionan tratamientos y servicios para mejorar la apariencia física y promover la confianza y el bienestar personal.
+                    </p>
+                    <img src="~/Imagenes/HOME/Footer/salud.png" alt="" class="card__icon">
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <a href="@Url.Action("Index", "HOME")" class="btn-style m-2 text-decoration-none drop">Volver al inicio</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+

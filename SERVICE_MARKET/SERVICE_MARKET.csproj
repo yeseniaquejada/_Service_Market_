@@ -148,6 +148,10 @@
     <Content Include="Imagenes\HOME\Categorias\Remodelacion_Albañileria.jpg" />
     <Content Include="Imagenes\HOME\Categorias\Salud_Belleza.jpg" />
     <Content Include="Imagenes\HOME\Categorias\Trabajos_Domesticos.jpg" />
+    <Content Include="Imagenes\HOME\Footer\Albañileria.png" />
+    <Content Include="Imagenes\HOME\Footer\domestico.png" />
+    <Content Include="Imagenes\HOME\Footer\Mantenimiento.png" />
+    <Content Include="Imagenes\HOME\Footer\salud.png" />
     <Content Include="Imagenes\HOME\Información\Mantenimiento.png" />
     <Content Include="Imagenes\HOME\Información\Remodelacion_Albañileria.png" />
     <Content Include="Imagenes\HOME\Información\Salud_Belleza.png" />
@@ -240,6 +244,7 @@
     <Content Include="Views\USUARIOS\HistorialUsuario.cshtml" />
     <Content Include="Views\USUARIOS\InformacionUsuario.cshtml" />
     <Content Include="Views\HOME\TerminosCondiciones.cshtml" />
+    <Content Include="Views\HOME\NuestrosServicios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

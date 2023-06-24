@@ -206,5 +206,13 @@ namespace SERVICE_MARKET.Controllers
         {
             return View();
         }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*VISTA PARA VISUALIZAR NUESTROS SERVICIOS*/
+        public ActionResult NuestrosServicios()
+        {
+            return View();
+        }
     }
 }
