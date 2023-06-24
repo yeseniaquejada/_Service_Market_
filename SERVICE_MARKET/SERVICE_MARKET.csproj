@@ -245,6 +245,7 @@
     <Content Include="Views\USUARIOS\InformacionUsuario.cshtml" />
     <Content Include="Views\HOME\TerminosCondiciones.cshtml" />
     <Content Include="Views\HOME\NuestrosServicios.cshtml" />
+    <Content Include="Views\HOME\SobreNosotros.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
