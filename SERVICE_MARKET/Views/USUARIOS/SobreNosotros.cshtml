@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Sobre nosotros";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/InfoFooter.css" rel="stylesheet" />
+    <link href="~/Content/Css/Layout.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <div class="justify-content-center">
+                    <a id="service" class="navbar-brand text-center" href="@Url.Action("Rol", "USUARIOS")">
+                        <img id="logo" src="~/Logos/logo.png" />
+                        Service Market
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container drop">
+            <section class="flex_center">
+                <div class="tc_main">
+                    <div class="tc_content">
+                        <div class="tc_top">
+                            <div class="icon">
+                                <i class="fa-solid fa-circle-info" style="color: #1b6bc2;"></i>
+                            </div>
+                            <div class="title">
+                                <p>Sobre nosotros</p>
+                            </div>
+                            <div class="info">
+                                <p><span class="fw-bold">¡Bienvenido a Service Market!</span> En Service Market, nos enorgullece ser una plataforma dedicada a facilitar la prestación de servicios por parte de trabajadores independientes en diversas categorías. Ya sea que necesites servicios de mantenimiento, trabajos domésticos, remodelación y albañilería, o cuidado de salud y belleza, estamos aquí para ayudarte.</p>
+                                <p>Nuestra aplicación ha sido diseñada para brindarte acceso rápido y sencillo a una amplia variedad de servicios. Los prestadores de servicios registrados en nuestra plataforma publican sus habilidades y servicios, lo que te permite visualizar y adquirir aquellos que mejor se adapten a tus necesidades. Ya sea que estés buscando un fontanero, un jardinero, un estilista o un profesional de la salud, Service Market está aquí para ayudarte a encontrar al proveedor de servicios perfecto.</p>
+                                <p><span class="fw-bold">Entendemos que cada cliente es único y puede tener necesidades específicas.</span> Es por eso que ofrecemos la opción de solicitar servicios personalizados. Si no encuentras exactamente lo que necesitas en nuestra lista de servicios, no te preocupes. Puedes enviarnos una solicitud y estaremos encantados de ayudarte a encontrar un profesional que se ajuste a tus requisitos.</p>
+                                <p>Únete a nuestra comunidad en línea y descubre la comodidad y eficiencia de contratar servicios profesionales a través de Service Market. Estamos aquí para hacer que tus tareas diarias sean más fáciles y brindarte la tranquilidad que mereces.</p>
+                            </div>
+                        </div>
+
+                        <div class="tc_bottom">
+                            <div class="title">
+                                <p>¡Gracias por confiar en Service Market para satisfacer tus necesidades de servicios independientes!</p>
+                            </div>
+                            <div style="display: flex; justify-content: center;">
+                                <a href="@Url.Action("Rol", "USUARIOS")" class="btn-style m-2 text-decoration-none drop">Volver al inicio</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-col">
+            <h4>Service Market</h4>
+            <ul class="ul">
+                <li><a href="@Url.Action("SobreNosotros", "USUARIOS")">Sobre nosotros</a></li>
+                <li><a href="@Url.Action("NuestrosServicios", "USUARIOS")">Nuestros servicios</a></li>
+                <li><a href="@Url.Action("TerminosCondiciones", "USUARIOS")">Términos y condiciones</a></li>
+                <li><a href="#">Preguntas frecuentes</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Desarrollador</h4>
+            <ul class="ul">
+                <li><a href="#">Yesenia Quejada Rojas</a></li>
+                <li><a href="#">Valentina Zapata Florez</a></li>
+                <li><a href="#">&copy; @DateTime.Now.Year</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Síguenos</h4>
+            <div class="links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

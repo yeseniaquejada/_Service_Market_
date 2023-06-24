@@ -245,7 +245,7 @@ namespace SERVICE_MARKET.Controllers
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
-        
+
         /*METODO PARA VISUALIZAR LA INFORMACION DE UN USUARIO*/
         [Authorize]
 
@@ -343,28 +343,28 @@ namespace SERVICE_MARKET.Controllers
 
             int ID_USUARIO = ObtenerIdUsuarioSesion();
 
-                if (ID_USUARIO != 0)
+            if (ID_USUARIO != 0)
+            {
+                try
                 {
-                    try
+                    string mensaje = string.Empty;
+
+                    using (SqlConnection oconexion = new SqlConnection(conexion))
                     {
-                        string mensaje = string.Empty;
+                        SqlCommand Comand = new SqlCommand("ACTUALIZAR_USUARIO", oconexion);
+                        Comand.CommandType = CommandType.StoredProcedure;
 
-                        using (SqlConnection oconexion = new SqlConnection(conexion))
-                        {
-                            SqlCommand Comand = new SqlCommand("ACTUALIZAR_USUARIO", oconexion);
-                            Comand.CommandType = CommandType.StoredProcedure;
+                        Comand.Parameters.AddWithValue("@ID_USUARIO", oUsuarios.ID_USUARIO);
+                        Comand.Parameters.AddWithValue("@NOMBRE_COMPLETO_USU", oUsuarios.NOMBRE_COMPLETO_USU);
+                        Comand.Parameters.AddWithValue("@CELULAR_USU", oUsuarios.CELULAR_USU);
+                        Comand.Parameters.AddWithValue("@ID_CIUDAD_FK", oUsuarios.ID_CIUDAD_FK);
+                        Comand.Parameters.AddWithValue("@CORREO_ELECTRONICO_USU", oUsuarios.CORREO_ELECTRONICO_USU);
+                        Comand.Parameters.Add("@MENSAJE", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
-                            Comand.Parameters.AddWithValue("@ID_USUARIO", oUsuarios.ID_USUARIO);
-                            Comand.Parameters.AddWithValue("@NOMBRE_COMPLETO_USU", oUsuarios.NOMBRE_COMPLETO_USU);
-                            Comand.Parameters.AddWithValue("@CELULAR_USU", oUsuarios.CELULAR_USU);
-                            Comand.Parameters.AddWithValue("@ID_CIUDAD_FK", oUsuarios.ID_CIUDAD_FK);
-                            Comand.Parameters.AddWithValue("@CORREO_ELECTRONICO_USU", oUsuarios.CORREO_ELECTRONICO_USU);
-                            Comand.Parameters.Add("@MENSAJE", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-
-                            oconexion.Open();
-                            Comand.ExecuteNonQuery();
-                            mensaje = Comand.Parameters["@MENSAJE"].Value.ToString();
-                        }
+                        oconexion.Open();
+                        Comand.ExecuteNonQuery();
+                        mensaje = Comand.Parameters["@MENSAJE"].Value.ToString();
+                    }
 
                     if (!string.IsNullOrEmpty(mensaje))
                     {
@@ -374,7 +374,7 @@ namespace SERVICE_MARKET.Controllers
                     {
                         TempData["SuccessMessage"] = "La información de tu perfil se ha actualizado correctamente.";
                     }
-                    
+
                     return RedirectToAction("InformacionUsuario", "USUARIOS");
                 }
                 catch (Exception ex)
@@ -810,14 +810,14 @@ namespace SERVICE_MARKET.Controllers
                     string referringActionName = Request.Headers["Referer"].ToString();
                     string Tipo = Request.Params["TIPO"];
 
-                    if (referringActionName.Contains("Publicaciones_Solicitudes") 
+                    if (referringActionName.Contains("Publicaciones_Solicitudes")
                         || referringActionName.Contains("Categorias")
                         || referringActionName.Contains("Buscar"))
                     {
                         Tipo = Request.Params["TIPO"];
                         ViewBag.AccionActual = "PaginaPrincipal";
                     }
-                    else if (referringActionName.Contains("EditarServicio") 
+                    else if (referringActionName.Contains("EditarServicio")
                         || referringActionName.Contains("ServiciosUsuario"))
                     {
                         if (Tipo == "Publicacion")
@@ -836,7 +836,7 @@ namespace SERVICE_MARKET.Controllers
                         ViewBag.AccionActual = "PaginaUsuario";
                     }
 
-                
+
 
                     ViewBag.Tipo = Tipo;
                     return View(informacion);
@@ -908,7 +908,7 @@ namespace SERVICE_MARKET.Controllers
 
                     ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
                     ViewBag.PaginaActual = pagina;
-                    
+
                     if (TempData.ContainsKey("MensajeConfirmacion"))
                     {
                         ViewBag.MensajeConfirmacion = TempData["MensajeConfirmacion"];
@@ -1216,5 +1216,30 @@ namespace SERVICE_MARKET.Controllers
             return RedirectToAction("Index", "HOME");
         }
 
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*VISTA PARA VISUALIZAR TERMINOS Y CONDICIONES*/
+        [Authorize]
+        public ActionResult TerminosCondiciones()
+        {
+            return View();
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+        /*VISTA PARA VISUALIZAR NUESTROS SERVICIOS*/
+        [Authorize]
+        public ActionResult NuestrosServicios()
+        {
+            return View();
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*VISTA PARA VISUALIZAR SOBRE NOSOTROS*/
+        [Authorize]
+        public ActionResult SobreNosotros()
+        {
+            return View();
+        }
     }
 }
