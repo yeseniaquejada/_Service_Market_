@@ -15,11 +15,11 @@
     }
     else
     {
-        <select class="field"  name="ID_CATEGORIA_FK" required>
+        <select class="field" name="ID_CATEGORIA_FK" required>
             <option value="">Selecciona una categoría</option>
             @foreach (var categoria in Model)
             {
-                <option value="@categoria.ID_CATEGORIA">@categoria.NOMBRE_CAT</option>
+                <option value="@categoria.ID_CATEGORIA" @(categoria.ID_CATEGORIA == ViewBag.ID_CATEGORIA_FK ? "selected" : "")>@categoria.NOMBRE_CAT</option>
             }
         </select>
     }

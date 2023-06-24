@@ -16,10 +16,12 @@
     <header>
         <nav class="navbar navbar-dark bg-dark fixed-top">
             <div class="container-fluid">
-                <img id="logo" src="~/Logos/logo.png" />
-                <a id="service" class="navbar-brand" href="@Url.Action("Index", "HOME")">
-                    Service Market
-                </a>
+                <div class="justify-content-center">
+                    <a id="service" class="navbar-brand text-center" href="@Url.Action("Index", "HOME")">
+                        <img id="logo" src="~/Logos/logo.png" />
+                        Service Market
+                    </a>
+                </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>

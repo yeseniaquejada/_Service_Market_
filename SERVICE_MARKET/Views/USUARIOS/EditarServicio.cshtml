@@ -39,7 +39,7 @@
                             <input type="text" class="field" name="NOMBRE_SER" value="@Model.NOMBRE_SER" required />
                             @Html.ValidationMessageFor(model => model.NOMBRE_SER, "", new { @class = "error-message" })
                             <label class="bold-text">Precio:</label>
-                            <input type="number" class="field" name="PRECIO_SER" value="@Model.PRECIO_SER" required />
+                            <input type="text" class="field" name="PRECIO_SER" value="@Model.PRECIO_SER" required />
                             <label class="bold-text">Descripción:</label>
                             <textarea class="field area" name="DESCRIPCION_BREVE" required>@Model.DESCRIPCION_BREVE</textarea>
                             @Html.ValidationMessageFor(model => model.DESCRIPCION_BREVE, "", new { @class = "error-message" })

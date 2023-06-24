@@ -237,6 +237,7 @@
     <Content Include="Views\USUARIOS\ServiciosUsuario.cshtml" />
     <Content Include="Views\USUARIOS\EditarServicio.cshtml" />
     <Content Include="Views\USUARIOS\HistorialUsuario.cshtml" />
+    <Content Include="Views\USUARIOS\InformacionUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

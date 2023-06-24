@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrarse - Service Market</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link rel="shortcut icon" href="~/Logos/logo.png" />
     <link href="~/Content/Css/Acceso.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
@@ -89,7 +90,7 @@
                 <div class="mb-4">
                     <span class="form-label font-weight-bold">Ciudad:</span>
                     <div>
-                        @Html.Action("selectCiudades", "USUARIOS")
+                        @Html.Action("SelectCiudades", "Usuarios", new { selectedCiudadId = Model.ID_CIUDAD_FK })
                     </div>
                 </div>
                 <div class="mb-4">
@@ -104,14 +105,52 @@
                 </div>
                 <div class="mb-4">
                     <label class="form-label font-weight-bold">Contraseña</label>
-                    <input name="CONTRASENA_USU" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa tu contraseña" required>
+                    <div class="password-input">
+                        <input id="passwordInput" name="CONTRASENA_USU" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa tu contraseña" required>
+                        <i id="toggleIcon" class="fa fa-eye-slash"></i>
+                    </div>
                     @Html.ValidationMessageFor(model => model.CONTRASENA_USU, "", new { @class = "error-message" })
                 </div>
                 <div class="mb-4">
                     <label class="form-label font-weight-bold">Confirmación de contraseña</label>
-                    <input name="CONFIRMAR_CONTRASENA_U" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa nuevamente tu contraseña" required>
+                    <div class="password-input">
+                        <input id="confirmPasswordInput" name="CONFIRMAR_CONTRASENA_U" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa nuevamente tu contraseña" required>
+                        <i id="toggleConfirmIcon" class="fa fa-eye-slash"></i>
+                    </div>
                     @Html.ValidationMessageFor(model => model.CONFIRMAR_CONTRASENA_U, "", new { @class = "error-message" })
                 </div>
+
+                <script>
+                    document.getElementById('toggleIcon').addEventListener('click', function () {
+                        var passwordInput = document.getElementById('passwordInput');
+                        var toggleIcon = document.getElementById('toggleIcon');
+
+                        if (passwordInput.type === 'password') {
+                            passwordInput.type = 'text';
+                            toggleIcon.classList.remove('fa-eye-slash');
+                            toggleIcon.classList.add('fa-eye');
+                        } else {
+                            passwordInput.type = 'password';
+                            toggleIcon.classList.remove('fa-eye');
+                            toggleIcon.classList.add('fa-eye-slash');
+                        }
+                    });
+
+                    document.getElementById('toggleConfirmIcon').addEventListener('click', function () {
+                        var confirmPasswordInput = document.getElementById('confirmPasswordInput');
+                        var toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
+
+                        if (confirmPasswordInput.type === 'password') {
+                            confirmPasswordInput.type = 'text';
+                            toggleConfirmIcon.classList.remove('fa-eye-slash');
+                            toggleConfirmIcon.classList.add('fa-eye');
+                        } else {
+                            confirmPasswordInput.type = 'password';
+                            toggleConfirmIcon.classList.remove('fa-eye');
+                            toggleConfirmIcon.classList.add('fa-eye-slash');
+                        }
+                    });
+                </script>
                 <button type="submit" class="btnA btn-primary w-100">Registrarse</button>
             </form>
                 <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p-3 w-100 mt-auto">

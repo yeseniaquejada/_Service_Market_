@@ -31,6 +31,11 @@
                     }
                     else
                     {
+                        if (!string.IsNullOrEmpty(ViewBag.MensajeEditar))
+                        {
+                            <div class="alert alert-success"role="alert" style="font-size: 20px;">@ViewBag.MensajeEditar</div>
+                        }
+
                         foreach (var informacion in Model)
                         {
                             <h1 class="tituloP">@informacion.NOMBRE_SER</h1>
@@ -94,7 +99,7 @@
                                 </script>
                                 <br />
                                 <a href="@Url.Action("ServiciosUsuario", "USUARIOS", new { TIPO = ViewBag.Tipo })" class="btn btn-style m-2">Volver</a>
-                            }                            
+                            }
                         }
                     }
                 </div>

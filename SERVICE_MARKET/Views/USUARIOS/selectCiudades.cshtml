@@ -19,7 +19,14 @@
             <option value="">Selecciona una ciudad</option>
             @foreach (var ciudad in Model)
             {
-                <option value="@ciudad.ID_CIUDAD">@ciudad.NOMBRE_CIUDAD</option>
+                if (ciudad.ID_CIUDAD == ViewBag.SelectedCiudadId)
+                {
+                    <option value="@ciudad.ID_CIUDAD" selected>@ciudad.NOMBRE_CIUDAD</option>
+                }
+                else
+                {
+                    <option value="@ciudad.ID_CIUDAD">@ciudad.NOMBRE_CIUDAD</option>
+                }
             }
         </select>
     }

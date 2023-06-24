@@ -34,6 +34,14 @@ body {
     object-fit: cover;
 }
 
+.c-imgP {
+    height: 950px;
+    width: auto;
+    background-size: cover;
+    filter: brightness(0.4);
+    object-fit: cover;
+}
+
 .c-itemL {
     height: 100%;
     width: 100%;
@@ -90,3 +98,24 @@ body {
     color: #DC3545;
     font-size: 13px;
 }
+
+.password-input {
+    position: relative;
+}
+
+.password-input i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #1b6bc2;
+}
+
+    .password-input i.fa-eye {
+        color: #1b6bc2;
+    }
+
+    .password-input i.fa-eye-slash {
+        color: #1b6bc2;
+    }

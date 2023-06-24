@@ -1,0 +1,144 @@
+﻿@model SERVICE_MARKET.Models.multipleModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil - Service Market</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/Logos/logo.png" />
+    <link href="~/Content/Css/Acceso.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-dark">
+    <section class="row g-0">
+        <div class="col-lg-6 d-none d-lg-block">
+            <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item c-itemL active">
+                        <img src="~/Imagenes/USUARIOS/Registro/Trabajos_Domesticos.jpg" class="d-block w-100 c-imgP" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Trabajos domésticos</h2>
+                        </div>
+                    </div>
+                    <div class="carousel-item c-itemL">
+                        <img src="~/Imagenes/USUARIOS/Registro/Salud_Belleza.jpg" class="d-block w-100 c-imgP" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Salud y Belleza</h2>
+                        </div>
+                    </div>
+                    <div class="carousel-item c-itemL">
+                        <img src="~/Imagenes/USUARIOS/Registro/Mantenimiento.jpg" class="d-block w-100 c-imgP" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Mantenimiento</h2>
+                        </div>
+                    </div>
+                    <div class="carousel-item c-itemL">
+                        <img src="~/Imagenes/USUARIOS/Registro/Remodelacion_Albañileria.jpg" class="d-block w-100 c-imgP" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Remodelación y Albañilería</h2>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-5 d-flex flex-column aling-items-end min-vh-100 containerInfo">
+            <div class="px-lg-4 pt-lg-3 pb-lg-3">
+                <img id="logo" src="~/Logos/logo derecha.png" class="img-fluid">
+            </div>
+            <div class="px-lg-5 py-lg-1 p-4 w-100 aling-self-center">
+                <h1 class="font-weight-bold" align="center">Mi perfil</h1>
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div class="error-message alert alert-danger" role="alert">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+                else
+                {
+                    if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
+
+                    if (!string.IsNullOrEmpty(TempData["ErrorMessageBD"] as string))
+                    {
+                        <div class="alert alert-danger">@TempData["ErrorMessageBD"]</div>
+                    }
+
+                    <form class="mb-4" action="@Url.Action("EditarUsuario", "USUARIOS")" method="post" autocomplete="off">
+                        @Html.HiddenFor(model => model.ID_USUARIO)
+                        <div class="mb-4">
+                            <label class="form-label font-weight-bold">Nombre completo:</label>
+                            <input name="NOMBRE_COMPLETO_USU" type="text" class="form-control bg-dark-x border-0" value="@Model.NOMBRE_COMPLETO_USU" required>
+                            @Html.ValidationMessageFor(model => model.NOMBRE_COMPLETO_USU, "", new { @class = "error-message" })
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="form-label font-weight-bold" for="ID_CIUDAD_FK">Ciudad:</label>
+                            @Html.DropDownListFor(model => model.ID_CIUDAD_FK, (IEnumerable<SelectListItem>)ViewBag.Ciudades, "Seleccione una ciudad", new { @class = "form-control bg-dark-x border-0" })
+                            @if (Model.ID_CIUDAD_FK == 0)
+                            {
+                                <span class="error-message">* Es obligatorio seleccionar una ciudad.</span>
+                            }
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label font-weight-bold">Celular:</label>
+                            <input name="CELULAR_USU" type="text" class="form-control bg-dark-x border-0 text-light" value="@Model.CELULAR_USU" required>
+                            @Html.ValidationMessageFor(model => model.CELULAR_USU, "", new { @class = "error-message" })
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label font-weight-bold">Correo electrónico:</label>
+                            <input name="CORREO_ELECTRONICO_USU" type="email" class="form-control bg-dark-x border-0" aria-describedby="emailHelp" value="@Model.CORREO_ELECTRONICO_USU" required>
+                            @Html.ValidationMessageFor(model => model.CORREO_ELECTRONICO_USU, "", new { @class = "error-message" })
+                        </div>
+                        <button type="submit" class="btnA btn-primary w-100">Guardar cambios</button>
+                    </form>
+                    <div style="display: flex; justify-content: center;">
+                        <a href="@Url.Action("", "USUARIOS", new { ID_USUARIO = Model.ID_USUARIO })" class="font-weight-bold text-light text-decoration-none">
+                            Cambiar contraseña
+                            <i class="fa-solid fa-chevron-right" style="color: #ffffff;"></i>
+                        </a>
+                    </div>
+                }
+                <div style="display: flex; justify-content: center; margin-top: 10px;">
+                    <a href="@Url.Action("Rol", "USUARIOS", new { ID_USUARIO = Model.ID_USUARIO })" class="font-weight-bold text-decoration-none">
+                        Volver al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

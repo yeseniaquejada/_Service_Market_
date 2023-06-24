@@ -36,7 +36,7 @@
                         <form action="@Url.Action("CrearServicio", "USUARIOS")" method="post" autocomplete="off">
                             <input type="text" class="field" placeholder="Escriba el nombre del servicio" name="NOMBRE_SER" value="@Model.NOMBRE_SER" required />
                             @Html.ValidationMessageFor(model => model.NOMBRE_SER, "", new { @class = "error-message" })
-                            <input type="number" class="field" placeholder="Digite el precio" name="PRECIO_SER" required />
+                            <input type="text" class="field" placeholder="Digite el precio" name="PRECIO_SER" required />
                             <textarea class="field area" placeholder="Escriba una descripción breve sobre el servicio" name="DESCRIPCION_BREVE" required>@Model.DESCRIPCION_BREVE</textarea>
                             @Html.ValidationMessageFor(model => model.DESCRIPCION_BREVE, "", new { @class = "error-message" })
                             <textarea class="field area" placeholder="Escriba los términos y condiciones para prestar o solicitar un servicio" name="TERMINOS_SER" required>@Model.TERMINOS_SER</textarea>

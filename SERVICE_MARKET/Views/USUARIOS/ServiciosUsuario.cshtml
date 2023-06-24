@@ -39,6 +39,13 @@
         }
         else
         {
+            if (ViewBag.MensajeConfirmacion != null)
+            {
+                <div class="alert alert-success" role="alert" style="font-size: 20px;">
+                    @ViewBag.MensajeConfirmacion
+                </div>
+            }
+
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 <script>
                     /*Desplazamiento de la página hacia arriba cuando se carga una nueva página*/
@@ -68,37 +75,37 @@
                                     <script>
                                         var url;
 
-                                          function confirmarEliminacion(event) {
+                                        function confirmarEliminacion(event) {
                                             event.preventDefault();
                                             url = event.target.href;
 
                                             swal({
-                                              title: "¿Estás seguro?",
-                                              text: "Esta acción no se puede deshacer",
-                                              icon: "info",
-                                              buttons: true,
-                                              dangerMode: true,
+                                                title: "¿Estás seguro?",
+                                                text: "Esta acción no se puede deshacer",
+                                                icon: "info",
+                                                buttons: true,
+                                                dangerMode: true,
                                             }).then((result) => {
-                                              if (result) {
-                                                setTimeout(function () {
-                                                  mostrarAlerta();
-                                                }, 1000);
-                                              }
+                                                if (result) {
+                                                    setTimeout(function () {
+                                                        mostrarAlerta();
+                                                    }, 1000);
+                                                }
                                             });
-                                          }
+                                        }
 
-                                          function mostrarAlerta() {
-                                              swal({
+                                        function mostrarAlerta() {
+                                            swal({
                                                 title: "Eliminación exitosa",
                                                 text: "El servicio se eliminó correctamente. Puedes visualizar tu historial para más detalles.",
                                                 confirmButtonText: "OK",
                                                 closeOnConfirm: false,
-                                              }).then((result) => {
+                                            }).then((result) => {
                                                 if (result) {
                                                     window.location.href = url;
                                                 }
-                                              });
-                                            }
+                                            });
+                                        }
                                     </script>
 
                                 </div>
