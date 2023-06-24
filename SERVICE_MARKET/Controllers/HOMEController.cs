@@ -198,5 +198,13 @@ namespace SERVICE_MARKET.Controllers
         {
             return View();
         }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*VISTA PARA VISUALIZAR TERMINOS Y CONDICIONES*/
+        public ActionResult TerminosCondiciones()
+        {
+            return View();
+        }
     }
 }
