@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -91,6 +92,11 @@ namespace SERVICE_MARKET.Controllers
                     ModelState.AddModelError("CELULAR_USU", "* El número de celular ingresado no es válido.");
                 }
 
+                if (!ModelState.IsValid)
+                {
+                    return View(oUsuarios);
+                }
+
                 /*CONECTANDO BASE DE DATOS*/
                 using (SqlConnection cn = new SqlConnection(conexion))
                 {
@@ -110,7 +116,6 @@ namespace SERVICE_MARKET.Controllers
                     /*LEER PARAMETROS DE SALIDA*/
                     registrado = Convert.ToBoolean(cmd.Parameters["REGISTRADO"].Value);
                     mensaje = cmd.Parameters["MENSAJE"].Value.ToString();
-
                 }
 
                 ModelState.AddModelError("MENSAJE", mensaje);
@@ -135,9 +140,12 @@ namespace SERVICE_MARKET.Controllers
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
         /*CONSULTAR CIUDADES DISPONIBLES EN EL SELECT DEL FORMULARIO DE REGISTRO*/
-        public ActionResult selectCiudades()
+        public ActionResult selectCiudades(int? selectedCiudadId)
         {
+            ViewBag.SelectedCiudadId = selectedCiudadId;
+
             model = new List<multipleModel>();
+            var errorMessage = string.Empty;
 
             try
             {
@@ -160,13 +168,19 @@ namespace SERVICE_MARKET.Controllers
                         }
                     }
                 }
-                return View(model);
             }
             catch (Exception ex)
             {
                 ViewBag.ErrorMessage = "Ocurrió un error al cargar las ciudades.";
                 return View(new List<multipleModel>());
             }
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                ViewBag.ErrorMessage = errorMessage;
+            }
+
+            return View(model);
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
@@ -231,14 +245,193 @@ namespace SERVICE_MARKET.Controllers
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
+        
+        /*METODO PARA VISUALIZAR LA INFORMACION DE UN USUARIO*/
+        [Authorize]
+
+        [HttpGet]
+        public ActionResult InformacionUsuario()
+        {
+            int ID_USUARIO = ObtenerIdUsuarioSesion();
+
+            if (ID_USUARIO != 0)
+            {
+                try
+                {
+                    List<multipleModel> ciudades = ObtenerCiudades();
+
+                    ViewBag.Ciudades = ciudades.Select(c => new SelectListItem
+                    {
+                        Value = c.ID_CIUDAD.ToString(),
+                        Text = c.NOMBRE_CIUDAD
+                    }).ToList();
+
+                    using (SqlConnection oconexion = new SqlConnection(conexion))
+                    {
+                        SqlCommand Comand = new SqlCommand("INFORMACION_USUARIO", oconexion);
+                        Comand.Parameters.AddWithValue("@ID_USUARIO", ID_USUARIO);
+                        Comand.CommandType = CommandType.StoredProcedure;
+                        oconexion.Open();
+
+                        using (SqlDataReader dr = Comand.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                multipleModel oUsuarios = new multipleModel();
+                                oUsuarios.ID_USUARIO = Convert.ToInt32(dr["ID_USUARIO"]);
+                                oUsuarios.NOMBRE_COMPLETO_USU = dr["NOMBRE_COMPLETO_USU"].ToString();
+                                oUsuarios.CELULAR_USU = dr["CELULAR_USU"].ToString();
+                                oUsuarios.ID_CIUDAD_FK = Convert.ToInt32(dr["ID_CIUDAD_FK"]);
+                                oUsuarios.NOMBRE_CIUDAD = dr["NOMBRE_CIUDAD"].ToString();
+                                oUsuarios.CORREO_ELECTRONICO_USU = dr["CORREO_ELECTRONICO_USU"].ToString();
+                                return View(oUsuarios);
+                            }
+                        }
+                    }
+                    ViewBag.ErrorMessage = "No se encontró información del usuario.";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = "Ocurrió un error al obtener la información del usuario.";
+                }
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Debe iniciar sesión para consultar tu información de usuario.";
+            }
+
+            return View();
+        }
+
+        /*METODO PARA EDITAR LA INFORMACION DE UN USUARIO*/
+        [HttpPost]
+        public ActionResult EditarUsuario(multipleModel oUsuarios)
+        {
+            if (oUsuarios.NOMBRE_COMPLETO_USU.Length > 100)
+            {
+                ModelState.AddModelError("NOMBRE_COMPLETO_USU", "* El nombre excede la longitud permitida.");
+            }
+
+            if (!oUsuarios.CELULAR_USU.StartsWith("57"))
+            {
+                oUsuarios.CELULAR_USU = "57" + oUsuarios.CELULAR_USU;
+            }
+
+            Regex regexCelular = new Regex(@"^57[3-9][0-9]{9}$");
+            if (!regexCelular.IsMatch(oUsuarios.CELULAR_USU))
+            {
+                ModelState.AddModelError("CELULAR_USU", "* El número de celular ingresado no es válido.");
+                List<multipleModel> ciudades = ObtenerCiudades();
+                ViewBag.Ciudades = ciudades.Select(c => new SelectListItem
+                {
+                    Value = c.ID_CIUDAD.ToString(),
+                    Text = c.NOMBRE_CIUDAD
+                }).ToList();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                List<multipleModel> ciudades = ObtenerCiudades();
+                ViewBag.Ciudades = ciudades.Select(c => new SelectListItem
+                {
+                    Value = c.ID_CIUDAD.ToString(),
+                    Text = c.NOMBRE_CIUDAD
+                }).ToList();
+
+                return View("InformacionUsuario", oUsuarios);
+            }
+
+            int ID_USUARIO = ObtenerIdUsuarioSesion();
+
+                if (ID_USUARIO != 0)
+                {
+                    try
+                    {
+                        string mensaje = string.Empty;
+
+                        using (SqlConnection oconexion = new SqlConnection(conexion))
+                        {
+                            SqlCommand Comand = new SqlCommand("ACTUALIZAR_USUARIO", oconexion);
+                            Comand.CommandType = CommandType.StoredProcedure;
+
+                            Comand.Parameters.AddWithValue("@ID_USUARIO", oUsuarios.ID_USUARIO);
+                            Comand.Parameters.AddWithValue("@NOMBRE_COMPLETO_USU", oUsuarios.NOMBRE_COMPLETO_USU);
+                            Comand.Parameters.AddWithValue("@CELULAR_USU", oUsuarios.CELULAR_USU);
+                            Comand.Parameters.AddWithValue("@ID_CIUDAD_FK", oUsuarios.ID_CIUDAD_FK);
+                            Comand.Parameters.AddWithValue("@CORREO_ELECTRONICO_USU", oUsuarios.CORREO_ELECTRONICO_USU);
+                            Comand.Parameters.Add("@MENSAJE", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                            oconexion.Open();
+                            Comand.ExecuteNonQuery();
+                            mensaje = Comand.Parameters["@MENSAJE"].Value.ToString();
+                        }
+
+                    if (!string.IsNullOrEmpty(mensaje))
+                    {
+                        TempData["ErrorMessageBD"] = mensaje;
+                    }
+                    else
+                    {
+                        TempData["SuccessMessage"] = "La información de tu perfil se ha actualizado correctamente.";
+                    }
+                    
+                    return RedirectToAction("InformacionUsuario", "USUARIOS");
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ErrorMessage = "Ocurrió un error al actualizar la información del usuario.";
+                }
+            }
+            return View(oUsuarios);
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA OBTENER LISTA DE CIUDADES*/
+        private List<multipleModel> ObtenerCiudades()
+        {
+            List<multipleModel> ciudades = new List<multipleModel>();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(conexion))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("LEER_CIUDADES", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        multipleModel ciudad = new multipleModel();
+                        ciudad.ID_CIUDAD = (int)reader["ID_CIUDAD"];
+                        ciudad.NOMBRE_CIUDAD = reader["NOMBRE_CIUDAD"].ToString();
+
+                        ciudades.Add(ciudad);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al obtener la lista de ciudades. Detalles: " + ex.Message;
+            }
+
+            return ciudades;
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
 
         /*METODO PARA SELECCIONAR ROL*/
         [Authorize]
         public ActionResult Rol()
         {
+            int ID_USUARIO = ObtenerIdUsuarioSesion();
+
             multipleModel oUsuarios = (multipleModel)Session["Usuario"];
+
             string Tipo = Request.Params["TIPO"];
             oUsuarios.TIPO = Tipo;
+            oUsuarios.ID_USUARIO = ID_USUARIO;
             return View(oUsuarios);
         }
 
@@ -472,6 +665,9 @@ namespace SERVICE_MARKET.Controllers
                         ModelState.AddModelError("DESCRIPCION_BREVE", "* La descripción excede la longitud permitida.");
                     }
 
+                    string precioSinFormato = oServicios.PRECIO_SER.ToString().Replace(".", "").Replace(",", "");
+                    oServicios.PRECIO_SER = decimal.Parse(precioSinFormato);
+
                     if (ModelState.IsValid)
                     {
                         /*CONECTANDO BASE DE DATOS*/
@@ -497,6 +693,8 @@ namespace SERVICE_MARKET.Controllers
                             cmd.Parameters.AddWithValue("@ID_CATEGORIA_FK", oServicios.ID_CATEGORIA_FK);
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.ExecuteNonQuery();
+
+                            TempData["MensajeConfirmacion"] = "El servicio se ha creado correctamente.";
 
                             return RedirectToAction("ServiciosUsuario", "USUARIOS", new { TIPO = TIPO });
                         }
@@ -531,7 +729,7 @@ namespace SERVICE_MARKET.Controllers
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
         /*CONSULTAR CATEGORIAS DISPONIBLES EN EL SELECT DEL FORMULARIO DE CREAR SERVICIOS*/
-        public ActionResult selectCategorias()
+        public ActionResult selectCategorias(int? ID_CATEGORIA_FK)
         {
             model = new List<multipleModel>();
 
@@ -557,6 +755,8 @@ namespace SERVICE_MARKET.Controllers
                         }
                     }
                 }
+                ViewBag.ID_CATEGORIA_FK = ID_CATEGORIA_FK;
+
                 return View(model);
             }
             catch (Exception ex)
@@ -628,9 +828,15 @@ namespace SERVICE_MARKET.Controllers
                         {
                             Tipo = "Publicacion";
                         }
+                        if (TempData["MensajeEditar"] != null)
+                        {
+                            ViewBag.MensajeEditar = TempData["MensajeEditar"];
+                        }
 
                         ViewBag.AccionActual = "PaginaUsuario";
-                    }             
+                    }
+
+                
 
                     ViewBag.Tipo = Tipo;
                     return View(informacion);
@@ -702,6 +908,11 @@ namespace SERVICE_MARKET.Controllers
 
                     ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
                     ViewBag.PaginaActual = pagina;
+                    
+                    if (TempData.ContainsKey("MensajeConfirmacion"))
+                    {
+                        ViewBag.MensajeConfirmacion = TempData["MensajeConfirmacion"];
+                    }
 
                     return View(serviciosPagina);
                 }
@@ -779,8 +990,21 @@ namespace SERVICE_MARKET.Controllers
             {
                 try
                 {
+                    if (oServicios.NOMBRE_SER.Length > 70)
+                    {
+                        ModelState.AddModelError("NOMBRE_SER", "* El nombre del servicio excede la longitud permitida.");
+                    }
+
+                    if (oServicios.DESCRIPCION_BREVE.Length > 500)
+                    {
+                        ModelState.AddModelError("DESCRIPCION_BREVE", "* La descripción excede la longitud permitida.");
+                    }
+
                     if (ModelState.IsValid)
                     {
+                        string precioSinFormato = oServicios.PRECIO_SER.ToString().Replace(".", "").Replace(",", "");
+                        oServicios.PRECIO_SER = decimal.Parse(precioSinFormato);
+
                         using (SqlConnection cn = new SqlConnection(conexion))
                         {
                             cn.Open();
@@ -795,6 +1019,8 @@ namespace SERVICE_MARKET.Controllers
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.ExecuteNonQuery();
 
+                            TempData["MensajeEditar"] = "El servicio se actualizó correctamente.";
+
                             return RedirectToAction("InfoServicio", "USUARIOS", new { ID_SERVICIO = oServicios.ID_SERVICIO, TIPO = oServicios.TIPO });
                         }
                     }
@@ -808,6 +1034,8 @@ namespace SERVICE_MARKET.Controllers
             {
                 ViewBag.ErrorMessage = "No tiene permisos para editar este servicio.";
             }
+
+            ViewBag.Categorias = ObtenerCategorias();
 
             return View(oServicios);
         }
@@ -870,6 +1098,7 @@ namespace SERVICE_MARKET.Controllers
 
             return oCategorias;
         }
+
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
         /*METODO PARA ELIMINAR SERVICIOS PUBLICADOS POR UN USUARIO*/
