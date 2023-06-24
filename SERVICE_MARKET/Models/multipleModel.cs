@@ -21,6 +21,8 @@ namespace SERVICE_MARKET.Models
         public string CORREO_ELECTRONICO_USU { get; set; }
         public string CONTRASENA_USU { get; set; }
         public string CONFIRMAR_CONTRASENA_U { get; set; }
+        public string CONTRASENA_ACTUAL { get; set; }
+        public string CONTRASENA_NUEVA { get; set; }
 
         /*CATEGORIAS*/
         public int ID_CATEGORIA { get; set; }

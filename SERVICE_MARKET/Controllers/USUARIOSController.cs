@@ -130,7 +130,7 @@ namespace SERVICE_MARKET.Controllers
                     return View(oUsuarios);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "No es posible registrar usuarios en este momento. Por favor, inténtelo de nuevo más tarde.";
                 return View("Registrar");
@@ -169,7 +169,7 @@ namespace SERVICE_MARKET.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Ocurrió un error al cargar las ciudades.";
                 return View(new List<multipleModel>());
@@ -237,7 +237,7 @@ namespace SERVICE_MARKET.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewData["MENSAJE_VALIDACION"] = "Se produjo un error al procesar la solicitud.";
             }
@@ -290,7 +290,7 @@ namespace SERVICE_MARKET.Controllers
                     }
                     ViewBag.ErrorMessage = "No se encontró información del usuario.";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.ErrorMessage = "Ocurrió un error al obtener la información del usuario.";
                 }
@@ -377,7 +377,7 @@ namespace SERVICE_MARKET.Controllers
 
                     return RedirectToAction("InformacionUsuario", "USUARIOS");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.ErrorMessage = "Ocurrió un error al actualizar la información del usuario.";
                 }
@@ -411,12 +411,90 @@ namespace SERVICE_MARKET.Controllers
                     }
                 }
             }
-            catch (SqlException ex)
+            catch (SqlException)
             {
-                ViewBag.ErrorMessage = "Ocurrió un error al obtener la lista de ciudades. Detalles: " + ex.Message;
+                ViewBag.ErrorMessage = "Ocurrió un error al obtener la lista de ciudades. Detalles: ";
             }
 
             return ciudades;
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA CAMBIAR CONTRASEÑA DE UN USUARIO*/
+        [Authorize]
+        [HttpGet]
+        public ActionResult CambiarContrasena()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "USUARIOS");
+            }
+
+            int ID_USUARIO = ObtenerIdUsuarioSesion();
+            multipleModel oUsuarios = new multipleModel();
+            oUsuarios.ID_USUARIO = ID_USUARIO;
+
+            return View(oUsuarios);
+        }
+
+        [HttpPost]
+        public ActionResult CambiarContrasena(multipleModel oUsuarios)
+        {
+
+            int ID_USUARIO = ObtenerIdUsuarioSesion();
+
+            if(ID_USUARIO != 0)
+            {               
+                try
+                {
+                    if (oUsuarios.CONTRASENA_NUEVA.Length > 10)
+                    {
+                        ModelState.AddModelError("CONTRASENA_NUEVA", "* La contraseña excede la longitud permitida. Ingresa una contraseña de máximo 10 caracteres");
+                    }
+
+                    if (oUsuarios.CONTRASENA_NUEVA == oUsuarios.CONFIRMAR_CONTRASENA_U)
+                    {
+                        oUsuarios.CONTRASENA_NUEVA = Encriptar(oUsuarios.CONTRASENA_NUEVA);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("CONFIRMAR_CONTRASENA_U", "* Las contraseñas no coinciden");
+                    }
+
+                    if (!ModelState.IsValid)
+                    {
+                        return View(oUsuarios);
+                    }
+
+                    string MENSAJE_C = string.Empty;
+                    
+                    using (SqlConnection oconexion = new SqlConnection(conexion))                    
+                    {
+                        SqlCommand command = new SqlCommand("CAMBIAR_CONTRASENA", oconexion);
+                        command.CommandType = CommandType.StoredProcedure;
+                        
+                        command.Parameters.AddWithValue("@ID_USUARIO", ID_USUARIO);
+                        command.Parameters.AddWithValue("@CONTRASENA_ACTUAL", Encriptar(oUsuarios.CONTRASENA_ACTUAL));
+                        command.Parameters.AddWithValue("@CONTRASENA_NUEVA", oUsuarios.CONTRASENA_NUEVA);
+                        command.Parameters.Add("@MENSAJE_C", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                        oconexion.Open();
+                        command.ExecuteNonQuery();
+                        MENSAJE_C = command.Parameters["@MENSAJE_C"].Value.ToString();
+
+                        TempData["MENSAJE_C"] = MENSAJE_C;
+
+                        return RedirectToAction("CambiarContrasena", "USUARIOS");
+                    }
+                } 
+                catch (Exception)
+                {
+                    ViewBag.ErrorMessage = "Ocurrió un error al actualizar la contraseña";
+                    return View(oUsuarios);
+                }
+            }
+            return View(oUsuarios);
         }
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
@@ -482,7 +560,7 @@ namespace SERVICE_MARKET.Controllers
 
                 return View(serviciosPagina);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Se produjo un error al consultar los servicios disponibles. Por favor, inténtalo de nuevo más tarde.";
                 return View("Publicaciones_Solicitudes");
@@ -551,7 +629,7 @@ namespace SERVICE_MARKET.Controllers
 
                 return View(serviciosPagina);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Ocurrió un error al buscar los servicios. Por favor, intenta nuevamente más tarde.";
                 return View("Buscar");
@@ -614,7 +692,7 @@ namespace SERVICE_MARKET.Controllers
 
                 return View(serviciosPagina);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Se produjo un error al buscar servicios en esta categoría. Por favor, inténtalo nuevamente más tarde.";
                 return View("Buscar");
@@ -700,7 +778,7 @@ namespace SERVICE_MARKET.Controllers
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.ErrorMessage = "No es posible registrar nuevos servicios en este momento. Por favor, inténtelo de nuevo más tarde.";
                 }
@@ -759,7 +837,7 @@ namespace SERVICE_MARKET.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Ocurrió un error al cargar las categorías.";
                 return View(new List<multipleModel>());
@@ -836,14 +914,12 @@ namespace SERVICE_MARKET.Controllers
                         ViewBag.AccionActual = "PaginaUsuario";
                     }
 
-
-
                     ViewBag.Tipo = Tipo;
                     return View(informacion);
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Se produjo un error al consultar información del servicio. Por favor, inténtalo de nuevo más tarde.";
                 return View("InfoServicio");
@@ -916,7 +992,7 @@ namespace SERVICE_MARKET.Controllers
 
                     return View(serviciosPagina);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.ErrorMessage = "Ocurrió un error al consultar los servicios.Por favor, inténtalo de nuevo más tarde.";
                     ViewBag.TieneServicios = false;
@@ -1025,7 +1101,7 @@ namespace SERVICE_MARKET.Controllers
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.ErrorMessage = "No es posible editar el servicio en este momento. Por favor, inténtelo de nuevo más tarde.";
                 }
@@ -1120,7 +1196,7 @@ namespace SERVICE_MARKET.Controllers
                     Comand.ExecuteNonQuery();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.MensajeEliminar = "Ocurrió un error al eliminar el servicio. Por favor, inténtalo de nuevo más tarde.";
             }
@@ -1190,7 +1266,7 @@ namespace SERVICE_MARKET.Controllers
 
                     return View(serviciosPagina);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ViewBag.ErrorMessage = "Ocurrió un error al consultar tu historial de servicios. Por favor, inténtalo de nuevo más tarde.";
                     ViewBag.TieneServiciosH = false;

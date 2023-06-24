@@ -249,6 +249,7 @@
     <Content Include="Views\USUARIOS\TerminosCondiciones.cshtml" />
     <Content Include="Views\USUARIOS\NuestrosServicios.cshtml" />
     <Content Include="Views\USUARIOS\SobreNosotros.cshtml" />
+    <Content Include="Views\USUARIOS\CambiarContrasena.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

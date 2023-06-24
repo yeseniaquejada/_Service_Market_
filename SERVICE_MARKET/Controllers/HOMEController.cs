@@ -59,7 +59,7 @@ namespace SERVICE_MARKET.Controllers
 
                 return View(serviciosPagina);
             } 
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Se produjo un error al consultar las publicaciones y solicitudes de servicios.";
                 return View("Index");
@@ -125,7 +125,7 @@ namespace SERVICE_MARKET.Controllers
 
                 return View(serviciosPagina);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Ocurrió un error al buscar los servicios. Por favor, intenta nuevamente más tarde.";
                 return View("Buscar");
@@ -184,7 +184,7 @@ namespace SERVICE_MARKET.Controllers
 
                 return View(serviciosPagina);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ViewBag.ErrorMessage = "Se produjo un error al buscar servicios en esta categoría. Por favor, inténtalo nuevamente más tarde.";
                 return View("Buscar");
