@@ -82,3 +82,38 @@ body {
 .order-card i {
     font-size: 35px;
 }
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .table th,
+    .table td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        color: #fff;
+    }
+
+        .table td a {
+            text-align: right;
+        }
+
+    .table tr:hover {
+        background-color: #333;
+    }
+
+.btn-lg {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.btn-dynamic {
+    transition: transform 0.3s ease;
+}
+
+    .btn-dynamic:hover {
+        transform: scale(1.1);
+    }

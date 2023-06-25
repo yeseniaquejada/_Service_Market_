@@ -259,6 +259,7 @@
     <Content Include="Views\ADMINISTRADOR\Login.cshtml" />
     <Content Include="Views\Shared\_Layout_Administrador.cshtml" />
     <Content Include="Views\ADMINISTRADOR\Index.cshtml" />
+    <Content Include="Views\ADMINISTRADOR\Ciudades.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

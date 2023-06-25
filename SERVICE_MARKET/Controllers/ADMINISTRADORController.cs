@@ -207,5 +207,52 @@ namespace SERVICE_MARKET.Controllers
 
             return numeroServicios;
         }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA CONSULTAR LAS CIUDADES DISPONIBLES*/
+        public ActionResult Ciudades(int pagina = 1, int elementosPorPagina = 12)
+        {
+            try
+            {
+                List<multipleModel> model = new List<multipleModel>();
+
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand Comand = new SqlCommand("LEER_CIUDADES", oconexion);
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+
+                    using (SqlDataReader dr = Comand.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            multipleModel oCiudades = new multipleModel();
+
+                            oCiudades.ID_CIUDAD = Convert.ToInt32(dr["ID_CIUDAD"]);
+                            oCiudades.NOMBRE_CIUDAD = dr["NOMBRE_CIUDAD"].ToString();
+                            model.Add(oCiudades);
+
+                        }
+                    }
+                }
+                /* Calcular los índices de inicio y fin para la página actual */
+                int indiceInicio = (pagina - 1) * elementosPorPagina;
+                int indiceFin = indiceInicio + elementosPorPagina;
+
+                /* Obtener la lista de ciudades para la página actual */
+                List<multipleModel> ciudadesPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+                ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+                ViewBag.PaginaActual = pagina;
+
+                return View(ciudadesPagina);
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al consultar las ciudades. Por favor, inténtalo de nuevo más tarde.";
+                return View("Ciudades");
+            }
+        }          
     }
 }
