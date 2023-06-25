@@ -1,0 +1,136 @@
+﻿@model SERVICE_MARKET.Models.multipleModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión - Service Market</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/Logos/logo.png" />
+    <link href="~/Content/Css/Acceso.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-dark">
+    <section class="row g-0">
+        <div class="col-lg-6 d-none d-lg-block">
+            <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item c-itemL active">
+                        <img src="~/Imagenes/USUARIOS/Login/Trabajos_Domesticos.jpg" class="c-imgL" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Trabajos domésticos</h2>
+                        </div>
+                    </div>
+                    <div class="carousel-item c-itemL">
+                        <img src="~/Imagenes/USUARIOS/Login/Salud_Belleza.jpg" class="c-imgL" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Salud y Belleza</h2>
+                        </div>
+                    </div>
+                    <div class="carousel-item c-itemL">
+                        <img src="~/Imagenes/USUARIOS/Login/Mantenimiento.jpg" class="c-imgL" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Mantenimiento</h2>
+                        </div>
+                    </div>
+                    <div class="carousel-item c-itemL">
+                        <img src="~/Imagenes/USUARIOS/Login/Remodelacion_Albañileria.jpg" class="c-imgL" alt="...">
+                        <div class="carousel-caption top-0 mt-5">
+                            <p class="textP">Servicios de</p>
+                            <h2 class="textH2 fw-bolder text-capitalize">Remodelación y Albañilería</h2>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-5 d-flex flex-column aling-items-end min-vh-100 containerInfo">
+            <div class="px-lg-5 pt-lg-4 pb-lg-3 p-2">
+                <img id="logo" src="~/Logos/logo derecha.png" class="img-fluid">
+            </div>
+            <div class="px-lg-5 py-lg-4 p-4 w-100 aling-self-center">
+                <h1 class="font-weight-bold mb-3" align="center">Inicio de sesión</h1>
+                @if (ViewData["MENSAJE_VALIDACION"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @ViewData["MENSAJE_VALIDACION"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                <form class="mb-4" action="@Url.Action("Login","ADMINISTRADOR")" method="post" autocomplete="off">
+                    <div class="mb-4">
+                        <label class="form-label font-weight-bold">Correo electrónico</label>
+                        <input name="CORREO_ELECTRONICO_ADMIN" type="email" class="form-control bg-dark-x border-0" placeholder="Ingresa tu correo electrónico" aria-describedby="emailHelp" required>
+                    </div>
+                    <div class="mb-4 password-input">
+                        <label class="form-label font-weight-bold">Contraseña</label>
+                        <input id="passwordInput" name="CONTRASENA_ADMIN" type="password" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa tu contraseña" required>
+                        <i id="toggleIcon" class="fa fa-eye-slash" style="margin-top: 12px;"></i>
+                    </div>
+                    <script>
+                    document.getElementById('toggleIcon').addEventListener('click', function () {
+                        var passwordInput = document.getElementById('passwordInput');
+                        var toggleIcon = document.getElementById('toggleIcon');
+
+                        if (passwordInput.type === 'password') {
+                            passwordInput.type = 'text';
+                            toggleIcon.classList.remove('fa-eye-slash');
+                            toggleIcon.classList.add('fa-eye');
+                        } else {
+                            passwordInput.type = 'password';
+                            toggleIcon.classList.remove('fa-eye');
+                            toggleIcon.classList.add('fa-eye-slash');
+                        }
+                    });
+
+                    document.getElementById('toggleConfirmIcon').addEventListener('click', function () {
+                        var confirmPasswordInput = document.getElementById('confirmPasswordInput');
+                        var toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
+
+                        if (confirmPasswordInput.type === 'password') {
+                            confirmPasswordInput.type = 'text';
+                            toggleConfirmIcon.classList.remove('fa-eye-slash');
+                            toggleConfirmIcon.classList.add('fa-eye');
+                        } else {
+                            confirmPasswordInput.type = 'password';
+                            toggleConfirmIcon.classList.remove('fa-eye');
+                            toggleConfirmIcon.classList.add('fa-eye-slash');
+                        }
+                    });
+                    </script>
+                    <button type="submit" class="btnA btn-primary w-100">Iniciar sesión</button>
+                </form>
+                <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p-3 w-100 mt-auto">                  
+                    <a href="@Url.Action("Index","HOME")" class="font-weight-bold text-decoration-none">Volver al inicio</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
