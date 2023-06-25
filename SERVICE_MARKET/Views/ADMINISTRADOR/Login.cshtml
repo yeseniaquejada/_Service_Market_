@@ -74,6 +74,7 @@
             </div>
             <div class="px-lg-5 py-lg-4 p-4 w-100 aling-self-center">
                 <h1 class="font-weight-bold mb-3" align="center">Inicio de sesión</h1>
+                <h5 class="font-weight-bold fst-italic" align="center">Administradores</h5>
                 @if (ViewData["MENSAJE_VALIDACION"] != null)
                 {
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -92,39 +93,39 @@
                         <i id="toggleIcon" class="fa fa-eye-slash" style="margin-top: 12px;"></i>
                     </div>
                     <script>
-                    document.getElementById('toggleIcon').addEventListener('click', function () {
-                        var passwordInput = document.getElementById('passwordInput');
-                        var toggleIcon = document.getElementById('toggleIcon');
+                        document.getElementById('toggleIcon').addEventListener('click', function () {
+                            var passwordInput = document.getElementById('passwordInput');
+                            var toggleIcon = document.getElementById('toggleIcon');
 
-                        if (passwordInput.type === 'password') {
-                            passwordInput.type = 'text';
-                            toggleIcon.classList.remove('fa-eye-slash');
-                            toggleIcon.classList.add('fa-eye');
-                        } else {
-                            passwordInput.type = 'password';
-                            toggleIcon.classList.remove('fa-eye');
-                            toggleIcon.classList.add('fa-eye-slash');
-                        }
-                    });
+                            if (passwordInput.type === 'password') {
+                                passwordInput.type = 'text';
+                                toggleIcon.classList.remove('fa-eye-slash');
+                                toggleIcon.classList.add('fa-eye');
+                            } else {
+                                passwordInput.type = 'password';
+                                toggleIcon.classList.remove('fa-eye');
+                                toggleIcon.classList.add('fa-eye-slash');
+                            }
+                        });
 
-                    document.getElementById('toggleConfirmIcon').addEventListener('click', function () {
-                        var confirmPasswordInput = document.getElementById('confirmPasswordInput');
-                        var toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
+                        document.getElementById('toggleConfirmIcon').addEventListener('click', function () {
+                            var confirmPasswordInput = document.getElementById('confirmPasswordInput');
+                            var toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
 
-                        if (confirmPasswordInput.type === 'password') {
-                            confirmPasswordInput.type = 'text';
-                            toggleConfirmIcon.classList.remove('fa-eye-slash');
-                            toggleConfirmIcon.classList.add('fa-eye');
-                        } else {
-                            confirmPasswordInput.type = 'password';
-                            toggleConfirmIcon.classList.remove('fa-eye');
-                            toggleConfirmIcon.classList.add('fa-eye-slash');
-                        }
-                    });
+                            if (confirmPasswordInput.type === 'password') {
+                                confirmPasswordInput.type = 'text';
+                                toggleConfirmIcon.classList.remove('fa-eye-slash');
+                                toggleConfirmIcon.classList.add('fa-eye');
+                            } else {
+                                confirmPasswordInput.type = 'password';
+                                toggleConfirmIcon.classList.remove('fa-eye');
+                                toggleConfirmIcon.classList.add('fa-eye-slash');
+                            }
+                        });
                     </script>
                     <button type="submit" class="btnA btn-primary w-100">Iniciar sesión</button>
                 </form>
-                <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p-3 w-100 mt-auto">                  
+                <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p-3 w-100 mt-auto">
                     <a href="@Url.Action("Index","HOME")" class="font-weight-bold text-decoration-none">Volver al inicio</a>
                 </div>
             </div>

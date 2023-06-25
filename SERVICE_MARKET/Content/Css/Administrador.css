@@ -117,3 +117,9 @@ body {
     .btn-dynamic:hover {
         transform: scale(1.1);
     }
+
+.swal-text {
+    text-align: center;
+    color: black;
+    font-size: 20px;
+}

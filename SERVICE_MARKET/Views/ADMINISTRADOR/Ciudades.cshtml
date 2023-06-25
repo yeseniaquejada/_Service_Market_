@@ -26,7 +26,7 @@
                 @ViewBag.ErrorMessage
             </div>
             <a class="btn btn-outline-primary btn-lg btn-dynamic m-2" href="@Url.Action("Index","ADMINISTRADOR")">Volver al inicio</a>
-        }        
+        }
         else
         {
             <script>
@@ -39,6 +39,7 @@
 
             <div class="container">
                 <h1 class="titulo text-center">Ciudades</h1>
+
                 @if (TempData["MessageExito"] != null)
                 {
                     <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size: 20px;">
@@ -94,7 +95,7 @@
                                     <div class="text-center">
                                         <button type="button" class="btn btn-primary btn-dynamic m-2" data-bs-dismiss="modal">Cancelar</button>
                                         <button type="submit" class="btn btn-success btn-dynamic">Crear</button>
-                                    </div>                               
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -102,6 +103,7 @@
                 </div>
 
                 <a class="btn btn-outline-primary btn-lg btn-dynamic m-2" href="@Url.Action("Index","ADMINISTRADOR")">Volver al inicio</a>
+
                 <table class="table bg-dark">
                     <thead>
                         <tr>
@@ -118,13 +120,56 @@
                                 <td>@ciudades.NOMBRE_CIUDAD</td>
                                 <td>
                                     <a class="btn btn-secondary btn-sm" href="@Url.Action("EditarCiudades","ADMINISTRADOR", new {ID_CIUDAD = ciudades.ID_CIUDAD})"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a class="btn btn-danger btn-sm" href="@Url.Action("EliminarCiudades","ADMINISTRADOR", new {ID_CIUDAD = ciudades.ID_CIUDAD})"><i class="fa-solid fa-trash"></i></a>
+                                    <a class="btn btn-danger btn-sm" href="#" onclick="confirmarEliminacion(event, @ciudades.ID_CIUDAD)">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
+
+            <script>
+                function confirmarEliminacion(event, idCiudad) {
+                    event.preventDefault();
+                    swal({
+                        title: "¿Estás seguro?",
+                        text: "Esta acción no se puede deshacer",
+                        icon: "info",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((result) => {
+                        if (result) {
+                            eliminarCiudad(idCiudad);
+                        }
+                    });
+                }
+                function eliminarCiudad(idCiudad) {
+                    var url = '@Url.Action("BorrarCiudad", "ADMINISTRADOR", new { ID_CIUDAD = "__idCiudad__" })';
+                    url = url.replace('__idCiudad__', idCiudad);
+
+                    $.post(url, function () {
+                        swal({
+                            icon: "success",
+                            title: "La ciudad se eliminó correctamente",
+                            confirmButtonText: "OK",
+                            closeOnConfirm: false,
+                        }).then((result) => {
+                            if (result) {
+                                window.location.href = '@Url.Action("Ciudades", "ADMINISTRADOR")';
+                            }
+                        });
+                    }).fail(function () {
+                        swal({
+                            title: "Error",
+                            text: "Ocurrió un error al eliminar la ciudad. Por favor, inténtalo de nuevo más tarde.",
+                            icon: "error",
+                        });
+                    });
+                }
+            </script>
+
             <div class="pagination justify-content-center">
                 <ul class="pagination">
                     @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
@@ -139,6 +184,7 @@
     </main>
 
     <script src="~/Scripts/jquery-3.7.0.min.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>

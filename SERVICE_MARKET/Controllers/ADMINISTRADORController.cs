@@ -295,5 +295,30 @@ namespace SERVICE_MARKET.Controllers
                 return View("Ciudades");
             }
         }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA BORRAR CIUDADES EXISTENTES*/
+        [Authorize]
+        [HttpPost]
+        public ActionResult BorrarCiudad(int ID_CIUDAD)
+        {
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("BORRAR_CIUDADES", oconexion);
+                    cmd.Parameters.AddWithValue("ID_CIUDAD", ID_CIUDAD);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                return RedirectToAction("Ciudades", "ADMINISTRADOR");
+            } 
+            catch (Exception)
+            {
+                return View("Ciudades");
+            }
+        }
     }
 }
