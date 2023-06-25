@@ -211,6 +211,7 @@ namespace SERVICE_MARKET.Controllers
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
         /*METODO PARA CONSULTAR LAS CIUDADES DISPONIBLES*/
+        [Authorize]
         public ActionResult Ciudades(int pagina = 1, int elementosPorPagina = 12)
         {
             try
@@ -253,6 +254,46 @@ namespace SERVICE_MARKET.Controllers
                 ViewBag.ErrorMessage = "Ocurrió un error al consultar las ciudades. Por favor, inténtalo de nuevo más tarde.";
                 return View("Ciudades");
             }
-        }          
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA CREAR NUEVAS CIUDADES*/
+        [Authorize]
+        [HttpPost]
+        public ActionResult CrearCiudades(multipleModel oCiudades)
+        {
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("CREAR_CIUDADES", oconexion);
+                    cmd.Parameters.AddWithValue("NOMBRE_CIUDAD", oCiudades.NOMBRE_CIUDAD);
+                    cmd.Parameters.Add("MENSAJE_CIUDAD", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    oconexion.Open();
+                    cmd.ExecuteNonQuery();
+                    
+                    string MENSAJE_CIUDAD = cmd.Parameters["MENSAJE_CIUDAD"].Value.ToString();
+
+                    if (!string.IsNullOrEmpty(MENSAJE_CIUDAD))
+                    {
+                        TempData["MessageExito"] = MENSAJE_CIUDAD;
+                    }
+                    else
+                    {
+                        TempData["MessageExito"] = "La ciudad se creó correctamente.";
+                    }
+
+                }
+                return RedirectToAction("Ciudades", "ADMINISTRADOR");
+            } 
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al crear la ciudad. Por favor, inténtalo de nuevo más tarde.";
+                return View("Ciudades");
+            }
+        }
     }
 }

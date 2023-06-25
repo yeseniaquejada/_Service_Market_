@@ -26,7 +26,7 @@
                 @ViewBag.ErrorMessage
             </div>
             <a class="btn btn-outline-primary btn-lg btn-dynamic m-2" href="@Url.Action("Index","ADMINISTRADOR")">Volver al inicio</a>
-        }
+        }        
         else
         {
             <script>
@@ -39,7 +39,68 @@
 
             <div class="container">
                 <h1 class="titulo text-center">Ciudades</h1>
-                <a class="btn btn-outline-success btn-lg btn-dynamic m-2" href="@Url.Action("CrearCiudades","ADMINISTRADOR")">Crear Nueva</a>
+                @if (TempData["MessageExito"] != null)
+                {
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size: 20px;">
+                        @TempData["MessageExito"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                <button class="btn btn-outline-success btn-lg btn-dynamic m-2" onclick="crearCiudad()">Crear Nueva</button>
+                <script>
+                    function crearCiudad() {
+                        $('#NOMBRE_CIUDAD').val('');
+                        $('#ModalCiudades').modal('show');
+                    }
+
+                    $('#ModalCiudades').on('hidden.bs.modal', function () {
+                        $('#NOMBRE_CIUDAD').val('');
+                    });
+
+                    $('#FormCiudades').submit(function (event) {
+                        event.preventDefault();
+
+                        var nombreCiudad = $('#NOMBRE_CIUDAD').val();
+
+                        if (nombreCiudad.trim() !== "") {
+                            $.ajax({
+                                url: '@Url.Action("CrearCiudades", "ADMINISTRADOR")',
+                                type: 'POST',
+                                data: { NOMBRE_CIUDAD: nombreCiudad },
+                                success: function () {
+                                    window.location.href = '@Url.Action("Ciudades", "ADMINISTRADOR")';
+                                },
+                                error: function () {
+                                    alert('Ocurrió un error al crear la ciudad. Por favor, inténtalo de nuevo más tarde.');
+                                }
+                            });
+                        }
+                    });
+                </script>
+
+                <div id="ModalCiudades" class="modal fade" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title fw-bold" style="color: #1b6bc2;">Crear Ciudad</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="FormCiudades" method="post" action="@Url.Action("CrearCiudades", "ADMINISTRADOR")" autocomplete="off">
+                                    <div class="form-group">
+                                        <label for="NOMBRE_CIUDAD" style="font-size: 18px;">Nombre de la ciudad:</label>
+                                        <input type="text" class="form-control" id="NOMBRE_CIUDAD" name="NOMBRE_CIUDAD" placeholder="Ingresa el nombre de la ciudad" required>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary btn-dynamic m-2" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-success btn-dynamic">Crear</button>
+                                    </div>                               
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <a class="btn btn-outline-primary btn-lg btn-dynamic m-2" href="@Url.Action("Index","ADMINISTRADOR")">Volver al inicio</a>
                 <table class="table bg-dark">
                     <thead>
@@ -56,8 +117,8 @@
                                 <td>@ciudades.ID_CIUDAD</td>
                                 <td>@ciudades.NOMBRE_CIUDAD</td>
                                 <td>
-                                    <a class="btn btn-primary btn-sm" href="@Url.Action("EditarCiudades","ADMINISTRADOR", new {ID_CIUDAD = ciudades.ID_CIUDAD})"><i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i></a>
-                                    <a class="btn btn-danger btn-sm" href="@Url.Action("EliminarCiudades","ADMINISTRADOR", new {ID_CIUDAD = ciudades.ID_CIUDAD})"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a>
+                                    <a class="btn btn-secondary btn-sm" href="@Url.Action("EditarCiudades","ADMINISTRADOR", new {ID_CIUDAD = ciudades.ID_CIUDAD})"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a class="btn btn-danger btn-sm" href="@Url.Action("EliminarCiudades","ADMINISTRADOR", new {ID_CIUDAD = ciudades.ID_CIUDAD})"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
                         }
@@ -77,6 +138,7 @@
         }
     </main>
 
+    <script src="~/Scripts/jquery-3.7.0.min.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
