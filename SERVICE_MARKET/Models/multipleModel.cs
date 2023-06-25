@@ -48,5 +48,12 @@ namespace SERVICE_MARKET.Models
         public int ID_USUARIO_FK { get; set; }
         public int ID_ADMINISTRADOR_FK { get; set; }
         public int ID_CATEGORIA_FK { get; set; }
+
+        /*FUNCIONES*/
+        public int NumeroCiudades { get; set; }
+        public int NumeroUsuarios { get; set; }
+        public int NumeroCategorias { get; set; }
+        public int NumeroAdministradores { get; set; }
+        public int NumeroServicios { get; set; }
     }
 }

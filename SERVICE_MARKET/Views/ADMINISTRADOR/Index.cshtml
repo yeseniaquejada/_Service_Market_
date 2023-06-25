@@ -1,0 +1,134 @@
+﻿@model SERVICE_MARKET.Models.multipleModel
+
+@{
+    ViewBag.Title = "Página principal";
+    Layout = "~/Views/Shared/_Layout_Administrador.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0">
+    <title>@ViewBag.Title - Service Market</title>
+    <link rel="shortcut icon" href="~/Logos/logo.png" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Administrador.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <main>
+        <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active c-item">
+                    <img src="~/Imagenes/ADMINISTRADOR/Index/Trabajos_Domesticos.jpg" class="d-block w-100 c-img" alt="...">
+                    <div class="carousel-caption top-0 mt-5">
+                        <p class="mt-5 fs-3">Servicios de</p>
+                        <h1 class="display-1 fw-bolder text-capitalize">Trabajos domésticos</h1>
+                    </div>
+                </div>
+                <div class="carousel-item c-item">
+                    <img src="~/Imagenes/ADMINISTRADOR/Index/Remodelacion_Albañileria.jpg" class="d-block w-100 c-img" alt="...">
+                    <div class="carousel-caption top-0 mt-5">
+                        <p class="mt-5 fs-3">Servicios de</p>
+                        <h1 class="display-1 fw-bolder text-capitalize">Remodelación y albañilería</h1>
+                    </div>
+                </div>
+                <div class="carousel-item c-item">
+                    <img src="~/Imagenes/ADMINISTRADOR/Index/Mantenimiento.jpg" class="d-block w-100 c-img" alt="...">
+                    <div class="carousel-caption top-0 mt-5">
+                        <p class="mt-5 fs-3">Servicios de</p>
+                        <h1 class="display-1 fw-bolder text-capitalize">Mantenimiento</h1>
+                    </div>
+                </div>
+                <div class="carousel-item c-item">
+                    <img src="~/Imagenes/ADMINISTRADOR/Index/Salud_Belleza.jpg" class="d-block w-100 c-img" alt="...">
+                    <div class="carousel-caption top-0 mt-5">
+                        <p class="mt-5 fs-3">Servicios de</p>
+                        <h1 class="display-1 fw-bolder text-capitalize">Salud y belleza</h1>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <section class="container">
+            <h1 class="text-center titulo">@Model.NOMBRE_COMPLETO_ADMIN</h1>
+            <p class="text-center infoText">
+                <span class="fw-bold">¡Bienvenido a la página principal del administrador!</span> Aquí tienes el control total sobre la gestión de la base de datos.
+                <br />Explora las opciones disponibles en la barra de navegación para acceder rápidamente a las diferentes entidades y funciones.
+            </p>
+            <h3 class="text-center fw-bold">Estadísticas de registros por entidad:</h3>
+            <div class="row">
+                <div class="col-md-4 col-xl-4">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Ciudades</h6>
+                            <i class="fa-solid fa-city"></i>
+                            <h2 style="float: right; font-weight: bold;"><span>+ @Model.NumeroCiudades</span></h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xl-4">
+                    <div class="card bg-c-green order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Servicios</h6>
+                            <i class="fa-solid fa-business-time"></i>
+                            <h2 style="float: right; font-weight: bold;"><span>+ @Model.NumeroServicios</span></h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xl-4">
+                    <div class="card bg-c-yellow order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Categorías</h6>
+                            <i class="fa-solid fa-tags"></i>
+                            <h2 style="float: right; font-weight: bold;"><span>+ @Model.NumeroCategorias</span></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-4 col-xl-4">
+                    <div class="card bg-c-pink order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Administradores</h6>
+                            <i class="fa-solid fa-user-shield"></i>
+                            <h2 style="float: right; font-weight: bold;"><span>+ @Model.NumeroAdministradores</span></h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xl-4">
+                    <div class="card bg-c-purple order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Usuarios</h6>
+                            <i class="fa-solid fa-users"></i>
+                            <h2 style="float: right; font-weight: bold;"><span>+ @Model.NumeroUsuarios</span></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

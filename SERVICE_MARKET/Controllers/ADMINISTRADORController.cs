@@ -97,5 +97,115 @@ namespace SERVICE_MARKET.Controllers
             return View();
         }
 
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PAGINA DE INICIO DEL ADMINISTRADOR*/
+        [Authorize]
+        public ActionResult Index()
+        {
+            int ID_ADMINISTRADOR = ObtenerIdAdministradorSesion();
+
+            multipleModel oAdmin = (multipleModel)Session["Administrador"];
+            oAdmin.ID_ADMINISTRADOR = ID_ADMINISTRADOR;
+
+            oAdmin.NumeroCiudades = ObtenerNumeroCiudades();
+            oAdmin.NumeroUsuarios = ObtenerNumeroUsuarios();
+            oAdmin.NumeroCategorias = ObtenerNumeroCategorias();
+            oAdmin.NumeroAdministradores = ObtenerNumeroAdministradores();
+            oAdmin.NumeroServicios = ObtenerNumeroServicios();
+
+            return View(oAdmin);
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA OBTENER EL ID DEL ADMINISTRADOR DE LA SESION*/
+        private int ObtenerIdAdministradorSesion()
+        {
+            if (Session["Administrador"] != null)
+            {
+                multipleModel oAdmin = (multipleModel)Session["Administrador"];
+                return oAdmin.ID_ADMINISTRADOR;
+            }
+
+            return 0;
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*FUNCIÓN PARA OBTENER EL NÚMERO DE CIUDADES REGISTRADAS*/
+        private int ObtenerNumeroCiudades()
+        {
+            int numeroCiudades = 0;
+
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+                SqlCommand command = new SqlCommand("SELECT dbo.NUMERO_CIUDADES() AS NumeroCiudades;", cn);
+                numeroCiudades = (int)command.ExecuteScalar();
+            }
+
+            return numeroCiudades;
+        }
+
+        /*FUNCIÓN PARA OBTENER EL NÚMERO DE USUARIOS REGISTRADOS*/
+        private int ObtenerNumeroUsuarios()
+        {
+            int numeroUsuarios = 0;
+
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+                SqlCommand command = new SqlCommand("SELECT dbo.NUMERO_USUARIOS() AS NumeroUsuarios;", cn);
+                numeroUsuarios = (int)command.ExecuteScalar();
+            }
+
+            return numeroUsuarios;
+        }
+
+        /*FUNCIÓN PARA OBTENER EL NÚMERO DE CATEGORÍAS REGISTRADAS*/
+        private int ObtenerNumeroCategorias()
+        {
+            int numeroCategorias = 0;
+
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+                SqlCommand command = new SqlCommand("SELECT dbo.NUMERO_CATEGORIAS() AS NumeroCategorias;", cn);
+                numeroCategorias = (int)command.ExecuteScalar();
+            }
+
+            return numeroCategorias;
+        }
+
+        /*FUNCIÓN PARA OBTENER EL NÚMERO DE ADMINISTRADORES REGISTRADOS*/
+        private int ObtenerNumeroAdministradores()
+        {
+            int numeroAdministradores = 0;
+
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+                SqlCommand command = new SqlCommand("SELECT dbo.NUMERO_ADMINISTRADORES() AS NumeroAdministradores;", cn);
+                numeroAdministradores = (int)command.ExecuteScalar();
+            }
+
+            return numeroAdministradores;
+        }
+
+        /*FUNCIÓN PARA OBTENER EL NÚMERO DE SERVICIOS REGISTRADOS*/
+        private int ObtenerNumeroServicios()
+        {
+            int numeroServicios = 0;
+
+            using (SqlConnection cn = new SqlConnection(conexion))
+            {
+                cn.Open();
+                SqlCommand command = new SqlCommand("SELECT dbo.NUMERO_SERVICIOS() AS NumeroServicios;", cn);
+                numeroServicios = (int)command.ExecuteScalar();
+            }
+
+            return numeroServicios;
+        }
     }
 }
