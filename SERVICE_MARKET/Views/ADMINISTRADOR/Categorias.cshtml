@@ -130,13 +130,79 @@
                                 <td>@categorias.NOMBRE_CAT</td>
                                 <td>@categorias.DESCRIPCION_CAT</td>
                                 <td>
-                                    <button class="btn btn-secondary btn-sm m-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button class="btn btn-secondary btn-sm m-1" onclick="editarCategoria('@categorias.ID_CATEGORIA', '@categorias.NOMBRE_CAT', '@categorias.DESCRIPCION_CAT')"><i class="fa-solid fa-pen-to-square"></i></button>
                                     <a class="btn btn-danger btn-sm m-1" href="#" onclick="confirmarEliminacion(event, @categorias.ID_CATEGORIA)"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+            </div>
+
+            <!-- -----------------------------EDITAR CATEGORIAS----------------------------- -->
+            <script>
+                function editarCategoria(ID_CATEGORIA, NOMBRE_CAT, DESCRIPCION_CAT) {
+                    $('#ID_CATEGORIA').val(ID_CATEGORIA);
+                    $('#NOMBRE_CAT').val(NOMBRE_CAT);
+                    $('#DESCRIPCION_CAT').val(DESCRIPCION_CAT);
+                    $('#ModalCategoriasEditar').modal('show');
+                }
+
+                $('#ModalCategoriasEditar').on('hidden.bs.modal', function () {
+                    $('#ID_CATEGORIA').val('');
+                    $('#NOMBRE_CAT').val('');
+                    $('#DESCRIPCION_CAT').val('');
+                });
+
+                $('#FormCategoriasEditar').submit(function (event) {
+                    event.preventDefault();
+
+                    var idCategoria = $('#ID_CATEGORIA').val();
+                    var nombreCategoria = $('#NOMBRE_CAT').val();
+                    var descripcionCategoria = $('#DESCRIPCION_CAT').val();
+
+                    if (nombreCategoria.trim() !== "") {
+                        $.ajax({
+                            url: '@Url.Action("EditarCategoria", "ADMINISTRADOR")',
+                            type: 'POST',
+                            data: { ID_CATEGORIA: idCategoria, NOMBRE_CAT: nombreCategoria, DESCRIPCION_CAT: descripcionCategoria },
+                            success: function () {
+                                window.location.href = '@Url.Action("Categorias", "ADMINISTRADOR")';
+                            },
+                            error: function () {
+                                alert('Ocurrió un error al editar la categoría. Por favor, inténtalo de nuevo más tarde.');
+                            }
+                        });
+                    }
+                });
+            </script>
+
+            <div id="ModalCategoriasEditar" class="modal fade" role="dialog" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title fw-bold" style="color: #1b6bc2;">Editar Categoría</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="FormCategoriasEditar" method="post" action="@Url.Action("EditarCategoria", "ADMINISTRADOR")" autocomplete="off">
+                                <input type="hidden" id="ID_CATEGORIA" name="ID_CATEGORIA" value="">
+                                <div class="form-group">
+                                    <label for="NOMBRE_CAT" style="font-size: 18px;">Nombre de la categoría:</label>
+                                    <input type="text" class="form-control" id="NOMBRE_CAT" name="NOMBRE_CAT" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="DESCRIPCION_CAT" style="font-size: 18px;">Descripción:</label>
+                                    <textarea type="text" class="form-control" id="DESCRIPCION_CAT" name="DESCRIPCION_CAT" style="height: 200px; resize: none;" required></textarea>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-primary btn-dynamic m-2" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success btn-dynamic">Actualizar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- -----------------------------BORRAR CATEGORIAS----------------------------- -->

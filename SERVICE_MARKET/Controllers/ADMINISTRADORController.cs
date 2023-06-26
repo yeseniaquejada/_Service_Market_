@@ -358,7 +358,7 @@ namespace SERVICE_MARKET.Controllers
             }
             catch (Exception)
             {
-                ViewBag.ErrorMessage = "Ocurrió un error al crear la ciudad. Por favor, inténtalo de nuevo más tarde.";
+                ViewBag.ErrorMessage = "Ocurrió un error al actualizar la ciudad. Por favor, inténtalo de nuevo más tarde.";
                 return View("Ciudades");
             }
         }
@@ -473,6 +473,46 @@ namespace SERVICE_MARKET.Controllers
             }
             catch (Exception)
             {
+                return View("Categorias");
+            }
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA EDITAR CATEGORIAS EXISTENTES*/
+        public ActionResult EditarCategoria(int ID_CATEGORIA, multipleModel oCategorias)
+        {
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("ACTUALIZAR_CATEGORIAS", oconexion);
+                    cmd.Parameters.AddWithValue("@ID_CATEGORIA", ID_CATEGORIA);
+                    cmd.Parameters.AddWithValue("@NOMBRE_CAT", oCategorias.NOMBRE_CAT);
+                    cmd.Parameters.AddWithValue("@DESCRIPCION_CAT", oCategorias.DESCRIPCION_CAT);
+                    cmd.Parameters.Add("@MENSAJE_CATEGORIAS_ACT", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    oconexion.Open();
+                    cmd.ExecuteNonQuery();
+
+                    string MENSAJE_CATEGORIAS_ACT = cmd.Parameters["@MENSAJE_CATEGORIAS_ACT"].Value.ToString();
+
+                    if (!string.IsNullOrEmpty(MENSAJE_CATEGORIAS_ACT))
+                    {
+                        TempData["MessageExitoCat"] = MENSAJE_CATEGORIAS_ACT;
+                    }
+                    else
+                    {
+                        TempData["MessageExitoCat"] = "La categoría ha sido actualizada exitosamente.";
+                    }
+
+                }
+                return RedirectToAction("Categorias", "ADMINISTRADOR");
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al actualizar la categoría. Por favor, inténtalo de nuevo más tarde.";
                 return View("Categorias");
             }
         }
