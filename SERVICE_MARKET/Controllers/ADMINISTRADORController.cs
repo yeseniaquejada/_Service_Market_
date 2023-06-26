@@ -362,5 +362,15 @@ namespace SERVICE_MARKET.Controllers
                 return View("Ciudades");
             }
         }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA CERRAR SESION ADMINISTRADOR*/
+        public ActionResult CerrarSesion()
+        {
+            FormsAuthentication.SignOut();
+            Session["Administrador"] = null;
+            return RedirectToAction("Index", "HOME");
+        }
     }
 }
