@@ -299,7 +299,8 @@ END;
 SELECT dbo.NUMERO_CATEGORIAS() AS NumeroCategorias;
 
 /*REINICIAR CONTADOR DEL ID*/
-DBCC CHECKIDENT (CATEGORIAS, RESEED, 0)
+SELECT MAX(ID_CATEGORIA) FROM CATEGORIAS;
+DBCC CHECKIDENT (CATEGORIAS, RESEED, 4)
 
 -----------------------------------------------------------------------------------------------------------------------
 

@@ -365,6 +365,54 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*METODO PARA CONSULTAR LAS CATEGORIAS DISPONIBLES*/
+        [Authorize]
+        public ActionResult Categorias(int pagina = 1, int elementosPorPagina = 12)
+        {
+            try
+            {
+                List<multipleModel> model = new List<multipleModel>();
+
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand Comand = new SqlCommand("LEER_CATEGORIAS", oconexion);
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+
+                    using (SqlDataReader dr = Comand.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            multipleModel oCategorias = new multipleModel();
+
+                            oCategorias.ID_CATEGORIA = Convert.ToInt32(dr["ID_CATEGORIA"]);
+                            oCategorias.NOMBRE_CAT = dr["NOMBRE_CAT"].ToString();
+                            oCategorias.DESCRIPCION_CAT = dr["DESCRIPCION_CAT"].ToString();
+                            model.Add(oCategorias);
+                        }
+                    }
+                }
+                /* Calcular los índices de inicio y fin para la página actual */
+                int indiceInicio = (pagina - 1) * elementosPorPagina;
+                int indiceFin = indiceInicio + elementosPorPagina;
+
+                /* Obtener la lista de ciudades para la página actual */
+                List<multipleModel> categoriasPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+                ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+                ViewBag.PaginaActual = pagina;
+
+                return View(categoriasPagina);
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al consultar las categorías. Por favor, inténtalo de nuevo más tarde.";
+                return View("Categorias");
+            }
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
         /*METODO PARA CERRAR SESION ADMINISTRADOR*/
         public ActionResult CerrarSesion()
         {

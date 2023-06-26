@@ -260,6 +260,7 @@
     <Content Include="Views\Shared\_Layout_Administrador.cshtml" />
     <Content Include="Views\ADMINISTRADOR\Index.cshtml" />
     <Content Include="Views\ADMINISTRADOR\Ciudades.cshtml" />
+    <Content Include="Views\ADMINISTRADOR\Categorias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
