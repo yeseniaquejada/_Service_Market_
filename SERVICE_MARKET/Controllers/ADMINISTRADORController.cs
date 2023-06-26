@@ -413,6 +413,47 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*METODO PARA CREAR NUEVAS CATEGORIAS*/
+        [Authorize]
+        [HttpPost]
+        public ActionResult CrearCategorias(multipleModel oCategorias)
+        {
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("CREAR_CATEGORIAS", oconexion);
+                    cmd.Parameters.AddWithValue("NOMBRE_CAT", oCategorias.NOMBRE_CAT);
+                    cmd.Parameters.AddWithValue("DESCRIPCION_CAT", oCategorias.DESCRIPCION_CAT);
+                    cmd.Parameters.Add("MENSAJE_CATEGORIAS", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    oconexion.Open();
+                    cmd.ExecuteNonQuery();
+
+                    string MENSAJE_CATEGORIAS = cmd.Parameters["MENSAJE_CATEGORIAS"].Value.ToString();
+
+                    if (!string.IsNullOrEmpty(MENSAJE_CATEGORIAS))
+                    {
+                        TempData["MessageExitoCat"] = MENSAJE_CATEGORIAS;
+                    }
+                    else
+                    {
+                        TempData["MessageExitoCat"] = "La categoría se creó correctamente.";
+                    }
+
+                }
+                return RedirectToAction("Categorias", "ADMINISTRADOR");
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al crear la categoría. Por favor, inténtalo de nuevo más tarde.";
+                return View("Categorias");
+            }
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
         /*METODO PARA CERRAR SESION ADMINISTRADOR*/
         public ActionResult CerrarSesion()
         {

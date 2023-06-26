@@ -40,6 +40,79 @@
             <div class="container">
                 <h1 class="titulo text-center">Categorías</h1>
 
+                @if (TempData["MessageExitoCat"] != null)
+                {
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size: 20px;">
+                        @TempData["MessageExitoCat"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <!-- -----------------------------CREAR CATEGORIAS----------------------------- -->
+                <button class="btn btn-outline-success btn-lg btn-dynamic m-2" onclick="crearCategorias()">Crear Nueva</button>
+                <script>
+                    function crearCategorias() {
+                        $('#NOMBRE_CAT').val('');
+                        $('#DESCRIPCION_CAT').val('');
+                        $('#ModalCategorias').modal('show');
+                    }
+
+                    $('#ModalCategorias').on('hidden.bs.modal', function () {
+                        $('#NOMBRE_CAT').val('');
+                        $('#DESCRIPCION_CAT').val('');
+                    });
+
+                    $('#FormCategorias').submit(function (event) {
+                        event.preventDefault();
+
+                        var nombreCategoria = $('#NOMBRE_CAT').val();
+                        var descripcionCategoria = $('#DESCRIPCION_CAT').val();
+
+                        if (nombreCategoria.trim() !== "") {
+                            $.ajax({
+                                url: '@Url.Action("CrearCategorias", "ADMINISTRADOR")',
+                                type: 'POST',
+                                data: { NOMBRE_CAT: nombreCategoria, DESCRIPCION_CAT: descripcionCategoria },
+                                success: function () {
+                                    window.location.href = '@Url.Action("Categorias", "ADMINISTRADOR")';
+                                },
+                                error: function () {
+                                    alert('Ocurrió un error al crear la categoría. Por favor, inténtalo de nuevo más tarde.');
+                                }
+                            });
+                        }
+                    });
+                </script>
+
+                <div id="ModalCategorias" class="modal fade" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title fw-bold" style="color: #1b6bc2;">Crear Categoría</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="FormCategorias" method="post" action="@Url.Action("CrearCategorias", "ADMINISTRADOR")" autocomplete="off">
+                                    <div class="form-group">
+                                        <label for="NOMBRE_CAT" style="font-size: 18px;">Nombre de la categoría:</label>
+                                        <input type="text" class="form-control" id="NOMBRE_CAT" name="NOMBRE_CAT" placeholder="Ingresa el nombre de la categoría" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="DESCRIPCION_CAT" style="font-size: 18px;">Descripción:</label>
+                                        <textarea type="text" class="form-control"  id="DESCRIPCION_CAT" name="DESCRIPCION_CAT" placeholder="Ingresa la descripción de la categoría" style="height: 200px; resize: none;" required></textarea>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary btn-dynamic m-2" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-success btn-dynamic">Crear</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="btn btn-outline-primary btn-lg btn-dynamic m-2" href="@Url.Action("Index","ADMINISTRADOR")">Volver al inicio</a>
+
                 <table class="table bg-dark">
                     <thead>
                         <tr>
