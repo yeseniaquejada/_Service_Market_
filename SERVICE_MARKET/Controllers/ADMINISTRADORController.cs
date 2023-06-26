@@ -519,6 +519,54 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*METODO PARA CONSULTAR LOS ADMINISTRADORES*/
+        [Authorize]
+        public ActionResult Administradores(int pagina = 1, int elementosPorPagina = 12)
+        {
+            try
+            {
+                List<multipleModel> model = new List<multipleModel>();
+
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand Comand = new SqlCommand("LEER_ADMINISTRADORES", oconexion);
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+
+                    using (SqlDataReader dr = Comand.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            multipleModel oAdministradores = new multipleModel();
+
+                            oAdministradores.ID_ADMINISTRADOR = Convert.ToInt32(dr["ID_ADMINISTRADOR"]);
+                            oAdministradores.NOMBRE_COMPLETO_ADMIN = dr["NOMBRE_COMPLETO_ADMIN"].ToString();
+                            oAdministradores.CORREO_ELECTRONICO_ADMIN = dr["CORREO_ELECTRONICO_ADMIN"].ToString();
+                            model.Add(oAdministradores);
+                        }
+                    }
+                }
+                /* Calcular los índices de inicio y fin para la página actual */
+                int indiceInicio = (pagina - 1) * elementosPorPagina;
+                int indiceFin = indiceInicio + elementosPorPagina;
+
+                /* Obtener la lista de ciudades para la página actual */
+                List<multipleModel> administradoresPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+                ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+                ViewBag.PaginaActual = pagina;
+
+                return View(administradoresPagina);
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al consultar los administradores. Por favor, inténtalo de nuevo más tarde.";
+                return View("Administradores");
+            }
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
         /*METODO PARA CERRAR SESION ADMINISTRADOR*/
         public ActionResult CerrarSesion()
         {

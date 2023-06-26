@@ -1,0 +1,88 @@
+﻿@model IEnumerable<SERVICE_MARKET.Models.multipleModel>
+
+@{
+    ViewBag.Title = "Administradores";
+    Layout = "~/Views/Shared/_Layout_Administrador.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maxium-scale=1.0, minimum-scale=1.0">
+    <title>@ViewBag.Title - Service Market</title>
+    <link rel="shortcut icon" href="~/Logos/logo.png" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Administrador.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <main class="container" style="margin-top: 100px;">
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="error-message alert alert-danger" role="alert" style="font-size: 20px;">
+                @ViewBag.ErrorMessage
+            </div>
+            <a class="btn btn-outline-primary btn-lg btn-dynamic m-2" href="@Url.Action("Index", "ADMINISTRADOR")">Volver al inicio</a>
+        }
+        else
+        {
+            <script>
+                /*Desplazamiento de la página hacia arriba cuando se carga una nueva página*/
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            </script>
+
+            <div class="container">
+                <h1 class="titulo text-center">Administradores</h1>
+
+                <!-- -----------------------------LEER ADMINISTRADORES----------------------------- -->
+                <table class="table bg-dark">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre completo</th>
+                            <th>Correo electrónico</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var administradores in Model)
+                        {
+                            <tr>
+                                <td>@administradores.ID_ADMINISTRADOR</td>
+                                <td>@administradores.NOMBRE_COMPLETO_ADMIN</td>
+                                <td>@administradores.CORREO_ELECTRONICO_ADMIN</td>
+                                <td>
+                                    <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <a class="btn btn-danger btn-sm" href="#"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination justify-content-center">
+                <ul class="pagination">
+                    @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Administradores", "ADMINISTRADOR", new { pagina = i })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </main>
+
+    <script src="~/Scripts/jquery-3.7.0.min.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
