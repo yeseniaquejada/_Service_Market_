@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SERVICE_MARKET.Models.multipleModel>
 
 @{
-    ViewBag.Title = "Administradores";
+    ViewBag.Title = "Usuarios";
     Layout = "~/Views/Shared/_Layout_Administrador.cshtml";
 }
 
@@ -38,30 +38,32 @@
             </script>
 
             <div class="container">
-                <h1 class="titulo text-center">Administradores</h1>
-                <button class="btn btn-outline-success btn-lg btn-dynamic m-2">Registrar nuevo</button>
+                <h1 class="titulo text-center">Usuarios</h1>
                 <a class="btn btn-outline-primary btn-lg btn-dynamic m-2" href="@Url.Action("Index", "ADMINISTRADOR")">Volver al inicio</a>
 
-                <!-- -----------------------------LEER ADMINISTRADORES----------------------------- -->
+                <!-- -----------------------------LEER USUARIOS----------------------------- -->
                 <div class="table-responsive">
                     <table class="table bg-dark">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Nombre completo</th>
+                                <th>Celular</th>
+                                <th>Ciudad</th>
                                 <th>Correo electrónico</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var administrador in Model)
+                            @foreach (var usuario in Model)
                             {
                                 <tr>
-                                    <td>@administrador.ID_ADMINISTRADOR</td>
-                                    <td>@administrador.NOMBRE_COMPLETO_ADMIN</td>
-                                    <td>@administrador.CORREO_ELECTRONICO_ADMIN</td>
+                                    <td>@usuario.ID_USUARIO</td>
+                                    <td>@usuario.NOMBRE_COMPLETO_USU</td>
+                                    <td>+@usuario.CELULAR_USU</td>
+                                    <td>@usuario.NOMBRE_CIUDAD</td>
+                                    <td>@usuario.CORREO_ELECTRONICO_USU</td>
                                     <td>
-                                        <button class="btn btn-secondary btn-sm"><i class="fa-solid fa-pen-to-square"></i></button>
                                         <a class="btn btn-danger btn-sm" href="#"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
@@ -76,7 +78,7 @@
                     @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
                     {
                         <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("Administradores", "ADMINISTRADOR", new { pagina = i })">@i</a>
+                            <a class="page-link" href="@Url.Action("Usuarios", "ADMINISTRADOR", new { pagina = i })">@i</a>
                         </li>
                     }
                 </ul>

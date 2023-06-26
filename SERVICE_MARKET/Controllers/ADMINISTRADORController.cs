@@ -567,6 +567,57 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*METODO PARA CONSULTAR LOS USUARIOS*/
+        [Authorize]
+        public ActionResult Usuarios(int pagina = 1, int elementosPorPagina = 12)
+        {
+            try
+            {
+                List<multipleModel> model = new List<multipleModel>();
+
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand Comand = new SqlCommand("LEER_USUARIOS", oconexion);
+                    Comand.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+
+                    using (SqlDataReader dr = Comand.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            multipleModel oUsuarios = new multipleModel();
+
+                            oUsuarios.ID_USUARIO = Convert.ToInt32(dr["ID_USUARIO"]);
+                            oUsuarios.NOMBRE_COMPLETO_USU = dr["NOMBRE_COMPLETO_USU"].ToString();
+                            oUsuarios.CELULAR_USU = dr["CELULAR_USU"].ToString();
+                            oUsuarios.ID_CIUDAD_FK = Convert.ToInt32(dr["ID_CIUDAD_FK"]);
+                            oUsuarios.NOMBRE_CIUDAD = dr["NOMBRE_CIUDAD"].ToString();
+                            oUsuarios.CORREO_ELECTRONICO_USU = dr["CORREO_ELECTRONICO_USU"].ToString();
+                            model.Add(oUsuarios);
+                        }
+                    }
+                }
+                /* Calcular los índices de inicio y fin para la página actual */
+                int indiceInicio = (pagina - 1) * elementosPorPagina;
+                int indiceFin = indiceInicio + elementosPorPagina;
+
+                /* Obtener la lista de ciudades para la página actual */
+                List<multipleModel> usuariosPagina = model.Skip(indiceInicio).Take(elementosPorPagina).ToList();
+
+                ViewBag.TotalPaginas = (int)Math.Ceiling((double)model.Count / elementosPorPagina);
+                ViewBag.PaginaActual = pagina;
+
+                return View(usuariosPagina);
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al consultar los usuarios. Por favor, inténtalo de nuevo más tarde.";
+                return View("Usuarios");
+            }
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
         /*METODO PARA CERRAR SESION ADMINISTRADOR*/
         public ActionResult CerrarSesion()
         {

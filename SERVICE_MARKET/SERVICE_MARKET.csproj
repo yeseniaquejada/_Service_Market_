@@ -262,6 +262,7 @@
     <Content Include="Views\ADMINISTRADOR\Ciudades.cshtml" />
     <Content Include="Views\ADMINISTRADOR\Categorias.cshtml" />
     <Content Include="Views\ADMINISTRADOR\Administradores.cshtml" />
+    <Content Include="Views\ADMINISTRADOR\Usuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
