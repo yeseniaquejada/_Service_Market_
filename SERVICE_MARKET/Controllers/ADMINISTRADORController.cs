@@ -320,5 +320,47 @@ namespace SERVICE_MARKET.Controllers
                 return View("Ciudades");
             }
         }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
+        /*METODO PARA EDITAR CIUDADES EXISTENTES*/
+        [Authorize]
+
+        [HttpPost]
+        public ActionResult EditarCiudad(int ID_CIUDAD, multipleModel oCiudades)
+        {
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("ACTUALIZAR_CIUDADES", oconexion);
+                    cmd.Parameters.AddWithValue("@ID_CIUDAD", ID_CIUDAD);
+                    cmd.Parameters.AddWithValue("@NOMBRE_CIUDAD", oCiudades.NOMBRE_CIUDAD);
+                    cmd.Parameters.Add("@MENSAJE_CIUDAD_ACT", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    oconexion.Open();
+                    cmd.ExecuteNonQuery();
+
+                    string MENSAJE_CIUDAD_ACT = cmd.Parameters["@MENSAJE_CIUDAD_ACT"].Value.ToString();
+
+                    if (!string.IsNullOrEmpty(MENSAJE_CIUDAD_ACT))
+                    {
+                        TempData["MessageExito"] = MENSAJE_CIUDAD_ACT;
+                    }
+                    else
+                    {
+                        TempData["MessageExito"] = "La ciudad ha sido actualizada exitosamente.";
+                    }
+
+                }
+                return RedirectToAction("Ciudades", "ADMINISTRADOR");
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorMessage = "Ocurrió un error al crear la ciudad. Por favor, inténtalo de nuevo más tarde.";
+                return View("Ciudades");
+            }
+        }
     }
 }

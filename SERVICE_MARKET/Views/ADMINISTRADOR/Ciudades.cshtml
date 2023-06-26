@@ -47,6 +47,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 }
+
+                <!-- -----------------------------CREAR CIUDADES----------------------------- -->
                 <button class="btn btn-outline-success btn-lg btn-dynamic m-2" onclick="crearCiudad()">Crear Nueva</button>
                 <script>
                     function crearCiudad() {
@@ -104,6 +106,7 @@
 
                 <a class="btn btn-outline-primary btn-lg btn-dynamic m-2" href="@Url.Action("Index","ADMINISTRADOR")">Volver al inicio</a>
 
+                <!-- -----------------------------LEER CIUDADES----------------------------- -->
                 <table class="table bg-dark">
                     <thead>
                         <tr>
@@ -119,7 +122,7 @@
                                 <td>@ciudades.ID_CIUDAD</td>
                                 <td>@ciudades.NOMBRE_CIUDAD</td>
                                 <td>
-                                    <a class="btn btn-secondary btn-sm" href="@Url.Action("EditarCiudades","ADMINISTRADOR", new {ID_CIUDAD = ciudades.ID_CIUDAD})"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <button class="btn btn-secondary btn-sm" onclick="editarCiudad('@ciudades.ID_CIUDAD', '@ciudades.NOMBRE_CIUDAD')"><i class="fa-solid fa-pen-to-square"></i></button>
                                     <a class="btn btn-danger btn-sm" href="#" onclick="confirmarEliminacion(event, @ciudades.ID_CIUDAD)">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
@@ -130,6 +133,66 @@
                 </table>
             </div>
 
+            <!-- -----------------------------EDITAR CIUDADES----------------------------- -->
+            <script>
+                function editarCiudad(ID_CIUDAD, NOMBRE_CIUDAD) {
+                    $('#ID_CIUDAD').val(ID_CIUDAD);
+                    $('#NOMBRE_CIUDAD').val(NOMBRE_CIUDAD);
+                    $('#ModalCiudadesEditar').modal('show');
+                }
+
+                $('#ModalCiudadesEditar').on('hidden.bs.modal', function () {
+                    $('#ID_CIUDAD').val('');
+                    $('#NOMBRE_CIUDAD').val('');
+                });
+
+                $('#FormCiudadesEditar').submit(function (event) {
+                    event.preventDefault();
+
+                    var idCiudad = $('#ID_CIUDAD').val();
+                    var nombreCiudad = $('#NOMBRE_CIUDAD').val();
+
+                    if (nombreCiudad.trim() !== "") {
+                        $.ajax({
+                            url: '@Url.Action("EditarCiudad", "ADMINISTRADOR")',
+                            type: 'POST',
+                            data: { ID_CIUDAD: idCiudad, NOMBRE_CIUDAD: nombreCiudad },
+                            success: function () {
+                                window.location.href = '@Url.Action("Ciudades", "ADMINISTRADOR")';
+                            },
+                            error: function () {
+                                alert('Ocurrió un error al editar la ciudad. Por favor, inténtalo de nuevo más tarde.');
+                            }
+                        });
+                    }
+                });
+            </script>
+
+            <div id="ModalCiudadesEditar" class="modal fade" role="dialog" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title fw-bold" style="color: #1b6bc2;">Editar Ciudad</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="FormCiudadesEditar" method="post" action="@Url.Action("EditarCiudad", "ADMINISTRADOR")" autocomplete="off">
+                                <input type="hidden" id="ID_CIUDAD" name="ID_CIUDAD" value="">
+                                <div class="form-group">
+                                    <label for="NOMBRE_CIUDAD" style="font-size: 18px;">Nombre de la ciudad:</label>
+                                    <input type="text" class="form-control" id="NOMBRE_CIUDAD" name="NOMBRE_CIUDAD" required>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-primary btn-dynamic m-2" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success btn-dynamic">Actualizar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- -----------------------------BORRAR CIUDADES----------------------------- -->
             <script>
                 function confirmarEliminacion(event, idCiudad) {
                     event.preventDefault();
