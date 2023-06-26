@@ -64,7 +64,7 @@
                                     <td>@usuario.NOMBRE_CIUDAD</td>
                                     <td>@usuario.CORREO_ELECTRONICO_USU</td>
                                     <td>
-                                        <a class="btn btn-danger btn-sm" href="#"><i class="fa-solid fa-trash"></i></a>
+                                        <a class="btn btn-danger btn-sm" href="#" onclick="confirmarEliminacion(event, @usuario.ID_USUARIO)"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -72,6 +72,47 @@
                     </table>
                 </div>
             </div>
+
+            <!-- -----------------------------BORRAR USUARIOS----------------------------- -->
+            <script>
+                function confirmarEliminacion(event, idUsuario) {
+                    event.preventDefault();
+                    swal({
+                        title: "¿Estás seguro?",
+                        text: "Esta acción no se puede deshacer",
+                        icon: "info",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((result) => {
+                        if (result) {
+                            eliminarUsuario(idUsuario);
+                        }
+                    });
+                }
+                function eliminarUsuario(idUsuario) {
+                    var url = '@Url.Action("BorrarUsuario", "ADMINISTRADOR", new { ID_USUARIO = "__idUsuario__" })';
+                    url = url.replace('__idUsuario__', idUsuario);
+
+                    $.post(url, function () {
+                        swal({
+                            icon: "success",
+                            title: "El usuario se eliminó correctamente",
+                            confirmButtonText: "OK",
+                            closeOnConfirm: false,
+                        }).then((result) => {
+                            if (result) {
+                                window.location.href = '@Url.Action("Usuarios", "ADMINISTRADOR")';
+                            }
+                        });
+                    }).fail(function () {
+                        swal({
+                            title: "Error",
+                            text: "Ocurrió un error al eliminar el usuario. Por favor, inténtalo de nuevo más tarde.",
+                            icon: "error",
+                        });
+                    });
+                }
+            </script>
 
             <div class="pagination justify-content-center">
                 <ul class="pagination">

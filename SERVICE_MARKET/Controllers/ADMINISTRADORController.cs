@@ -618,6 +618,31 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*METODO PARA BORRAR USUARIOS EXISTENTES*/
+        [Authorize]
+        [HttpPost]
+        public ActionResult BorrarUsuario(int ID_USUARIO)
+        {
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("BORRAR_USUARIOS", oconexion);
+                    cmd.Parameters.AddWithValue("ID_USUARIO", ID_USUARIO);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                return RedirectToAction("Usuarios", "ADMINISTRADOR");
+            }
+            catch (Exception)
+            {
+                return View("Usuarios");
+            }
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
         /*METODO PARA CERRAR SESION ADMINISTRADOR*/
         public ActionResult CerrarSesion()
         {
