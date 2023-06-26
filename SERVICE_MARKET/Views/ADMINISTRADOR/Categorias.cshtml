@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="DESCRIPCION_CAT" style="font-size: 18px;">Descripción:</label>
-                                        <textarea type="text" class="form-control"  id="DESCRIPCION_CAT" name="DESCRIPCION_CAT" placeholder="Ingresa la descripción de la categoría" style="height: 200px; resize: none;" required></textarea>
+                                        <textarea type="text" class="form-control" id="DESCRIPCION_CAT" name="DESCRIPCION_CAT" placeholder="Ingresa la descripción de la categoría" style="height: 200px; resize: none;" required></textarea>
                                     </div>
                                     <div class="text-center">
                                         <button type="button" class="btn btn-primary btn-dynamic m-2" data-bs-dismiss="modal">Cancelar</button>
@@ -131,13 +131,54 @@
                                 <td>@categorias.DESCRIPCION_CAT</td>
                                 <td>
                                     <button class="btn btn-secondary btn-sm m-1"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <a class="btn btn-danger btn-sm m-1" href="#"><i class="fa-solid fa-trash"></i></a>
+                                    <a class="btn btn-danger btn-sm m-1" href="#" onclick="confirmarEliminacion(event, @categorias.ID_CATEGORIA)"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
+
+            <!-- -----------------------------BORRAR CATEGORIAS----------------------------- -->
+            <script>
+                function confirmarEliminacion(event, idCategoria) {
+                    event.preventDefault();
+                    swal({
+                        title: "¿Estás seguro?",
+                        text: "Esta acción no se puede deshacer",
+                        icon: "info",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((result) => {
+                        if (result) {
+                            eliminarCategoria(idCategoria);
+                        }
+                    });
+                }
+                function eliminarCategoria(idCategoria) {
+                    var url = '@Url.Action("BorrarCategoria", "ADMINISTRADOR", new { ID_CATEGORIA = "__idCategoria__" })';
+                    url = url.replace('__idCategoria__', idCategoria);
+
+                    $.post(url, function () {
+                        swal({
+                            icon: "success",
+                            title: "La categoría se eliminó correctamente",
+                            confirmButtonText: "OK",
+                            closeOnConfirm: false,
+                        }).then((result) => {
+                            if (result) {
+                                window.location.href = '@Url.Action("Categorias", "ADMINISTRADOR")';
+                            }
+                        });
+                    }).fail(function () {
+                        swal({
+                            title: "Error",
+                            text: "Ocurrió un error al eliminar la categoría. Por favor, inténtalo de nuevo más tarde.",
+                            icon: "error",
+                        });
+                    });
+                }
+            </script>
 
             <div class="pagination justify-content-center">
                 <ul class="pagination">

@@ -454,6 +454,31 @@ namespace SERVICE_MARKET.Controllers
 
         /*-----------------------------------------------------------------------------------------------------------------------*/
 
+        /*METODO PARA BORRAR CATEGORIAS EXISTENTES*/
+        [Authorize]
+        [HttpPost]
+        public ActionResult BorrarCategoria(int ID_CATEGORIA)
+        {
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(conexion))
+                {
+                    SqlCommand cmd = new SqlCommand("BORRAR_CATEGORIAS", oconexion);
+                    cmd.Parameters.AddWithValue("ID_CATEGORIA", ID_CATEGORIA);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    oconexion.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                return RedirectToAction("Categorias", "ADMINISTRADOR");
+            }
+            catch (Exception)
+            {
+                return View("Categorias");
+            }
+        }
+
+        /*-----------------------------------------------------------------------------------------------------------------------*/
+
         /*METODO PARA CERRAR SESION ADMINISTRADOR*/
         public ActionResult CerrarSesion()
         {
