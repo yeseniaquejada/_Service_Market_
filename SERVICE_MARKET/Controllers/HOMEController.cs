@@ -58,7 +58,7 @@ namespace SERVICE_MARKET.Controllers
                 ViewBag.PaginaActual = pagina;
 
                 return View(serviciosPagina);
-            } 
+            }
             catch (Exception)
             {
                 ViewBag.ErrorMessage = "Se produjo un error al consultar las publicaciones y solicitudes de servicios.";
