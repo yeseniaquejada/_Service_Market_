@@ -1,0 +1,12 @@
+Consultar Estado de la PQRS
+Descripción: Este caso de uso describe el proceso de consultar el estado de una PQRS previamente presentada por el usuario.
+Flujo principal:
+
+El usuario inicia sesión en el sistema.
+El usuario accede a la opción "Consultar Estado de PQRS" en el sistema.
+El sistema muestra una lista de las PQRS presentadas por el usuario.
+El usuario selecciona la PQRS de interés para consultar su estado.
+El sistema muestra el estado actual de la PQRS (en proceso, resuelta, cerrada, etc.) junto con cualquier respuesta o acción tomada.
+El caso de uso termina.
+
+se puede hacer todo en la base de datos un atributo de estado y otro de la respuesta del admin
